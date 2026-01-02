@@ -14,12 +14,12 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm run build
 
-# Expose port
-EXPOSE 4000
+# Expose port (default to 3000, can be overridden)
+EXPOSE 3000
 
 # Set environment variables
 ENV NODE_ENV=production
-ENV PORT=4000
+ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
 # Start the application
