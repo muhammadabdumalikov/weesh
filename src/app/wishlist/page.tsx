@@ -449,14 +449,19 @@ export default function WishlistPage() {
           setSelectedItem(null);
         }}
         onSubmit={async (data) => {
-          if (modalMode === 'create') {
-            await handleCreateItem(data);
-            setIsModalOpen(false);
-            setSelectedItem(null);
-          } else {
-            await handleUpdateItem(data);
-            setIsModalOpen(false);
-            setSelectedItem(null);
+          try {
+            if (modalMode === 'create') {
+              await handleCreateItem(data as CreateWishlistDto);
+              setIsModalOpen(false);
+              setSelectedItem(null);
+            } else {
+              await handleUpdateItem(data as UpdateWishlistDto);
+              setIsModalOpen(false);
+              setSelectedItem(null);
+            }
+          } catch (error) {
+            // Error is already handled in handleCreateItem/handleUpdateItem
+            // Don't close modal on error so user can retry
           }
         }}
         item={selectedItem}
