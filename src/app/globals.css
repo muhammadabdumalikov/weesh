@@ -9,6 +9,11 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-plus-jakarta-sans);
+  --font-geologica: 'Geologica', sans-serif;
+  --color-text-dark: #222222;
+  --color-red-600: #E6007A;
+  --color-orange-600: #FF6600;
+  --color-red-500: #FF0000;
 }
 
 body {
@@ -120,5 +125,73 @@ body {
 
 .delay-300 {
   animation-delay: 300ms;
+}
+
+/* Striped border pattern */
+.striped-border {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #a855f7 0px,
+    #a855f7 10px,
+    #facc15 10px,
+    #facc15 20px
+  );
+}
+
+/* Gradient border for oval image */
+.gradient-border {
+  background: linear-gradient(135deg, #E6007A 0%, #FF6600 100%);
+  padding: 3px;
+  border-radius: 9999px;
+  display: inline-block;
+  width: 100%;
+}
+
+.gradient-border-inner {
+  border-radius: 9999px;
+  overflow: hidden;
+  background: white;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Gradient border for button */
+.gradient-border-button {
+  background: linear-gradient(to right, #E6007A, #FF6600);
+  padding: 2px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.gradient-border-button-inner {
+  border-radius: 50%;
+  background: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Button gradient border wrapper */
+.button-gradient-border {
+  background: linear-gradient(to right, #E6007A, #FF6600);
+  padding: 2px;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.button-gradient-border button {
+  background: white;
+}
+
+/* Font utility class */
+.font-geologica {
+  font-family: var(--font-geologica), sans-serif;
 }
 
