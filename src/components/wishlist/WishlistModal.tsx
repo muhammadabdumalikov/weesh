@@ -1,56 +1,49 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { X, Gift, Image, Link2 } from 'react-feather';
-import type { WishlistItem, CreateWishlistDto, UpdateWishlistDto } from '@/lib/api/wishlist';
+import { useState, useEffect, useRef } from 'react';
+import { X, Image, MoreVertical } from 'react-feather';
 
 interface WishlistModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: CreateWishlistDto | UpdateWishlistDto) => Promise<void>;
-  item?: WishlistItem | null;
+  onSubmit: (data: { title: string; coverImage?: string }) => Promise<void>;
+  wishlist?: { id: string; title: string; coverImage?: string } | null;
   mode: 'create' | 'edit';
   currentLang: 'en' | 'ru' | 'uz';
 }
 
 const modalTranslations = {
   en: {
-    createTitle: 'Add New Item',
-    editTitle: 'Edit Item',
-    titleLabel: 'Title',
-    titlePlaceholder: 'Enter product title',
-    imageUrlLabel: 'Image URL',
-    imageUrlPlaceholder: 'https://example.com/image.jpg',
-    productUrlLabel: 'Product URL',
-    productUrlPlaceholder: 'https://example.com/product',
+    createTitle: 'Create wishlist',
+    editTitle: 'Edit wishlist',
+    nameLabel: 'Wishlist name',
+    namePlaceholder: 'e.g. Birthday gifts',
+    coverLabel: 'Cover image',
+    coverPlaceholder: 'https://example.com/image.jpg',
     cancel: 'Cancel',
     save: 'Save',
     create: 'Create',
     saving: 'Saving...',
   },
   ru: {
-    createTitle: 'Добавить новый товар',
-    editTitle: 'Редактировать товар',
-    titleLabel: 'Название',
-    titlePlaceholder: 'Введите название товара',
-    imageUrlLabel: 'URL изображения',
-    imageUrlPlaceholder: 'https://example.com/image.jpg',
-    productUrlLabel: 'URL товара',
-    productUrlPlaceholder: 'https://example.com/product',
+    createTitle: 'Создать вишлист',
+    editTitle: 'Редактировать вишлист',
+    nameLabel: 'Название вишлиста',
+    namePlaceholder: 'например, На день рождения',
+    coverLabel: 'Обложка',
+    coverPlaceholder: 'https://example.com/image.jpg',
     cancel: 'Отмена',
     save: 'Сохранить',
     create: 'Создать',
     saving: 'Сохранение...',
   },
   uz: {
-    createTitle: 'Yangi mahsulot qo\'shish',
-    editTitle: 'Mahsulotni tahrirlash',
-    titleLabel: 'Nomi',
-    titlePlaceholder: 'Mahsulot nomini kiriting',
-    imageUrlLabel: 'Rasm URL',
-    imageUrlPlaceholder: 'https://example.com/image.jpg',
-    productUrlLabel: 'Mahsulot URL',
-    productUrlPlaceholder: 'https://example.com/product',
+    createTitle: 'Wishlist yaratish',
+    editTitle: 'Wishlistni tahrirlash',
+    nameLabel: 'Wishlist nomi',
+    namePlaceholder: "masalan, Tug'ilgan kun sovg'alari",
+    coverLabel: 'Muqova rasmi',
+    coverPlaceholder: 'https://example.com/image.jpg',
     cancel: 'Bekor qilish',
     save: 'Saqlash',
     create: 'Yaratish',
@@ -62,52 +55,82 @@ export default function WishlistModal({
   isOpen,
   onClose,
   onSubmit,
-  item,
+  wishlist,
   mode,
   currentLang,
 }: WishlistModalProps) {
-  const [title, setTitle] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [productUrl, setProductUrl] = useState('');
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const [name, setName] = useState('');
+  const [coverImage, setCoverImage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   const t = modalTranslations[currentLang];
 
   useEffect(() => {
     if (isOpen) {
-      if (item && mode === 'edit') {
-        setTitle(item.title);
-        setImageUrl(item.imageurl ?? '');
-        setProductUrl(item.producturl ?? '');
+      if (wishlist && mode === 'edit') {
+        setName(wishlist.title);
+        setCoverImage(wishlist.coverImage ?? '');
       } else {
-        setTitle('');
-        setImageUrl('');
-        setProductUrl('');
+        setName('');
+        setCoverImage('');
       }
     } else {
-      // Reset form when modal closes
-      setTitle('');
-      setImageUrl('');
-      setProductUrl('');
+      setName('');
+      setCoverImage('');
       setIsSubmitting(false);
+      setIsClosing(false);
     }
-  }, [item, mode, isOpen]);
+  }, [wishlist, mode, isOpen]);
+
+  // Focus name input when modal opens
+  useEffect(() => {
+    if (isOpen && nameInputRef.current) {
+      setTimeout(() => {
+        nameInputRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen]);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      onClose();
+      setIsClosing(false);
+    }, 200);
+  };
+
+  // Close on Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+        handleClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name.trim()) return;
+    
     setIsSubmitting(true);
 
     try {
       await onSubmit({
-        title,
-        imageurl: imageUrl,
-        producturl: productUrl,
+        title: name.trim(),
+        coverImage: coverImage.trim() || undefined,
       });
-      // Only close if submission was successful
-      // The parent component will handle closing on success
     } catch (error) {
       console.error('Error submitting form:', error);
-      // Don't close modal on error so user can fix and retry
     } finally {
       setIsSubmitting(false);
     }
@@ -117,118 +140,134 @@ export default function WishlistModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-      {/* Simple Background with Opacity */}
-      <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
+      {/* Background overlay */}
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        onClick={handleClose}
       />
 
-      {/* Modal Content */}
-      <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-300">
-        {/* Gradient Header */}
-        <div className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 p-8 text-white overflow-hidden">
-          {/* Decorative circles */}
-          <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20" />
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full -ml-16 -mb-16" />
-          
-          <div className="relative flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-white/20 backdrop-blur-sm rounded-2xl">
-                <Gift className="w-6 h-6" />
-              </div>
-              <h2 className="text-2xl font-bold">
-                {mode === 'create' ? t.createTitle : t.editTitle}
-              </h2>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
+      {/* Modal content */}
+      <div className={`relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md overflow-visible ${
+        isClosing ? 'animate-out zoom-out-95 fade-out duration-200' : 'animate-in zoom-in-95 duration-300'
+      }`}>
+        {/* Close button - inside on mobile, outside on desktop */}
+        <button
+          type="button"
+          onClick={handleClose}
+          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-100 sm:bg-white sm:shadow-[0_8px_24px_rgba(15,23,42,0.18)] flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 sm:hover:bg-gradient-to-r sm:hover:from-pink-500 sm:hover:via-red-500 sm:hover:to-orange-500 sm:hover:text-white z-10"
+        >
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
+        </button>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-8 space-y-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-          {/* Title Input */}
-          <div className="space-y-2">
-            <label htmlFor="title" className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-              <Gift className="w-4 h-4 text-indigo-600" />
-              {t.titleLabel}
-            </label>
-            <input
-              type="text"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder={t.titlePlaceholder}
-              required
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 outline-none transition-all text-gray-900 placeholder:text-gray-400"
-            />
-          </div>
-
-          {/* Image URL Input */}
-          <div className="space-y-2">
-            <label htmlFor="imageUrl" className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-              <Image className="w-4 h-4 text-purple-600" />
-              {t.imageUrlLabel}
-            </label>
-            <input
-              type="url"
-              id="imageUrl"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder={t.imageUrlPlaceholder}
-              required
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-100 outline-none transition-all text-gray-900 placeholder:text-gray-400"
-            />
-            {imageUrl && (
-              <div className="mt-3 rounded-2xl overflow-hidden border-2 border-gray-200 shadow-lg">
-                <img
-                  src={imageUrl}
-                  alt="Preview"
-                  className="w-full h-56 object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = '';
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Product URL Input */}
-          <div className="space-y-2">
-            <label htmlFor="productUrl" className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-              <Link2 className="w-4 h-4 text-pink-600" />
-              {t.productUrlLabel}
-            </label>
-            <input
-              type="url"
-              id="productUrl"
-              value={productUrl}
-              onChange={(e) => setProductUrl(e.target.value)}
-              placeholder={t.productUrlPlaceholder}
-              required
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-pink-500 focus:ring-4 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400"
-            />
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex gap-3 pt-6">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 md:p-8 space-y-5 sm:space-y-6">
+          {/* Header */}
+          <div className="flex items-center justify-between pr-8 sm:pr-0">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 font-geologica">
+              {mode === 'create' ? t.createTitle : t.editTitle}
+            </h2>
             <button
               type="button"
-              onClick={onClose}
+              className="rounded-full p-1.5 text-gray-400 hover:text-gray-500 hover:bg-gray-100/80 transition-colors hidden sm:block"
+            >
+              <MoreVertical className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Wishlist Name */}
+          <div className="space-y-2">
+            <label
+              htmlFor="wishlistName"
+              className="block text-sm font-semibold text-gray-800 font-geologica"
+            >
+              {t.nameLabel}
+              <span className="text-pink-500">*</span>
+            </label>
+            <input
+              ref={nameInputRef}
+              type="text"
+              id="wishlistName"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={t.namePlaceholder}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
+            />
+          </div>
+
+          {/* Cover Image */}
+          <div className="space-y-2">
+            <label
+              htmlFor="coverImage"
+              className="block text-sm font-semibold text-gray-800 font-geologica"
+            >
+              {t.coverLabel}
+            </label>
+            
+            {/* Image preview or placeholder */}
+            <div
+              className="rounded-2xl p-[2px] mb-3"
+              style={{
+                background: coverImage 
+                  ? 'transparent' 
+                  : 'linear-gradient(135deg, #E6007A 0%, #FF6600 100%)',
+              }}
+            >
+              <div className="h-40 w-full rounded-[14px] overflow-hidden bg-gray-50 flex items-center justify-center">
+                {coverImage ? (
+                  <img
+                    src={coverImage}
+                    alt="Cover preview"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center text-center px-4">
+                    <div
+                      className="w-14 h-14 rounded-full flex items-center justify-center mb-3"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(230, 0, 122, 0.1) 0%, rgba(255, 102, 0, 0.1) 100%)',
+                      }}
+                    >
+                      <Image className="w-7 h-7 text-pink-500" />
+                    </div>
+                    <p className="text-sm text-gray-500 font-geologica">
+                      {currentLang === 'ru' 
+                        ? 'Добавьте обложку для вишлиста' 
+                        : currentLang === 'uz'
+                          ? 'Wishlist uchun muqova qo\'shing'
+                          : 'Add a cover for your wishlist'}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <input
+              type="url"
+              id="coverImage"
+              value={coverImage}
+              onChange={(e) => setCoverImage(e.target.value)}
+              placeholder={t.coverPlaceholder}
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica text-sm"
+            />
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex gap-3 pt-2">
+            <button
+              type="button"
+              onClick={handleClose}
               disabled={isSubmitting}
-              className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3 border border-gray-300 text-gray-800 rounded-xl font-semibold hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
             >
               {t.cancel}
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
+              disabled={isSubmitting || !name.trim()}
+              className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white rounded-xl font-geologica font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:from-pink-600 hover:via-red-600 hover:to-orange-600"
             >
               {isSubmitting ? t.saving : mode === 'create' ? t.create : t.save}
             </button>
@@ -238,4 +277,3 @@ export default function WishlistModal({
     </div>
   );
 }
-

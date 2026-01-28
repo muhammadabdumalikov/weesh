@@ -1,0 +1,72 @@
+'use client';
+
+import { Plus } from 'react-feather';
+
+interface CreateWishlistCardProps {
+  onClick: () => void;
+  text: string;
+}
+
+export default function CreateWishlistCard({ onClick, text }: CreateWishlistCardProps) {
+  return (
+    <div className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl relative transition-all duration-300 hover:shadow-lg hover:shadow-pink-200/50 hover:scale-[0.98] sm:hover:scale-95">
+      {/* SVG for dashed gradient border */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        viewBox="0 0 256 320"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id="wrapperGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#E6007A" />
+            <stop offset="100%" stopColor="#FF6600" />
+          </linearGradient>
+        </defs>
+        <rect
+          x="1"
+          y="1"
+          width="254"
+          height="318"
+          rx="32"
+          fill="none"
+          stroke="url(#wrapperGradient)"
+          strokeWidth="2"
+          strokeDasharray="8 8"
+        />
+      </svg>
+      <div className="w-full h-full rounded-3xl sm:rounded-4xl bg-white overflow-hidden">
+        {/* Content */}
+        <button
+          onClick={onClick}
+          className="w-full h-full bg-white rounded-xl cursor-pointer flex flex-col items-center justify-center p-6 sm:p-8 focus:outline-none focus:ring-0"
+        >
+          {/* Circular Icon with Gradient Border */}
+          <div
+            className="mb-3 sm:mb-4 rounded-full flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 p-0.5"
+            style={{
+              background: 'linear-gradient(135deg, #E6007A 0%, #FF6600 100%)',
+            }}
+          >
+            {/* Inner Circle with Plus Icon */}
+            <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
+              <Plus
+                className="w-6 h-6 sm:w-8 sm:h-8 text-[#E6007A]"
+                style={{
+                  background: 'linear-gradient(135deg, #E6007A 0%, #FF6600 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Text */}
+          <span className="text-black font-geologica text-base sm:text-lg font-medium text-center">
+           {text}
+          </span>
+        </button>
+      </div>
+    </div>
+  );
+}

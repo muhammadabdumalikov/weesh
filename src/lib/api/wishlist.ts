@@ -2,6 +2,7 @@
 const API_BASE_URL = "https://api.wetrippo.com/api";
 
 const OWNER_ID_KEY = "w-o-id";
+const USERNAME_KEY = "w-username";
 
 export interface WishlistItem {
   id: string;
@@ -53,6 +54,21 @@ export function isAuthenticated(): boolean {
   return getOwnerId() !== null;
 }
 
+export function getUsername(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(USERNAME_KEY);
+}
+
+export function setUsername(username: string): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(USERNAME_KEY, username);
+}
+
+export function clearUsername(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(USERNAME_KEY);
+}
+
 // Authentication APIs
 export async function signUp(
   credentials: AuthCredentials
@@ -75,6 +91,7 @@ export async function signUp(
 
     const data: AuthResponse = await response.json();
     setOwnerId(data.id);
+    setUsername(data.login);
     return data;
   } catch (error) {
     console.error("Error during signup:", error);
@@ -103,6 +120,7 @@ export async function signIn(
 
     const data: AuthResponse = await response.json();
     setOwnerId(data.id);
+    setUsername(data.login);
     return data;
   } catch (error) {
     console.error("Error during sign in:", error);
@@ -112,6 +130,7 @@ export async function signIn(
 
 export function signOut(): void {
   clearOwnerId();
+  clearUsername();
 }
 
 // Fetch public wishlist by owner ID (no authentication required)

@@ -1,27 +1,45 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ExternalLink, Gift, Plus, Edit2, Trash2, LogOut, User, Share2 } from 'react-feather';
+import { Gift } from 'react-feather';
+import GiftModal from '@/components/wishlist/GiftModal';
 import WishlistModal from '@/components/wishlist/WishlistModal';
 import AuthModal from '@/components/wishlist/AuthModal';
-import EmptyWishlist from '@/components/wishlist/EmptyWishlist';
-import ShareModal from '@/components/wishlist/ShareModal';
-import WelcomeScreen from '@/components/wishlist/WelcomeScreen';
+import Footer from '@/components/Footer';
 import {
   fetchWishlistItems,
   createWishlistItem,
-  updateWishlistItem,
-  deleteWishlistItem,
   isAuthenticated,
   signIn,
   signUp,
-  signOut,
-  getOwnerId,
+  getUsername,
   type WishlistItem,
   type CreateWishlistDto,
-  type UpdateWishlistDto,
   type AuthCredentials,
 } from '@/lib/api/wishlist';
+import Header from '@/components/Header';
+import CreateWishlistCard from '@/components/CreateWishlistCard';
+import WishlistCard from '@/components/WishlistCard';
+import GiftCard from '@/components/GiftCard';
+
+// Sample gifts for demo
+interface GiftItem {
+  id: string;
+  title: string;
+  imageUrl?: string;
+  productUrl?: string;
+  price?: string;
+  isReserved?: boolean;
+}
+
+// Sample wishlists for demo
+interface Wishlist {
+  id: string;
+  title: string;
+  itemCount: number;
+  coverImage?: string;
+  previewItems?: Array<{ imageUrl?: string; title: string }>;
+}
 
 // Translations
 const translations = {
@@ -74,34 +92,125 @@ const translations = {
 
 export default function WishlistPage() {
   const [currentLang, setCurrentLang] = useState<'en' | 'ru' | 'uz'>('ru');
-  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
-  const [isMounted, setIsMounted] = useState(false);
-  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [showShareModal, setShowShareModal] = useState(false);
   const [apiItems, setApiItems] = useState<WishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
+  
+  // Gift modal state
+  const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
+  const [giftModalMode, setGiftModalMode] = useState<'create' | 'edit'>('create');
   const [selectedItem, setSelectedItem] = useState<WishlistItem | null>(null);
+  
+  // Wishlist modal state
+  const [isWishlistModalOpen, setIsWishlistModalOpen] = useState(false);
+  const [wishlistModalMode, setWishlistModalMode] = useState<'create' | 'edit'>('create');
+  const [selectedWishlist, setSelectedWishlist] = useState<Wishlist | null>(null);
+  
+  // Auth modal state
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  const [username, setUsernameState] = useState<string>('');
+  
+  // Sample wishlists data
+  const [wishlists, setWishlists] = useState<Wishlist[]>([
+    {
+      id: '1',
+      title: 'На день рождения',
+      itemCount: 5,
+      coverImage: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400&q=80',
+      previewItems: [
+        { imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100', title: 'Watch' },
+        { imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100', title: 'Headphones' },
+      ],
+    },
+    {
+      id: '2',
+      title: 'Новый год 2026',
+      itemCount: 12,
+      previewItems: [
+        { imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100', title: 'Shoes' },
+        { imageUrl: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=100', title: 'Camera' },
+        { title: 'Gift 3' },
+        { title: 'Gift 4' },
+      ],
+    },
+    {
+      id: '3',
+      title: 'Для дома',
+      itemCount: 3,
+      coverImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+    },
+    {
+      id: '4',
+      title: 'Для дома',
+      itemCount: 3,
+      coverImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
+    },
+  ]);
+
+  // Sample gifts data
+  const [gifts, setGifts] = useState<GiftItem[]>([
+    {
+      id: 'gift-1',
+      title: 'Apple Watch Series 9',
+      imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80',
+      productUrl: 'https://apple.com',
+      price: '45 000 ₽',
+      isReserved: false,
+    },
+    {
+      id: 'gift-2',
+      title: 'Sony WH-1000XM5 Наушники',
+      imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80',
+      productUrl: 'https://sony.com',
+      price: '32 000 ₽',
+      isReserved: true,
+    },
+    {
+      id: 'gift-3',
+      title: 'Nike Air Max 90',
+      imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80',
+      productUrl: 'https://nike.com',
+      price: '15 000 ₽',
+      isReserved: false,
+    },
+    {
+      id: 'gift-4',
+      title: 'Книга "Атомные привычки"',
+      price: '800 ₽',
+      isReserved: false,
+    },
+  ]);
 
   const t = translations[currentLang];
 
-  // Merge local products with API items
-  const allProducts: WishlistItem[] = apiItems;
-
   // Check authentication on mount
   useEffect(() => {
-    setIsMounted(true);
     const authenticated = isAuthenticated();
     setIsUserAuthenticated(authenticated);
     
     if (authenticated) {
+      const storedUsername = getUsername();
+      if (storedUsername) setUsernameState(storedUsername);
       loadApiItems();
     } else {
       setIsLoading(false);
     }
   }, []);
+
+  // Auth handlers
+  const handleSignIn = async (credentials: AuthCredentials) => {
+    await signIn(credentials);
+    setIsUserAuthenticated(true);
+    setUsernameState(credentials.login);
+    loadApiItems();
+  };
+
+  const handleSignUp = async (credentials: AuthCredentials) => {
+    await signUp(credentials);
+    setIsUserAuthenticated(true);
+    setUsernameState(credentials.login);
+    loadApiItems();
+  };
 
   const loadApiItems = async () => {
     if (!isAuthenticated()) {
@@ -121,31 +230,6 @@ export default function WishlistPage() {
     }
   };
 
-  const handleUserSignIn = async (credentials: AuthCredentials) => {
-    await signIn(credentials);
-    setIsUserAuthenticated(true);
-    setShowAuthModal(false);
-    await loadApiItems();
-  };
-
-  const handleUserSignUp = async (credentials: AuthCredentials) => {
-    await signUp(credentials);
-    setIsUserAuthenticated(true);
-    setShowAuthModal(false);
-    await loadApiItems();
-  };
-
-  const handleUserSignOut = () => {
-    signOut();
-    setIsUserAuthenticated(false);
-    setApiItems([]);
-    setShowAuthModal(true);
-  };
-
-  const handleImageError = (productId: string) => {
-    setImageErrors(prev => new Set(prev).add(productId));
-  };
-
   const handleCreateItem = async (data: CreateWishlistDto) => {
     try {
       const newItem = await createWishlistItem(data);
@@ -163,316 +247,254 @@ export default function WishlistPage() {
     }
   };
 
-  const handleUpdateItem = async (data: UpdateWishlistDto) => {
-    if (!selectedItem) return;
-    try {
-      const updatedItem = await updateWishlistItem(selectedItem.id, data);
-      if (updatedItem) {
-        setApiItems((prev) =>
-          prev.map((item) =>
-            item.id === selectedItem.id ? { ...updatedItem, source: 'api' } : item
-          )
-        );
-      } else {
-        console.error('Failed to update item: API returned null');
-        alert('Failed to update item. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error updating item:', error);
-      alert(error instanceof Error ? error.message : 'Failed to update item. Please try again.');
-    }
+  // Open wishlist creation modal
+  const openCreateWishlistModal = () => {
+    setSelectedWishlist(null);
+    setWishlistModalMode('create');
+    setIsWishlistModalOpen(true);
   };
 
-  const handleDeleteItem = async (id: string) => {
-    if (!confirm(t.confirmDelete)) return;
-    const success = await deleteWishlistItem(id);
-    if (success) {
-      setApiItems((prev) => prev.filter((item) => item.id !== id));
-    }
+  // Handle wishlist creation
+  const handleCreateWishlist = async (data: { title: string; coverImage?: string }) => {
+    const newWishlist: Wishlist = {
+      id: `wishlist-${Date.now()}`,
+      title: data.title,
+      itemCount: 0,
+      coverImage: data.coverImage,
+    };
+    setWishlists((prev) => [...prev, newWishlist]);
+    setIsWishlistModalOpen(false);
   };
 
-  const openCreateModal = () => {
+  const [activeTab, setActiveTab] = useState<'create' | 'my' | 'shared' | 'ideas'>('my');
+
+  // Open gift creation modal
+  const openCreateGiftModal = () => {
     setSelectedItem(null);
-    setModalMode('create');
-    setIsModalOpen(true);
-  };
-
-  const openEditModal = (item: WishlistItem) => {
-    setSelectedItem(item);
-    setModalMode('edit');
-    setIsModalOpen(true);
+    setGiftModalMode('create');
+    setIsGiftModalOpen(true);
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f3ef]">
-      <main className="px-8 py-12 max-w-7xl mx-auto">
-        {/* Language & Controls */}
-        <div className="flex justify-between items-center mb-6 gap-4 flex-wrap">
-          {/* Left: User Controls */}
-          <div className="flex items-center gap-2">
-            {/* Sign In Button - Show when NOT authenticated */}
-            {!isUserAuthenticated && (
-              <button
-                onClick={() => setShowAuthModal(true)}
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 px-4 py-2 text-sm font-semibold text-white transition-all shadow-md hover:shadow-lg"
-              >
-                <User className="h-4 w-4" />
-                <span>{t.signIn}</span>
-              </button>
-            )}
-
-            {/* User Sign Out */}
-            {isUserAuthenticated && (
-              <button
-                onClick={handleUserSignOut}
-                className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-all hover:bg-red-50 hover:text-red-600 border-2 border-gray-200 hover:border-red-300 shadow-sm"
-              >
-                <User className="h-4 w-4" />
-                <LogOut className="h-4 w-4" />
-              </button>
-            )}
-            
-            {/* Share Button */}
-            {isUserAuthenticated && apiItems.length > 0 && (
-              <button
-                onClick={() => setShowShareModal(true)}
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 px-4 py-2 text-sm font-semibold text-white transition-all shadow-md hover:shadow-lg"
-              >
-                <Share2 className="h-4 w-4" />
-                <span className="hidden sm:inline">{t.share}</span>
-              </button>
-            )}
-          </div>
-
-        {/* Language Selector */}
-          <div className="bg-white rounded-xl p-1 border-2 border-gray-200 flex gap-1">
+    <div className="min-h-screen bg-[#f7f7f7]">
+      <Header 
+        onSignInClick={() => setIsAuthModalOpen(true)}
+        isAuthenticated={isUserAuthenticated}
+        username={username}
+      />
+      <main className="px-4 sm:px-6 md:px-8 py-8 md:py-12 pt-24 md:pt-32 pb-16 md:pb-24 max-w-7xl mx-auto">
+        {/* Tabs - Scrollable on mobile with fade hint */}
+        <div className="relative mb-8 sm:mb-12 md:mb-16 lg:mb-24">
+          {/* Scroll fade indicator on right */}
+          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#f7f7f7] to-transparent pointer-events-none z-10 sm:hidden" />
+          
+          <div className="flex gap-3 sm:gap-6 md:gap-10 lg:gap-16 overflow-x-auto py-3 sm:py-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
             <button
-              onClick={() => setCurrentLang('en')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                currentLang === 'en'
-                  ? 'bg-indigo-600 text-white shadow-md'
-                  : 'text-gray-600 hover:bg-gray-50'
+              onClick={() => setActiveTab('create')}
+              className={`font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 ${
+                activeTab === 'create'
+                  ? 'text-black'
+                  : 'text-gray-400 cursor-pointer active:text-gray-500'
               }`}
             >
-              EN
+              создать
             </button>
             <button
-              onClick={() => setCurrentLang('ru')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                currentLang === 'ru'
-                  ? 'bg-indigo-600 text-white shadow-md'
-                  : 'text-gray-600 hover:bg-gray-50'
+              onClick={() => setActiveTab('my')}
+              className={`font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 ${
+                activeTab === 'my'
+                  ? 'text-black'
+                  : 'text-gray-400 cursor-pointer active:text-gray-500'
               }`}
             >
-              RU
+              мои вишлисты
             </button>
             <button
-              onClick={() => setCurrentLang('uz')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                currentLang === 'uz'
-                  ? 'bg-indigo-600 text-white shadow-md'
-                  : 'text-gray-600 hover:bg-gray-50'
+              onClick={() => setActiveTab('shared')}
+              className={`font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 ${
+                activeTab === 'shared'
+                  ? 'text-black'
+                  : 'text-gray-400 cursor-pointer active:text-gray-500'
               }`}
             >
-              UZ
+              поделились
+            </button>
+            <button
+              onClick={() => setActiveTab('ideas')}
+              className={`font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 ${
+                activeTab === 'ideas'
+                  ? 'text-black'
+                  : 'text-gray-400 cursor-pointer active:text-gray-500'
+              }`}
+            >
+              идеи
             </button>
           </div>
         </div>
 
-        {/* Welcome Screen for First-Time Users */}
-        {!isUserAuthenticated && !isLoading && (
-          <WelcomeScreen
-            onGetStarted={() => setShowAuthModal(true)}
-            currentLang={currentLang}
-          />
-        )}
-
-        {/* Header Section - Only show for authenticated users */}
-        {isUserAuthenticated && (
-        <div className="text-center mb-12">
-          {/* Gift Icon - Full width on mobile, beside title on desktop */}
-          <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-4">
-            <Gift className="w-16 h-16 md:w-10 md:h-10 text-indigo-600" />
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
-              {t.title}
-            </h1>
-          </div>
-          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto px-4">
-            {t.description}
-          </p>
-        </div>
-        )}
-
-        {/* Content for Authenticated Users Only */}
-        {isUserAuthenticated && (
+        {/* Content for Active Tab */}
+        {activeTab === 'create' && (
           <>
-            {/* Add New Item Button - Show only if user has items */}
-            {apiItems.length > 0 && (
-              <div className="mb-6 flex justify-center">
-                <button
-                  onClick={openCreateModal}
-                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all shadow-md hover:shadow-lg"
-                >
-                  <Plus className="w-5 h-5" />
-                  {t.addNew}
-                </button>
-              </div>
+            {/* Create Options */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
+              {/* Create Gift Card */}
+              <CreateWishlistCard onClick={openCreateGiftModal} text='Создать подарок'/>
+            </div>
+
+            {/* Recent Gifts Section */}
+            {gifts.length > 0 && (
+              <>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 font-geologica mb-4 sm:mb-6">
+                  Мои подарки
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                  {gifts.map((gift) => (
+                    <GiftCard
+                      key={gift.id}
+                      id={gift.id}
+                      title={gift.title}
+                      imageUrl={gift.imageUrl}
+                      productUrl={gift.productUrl}
+                      price={gift.price}
+                      isReserved={gift.isReserved}
+                      onClick={() => console.log('Open gift:', gift.id)}
+                      onMenuClick={() => console.log('Menu for gift:', gift.id)}
+                      onReserveClick={() => console.log('Reserve gift:', gift.id)}
+                    />
+                  ))}
+                </div>
+              </>
             )}
+          </>
+        )}
+
+        {activeTab === 'my' && (
+          <>
+            {/* Wishlist Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+              {/* Create Wishlist Card */}
+              <CreateWishlistCard onClick={openCreateWishlistModal} text='Создать вишлист'/>
+              
+              {/* Wishlist Cards */}
+              {wishlists.map((wishlist) => (
+                <WishlistCard
+                  key={wishlist.id}
+                  id={wishlist.id}
+                  title={wishlist.title}
+                  itemCount={wishlist.itemCount}
+                  coverImage={wishlist.coverImage}
+                  previewItems={wishlist.previewItems}
+                  onClick={() => {
+                    // Handle wishlist click - open details
+                    console.log('Open wishlist:', wishlist.id);
+                  }}
+                  onMenuClick={() => {
+                    // Handle menu click - show options
+                    console.log('Menu for wishlist:', wishlist.id);
+                  }}
+                />
+              ))}
+            </div>
 
             {/* Loading State */}
             {isLoading && (
               <div className="text-center py-12">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-t-transparent"></div>
-                <p className="mt-4 text-gray-600">{t.loading}</p>
-              </div>
-            )}
-
-            {/* Empty State - Show when user is authenticated but has no items */}
-            {!isLoading && apiItems.length === 0 && (
-              <EmptyWishlist
-                onCreateFirst={openCreateModal}
-                currentLang={currentLang}
-              />
-            )}
-
-            {/* Products Grid */}
-            {!isLoading && apiItems.length > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-            {allProducts.map((product) => (
-            <div
-              key={product.id}
-              className="group bg-white rounded-xl md:rounded-2xl overflow-hidden border-2 border-gray-100 hover:border-indigo-300 hover:shadow-xl transition-all duration-300"
-            >
-              {/* Product Image */}
-              <div className="relative aspect-square overflow-hidden bg-gray-100">
-                {!isMounted || imageErrors.has(product.id) ? (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-50">
-                    <Gift className="w-12 h-12 md:w-20 md:h-20 text-indigo-400" />
-                  </div>
-                ) : (
-                  <img
-                    src={product.imageurl}
-                    alt={product.title}
-                    onError={() => handleImageError(product.id)}
-                    onLoad={(e) => {
-                      const img = e.currentTarget;
-                      if (img.naturalWidth === 0 || img.naturalHeight === 0) {
-                        handleImageError(product.id);
-                      }
-                    }}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                )}
-              </div>
-
-              {/* Product Info */}
-              <div className="p-3 md:p-6">
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <h3 className="text-sm md:text-lg font-semibold text-gray-900 min-h-[2.5rem] md:min-h-[3.5rem] line-clamp-2 flex-1">
-                  {product.title}
-                </h3>
-                  {/* Source Badge */}
-                  <span
-                    className={`text-[10px] md:text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap ${
-                      product.source === 'api'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-gray-100 text-gray-600'
-                    }`}
-                  >
-                    {product.source === 'api' ? t.apiItem : t.localItem}
-                  </span>
-                </div>
-
-                {/* Edit/Delete Controls - Only for user's own items */}
-                {isUserAuthenticated && product.source === 'api' && (
-                  <div className="flex gap-2 mb-3">
-                    <button
-                      onClick={() => openEditModal(product)}
-                      className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-medium transition-colors"
-                    >
-                      <Edit2 className="w-3 h-3" />
-                      <span className="hidden sm:inline">{t.edit}</span>
-                    </button>
-                    <button
-                      onClick={() => handleDeleteItem(product.id)}
-                      className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-lg text-xs font-medium transition-colors"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                      <span className="hidden sm:inline">{t.delete}</span>
-                    </button>
-                  </div>
-                )}
-
-                {/* View Product Link */}
-                <a
-                  href={product.producturl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-1 md:gap-2 w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-2 md:px-4 py-2 md:py-3 rounded-lg md:rounded-xl font-medium text-xs md:text-base transition-all shadow-md hover:shadow-lg group/btn"
-                >
-                  {t.viewProduct}
-                  <ExternalLink className="w-3 h-3 md:w-4 md:h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                </a>
-              </div>
-            </div>
-            ))}
-          </div>
-            )}
-
-            {/* Footer Note */}
-            {apiItems.length > 0 && (
-              <div className="mt-12 text-center">
-                <div className="bg-white rounded-2xl p-6 border border-gray-200 max-w-2xl mx-auto">
-                  <p className="text-gray-600 text-sm">
-                    {t.footerNote}
-                  </p>
-                </div>
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-pink-500 border-t-transparent"></div>
+                <p className="mt-4 text-gray-600 font-geologica">{t.loading}</p>
               </div>
             )}
           </>
         )}
+
+        {activeTab === 'shared' && (
+          <>
+            {/* Empty State for Shared */}
+            <div className="flex flex-col items-center justify-center py-20">
+              <div
+                className="w-24 h-24 rounded-full flex items-center justify-center mb-6"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(230, 0, 122, 0.1) 0%, rgba(255, 102, 0, 0.1) 100%)',
+                }}
+              >
+                <Gift className="w-12 h-12 text-pink-400" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 font-geologica mb-2">
+                Пока пусто
+              </h3>
+              <p className="text-gray-500 font-geologica text-center max-w-md">
+                Здесь будут вишлисты, которыми с вами поделились друзья
+              </p>
+            </div>
+          </>
+        )}
+
+        {activeTab === 'ideas' && (
+          <>
+            {/* Ideas Grid with Create Card */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+              {/* Create Idea Card */}
+              <CreateWishlistCard onClick={openCreateWishlistModal} text='Создать идею'/>
+              
+              {/* Sample idea cards */}
+              <WishlistCard
+                id="idea-1"
+                title="Подарки для путешественников"
+                itemCount={8}
+                coverImage="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&q=80"
+                onClick={() => console.log('Open idea 1')}
+              />
+              <WishlistCard
+                id="idea-2"
+                title="Техника и гаджеты"
+                itemCount={15}
+                coverImage="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&q=80"
+                onClick={() => console.log('Open idea 2')}
+              />
+            </div>
+          </>
+        )}
       </main>
+      <Footer />
 
       {/* Modals */}
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        onSignIn={handleUserSignIn}
-        onSignUp={handleUserSignUp}
+      <WishlistModal
+        isOpen={isWishlistModalOpen}
+        onClose={() => {
+          setIsWishlistModalOpen(false);
+          setSelectedWishlist(null);
+        }}
+        onSubmit={handleCreateWishlist}
+        wishlist={selectedWishlist}
+        mode={wishlistModalMode}
         currentLang={currentLang}
       />
       
-      <WishlistModal
-        isOpen={isModalOpen}
+      <GiftModal
+        isOpen={isGiftModalOpen}
         onClose={() => {
-          setIsModalOpen(false);
+          setIsGiftModalOpen(false);
           setSelectedItem(null);
         }}
         onSubmit={async (data) => {
           try {
-            if (modalMode === 'create') {
-              await handleCreateItem(data as CreateWishlistDto);
-              setIsModalOpen(false);
-              setSelectedItem(null);
-            } else {
-              await handleUpdateItem(data as UpdateWishlistDto);
-              setIsModalOpen(false);
-              setSelectedItem(null);
-            }
+            await handleCreateItem(data as CreateWishlistDto);
+            setIsGiftModalOpen(false);
+            setSelectedItem(null);
           } catch (error) {
-            // Error is already handled in handleCreateItem/handleUpdateItem
+            // Error is already handled in handleCreateItem
             // Don't close modal on error so user can retry
           }
         }}
         item={selectedItem}
-        mode={modalMode}
+        mode={giftModalMode}
         currentLang={currentLang}
       />
 
-      <ShareModal
-        isOpen={showShareModal}
-        onClose={() => setShowShareModal(false)}
-        ownerId={getOwnerId() || ''}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSignIn={handleSignIn}
+        onSignUp={handleSignUp}
         currentLang={currentLang}
       />
     </div>
