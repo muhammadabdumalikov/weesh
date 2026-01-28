@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
-/* Valisca Font */
+/* MoreSugar Font */
 @font-face {
-  font-family: 'Valisca';
-  src: url('/fonts/Valisca.ttf') format('truetype');
+  font-family: 'MoreSugar';
+  src: url('/fonts/MoreSugar.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -13,11 +13,11 @@
   --background: #ffffff;
   --foreground: #171717;
   --font-geologica: 'Geologica', sans-serif;
-  --font-valisca: 'Valisca', cursive, sans-serif;
+  --font-moresugar: 'MoreSugar', cursive, sans-serif;
 }
 
-.font-valisca {
-  font-family: var(--font-valisca);
+.font-moresugar {
+  font-family: var(--font-moresugar);
 }
 
 @theme inline {
