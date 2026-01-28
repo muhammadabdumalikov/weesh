@@ -21,7 +21,13 @@ export default function Header({ onSignInClick, isAuthenticated, username }: Hea
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-8 md:px-16 lg:px-32 py-4 md:py-6 flex justify-between items-center backdrop-blur-md bg-white/80 border-b border-gray-200 shadow-xs">
       {/* Logo */}
-      <Link href="/" className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 bg-clip-text text-transparent font-geologica">
+      <Link href="/" className="text-3xl sm:text-4xl md:text-5xl font-valisca" style={{
+        background: 'linear-gradient(135deg, #E6007A 0%, #FF6600 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
+
+      }}>
         Weesh
       </Link>
 
