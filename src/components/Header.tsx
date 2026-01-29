@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Menu, X } from 'react-feather';
+import Logo from '@/components/Logo';
 
 interface HeaderProps {
   onSignInClick?: () => void;
@@ -20,18 +20,8 @@ export default function Header({ onSignInClick, isAuthenticated, username }: Hea
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-8 md:px-16 lg:px-32 py-4 md:py-6 flex justify-between items-center backdrop-blur-md bg-white/80 border-b border-gray-200 shadow-xs">
-      {/* Logo - container matches 664:223 aspect so logo isn't squashed */}
-      <Link href="/" className="relative flex items-center shrink-0 h-10 sm:h-12 md:h-14 lg:h-16 w-[120px] sm:w-[144px] md:w-[168px] lg:w-[192px]">
-        <Image
-          src="/logo.png"
-          alt="weesh"
-          fill
-          className="object-contain object-left"
-          sizes="(max-width: 640px) 120px, (max-width: 768px) 144px, (max-width: 1024px) 168px, 192px"
-          priority
-        />
-      </Link>
+    <header className="fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-8 md:px-16 lg:px-32 py-2 md:py-4 flex justify-between items-center backdrop-blur-md bg-white/80 border-b border-gray-200 shadow-xs">
+      <Logo />
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-6 lg:gap-8">

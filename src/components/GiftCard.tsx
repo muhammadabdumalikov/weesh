@@ -1,6 +1,7 @@
 'use client';
 
-import { Gift, ExternalLink, MoreVertical, Check } from 'react-feather';
+import { useState, useRef, useEffect } from 'react';
+import { Gift, ExternalLink, MoreVertical, Check, Edit2, Trash2 } from 'react-feather';
 
 interface GiftCardProps {
   id: string;
@@ -9,9 +10,12 @@ interface GiftCardProps {
   productUrl?: string;
   price?: string;
   isReserved?: boolean;
+  isOwner?: boolean;
   onClick?: () => void;
   onMenuClick?: () => void;
   onReserveClick?: () => void;
+  onEditClick?: () => void;
+  onDeleteClick?: () => void;
 }
 
 export default function GiftCard({
@@ -21,10 +25,48 @@ export default function GiftCard({
   productUrl,
   price,
   isReserved = false,
+  isOwner = false,
   onClick,
   onMenuClick,
   onReserveClick,
+  onEditClick,
+  onDeleteClick,
 }: GiftCardProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [menuOpen]);
+
+  const handleMenuClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isOwner && (onEditClick || onDeleteClick)) {
+      setMenuOpen((prev) => !prev);
+    } else {
+      onMenuClick?.();
+    }
+  };
+
+  const handleEdit = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setMenuOpen(false);
+    onEditClick?.();
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setMenuOpen(false);
+    onDeleteClick?.();
+  };
+
   return (
     <div
       className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-pink-200/50 hover:scale-[0.98] sm:hover:scale-95 cursor-pointer group overflow-hidden relative"
@@ -66,16 +108,37 @@ export default function GiftCard({
             </div>
           )}
           
-          {/* Menu button - always visible on mobile for touch */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onMenuClick?.();
-            }}
-            className="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-600 hover:bg-white hover:text-gray-800 transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 shadow-sm"
-          >
-            <MoreVertical className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </button>
+          {/* Menu button + dropdown for owner (Edit/Delete) */}
+          <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-20" ref={menuRef}>
+            <button
+              onClick={handleMenuClick}
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-600 hover:bg-white hover:text-gray-800 transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 shadow-sm"
+            >
+              <MoreVertical className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </button>
+            {isOwner && menuOpen && (onEditClick || onDeleteClick) && (
+              <div className="absolute right-0 top-full mt-1 py-1 min-w-[120px] bg-white rounded-xl shadow-lg border border-gray-100">
+                {onEditClick && (
+                  <button
+                    onClick={handleEdit}
+                    className="w-full px-4 py-2 flex items-center gap-2 text-left text-sm text-gray-700 hover:bg-gray-50 font-geologica"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                    Редактировать
+                  </button>
+                )}
+                {onDeleteClick && (
+                  <button
+                    onClick={handleDelete}
+                    className="w-full px-4 py-2 flex items-center gap-2 text-left text-sm text-red-600 hover:bg-red-50 font-geologica"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    Удалить
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         </div>
         
         {/* Content area */}
@@ -102,7 +165,7 @@ export default function GiftCard({
                 onClick={(e) => e.stopPropagation()}
                 className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-100 hover:bg-gray-200 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium text-gray-700 transition-colors font-geologica"
               >
-                <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                <ExternalLink className="hidden sm:block w-3.5 h-3.5" />
                 Купить
               </a>
             )}

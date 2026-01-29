@@ -9,28 +9,21 @@ import Footer from '@/components/Footer';
 import {
   fetchWishlistItems,
   createWishlistItem,
+  updateWishlistItem,
+  deleteWishlistItem,
   isAuthenticated,
   signIn,
   signUp,
   getUsername,
   type WishlistItem,
   type CreateWishlistDto,
+  type UpdateWishlistDto,
   type AuthCredentials,
 } from '@/lib/api/wishlist';
 import Header from '@/components/Header';
 import CreateWishlistCard from '@/components/CreateWishlistCard';
 import WishlistCard from '@/components/WishlistCard';
 import GiftCard from '@/components/GiftCard';
-
-// Sample gifts for demo
-interface GiftItem {
-  id: string;
-  title: string;
-  imageUrl?: string;
-  productUrl?: string;
-  price?: string;
-  isReserved?: boolean;
-}
 
 // Sample wishlists for demo
 interface Wishlist {
@@ -147,40 +140,6 @@ export default function WishlistPage() {
     },
   ]);
 
-  // Sample gifts data
-  const [gifts, setGifts] = useState<GiftItem[]>([
-    {
-      id: 'gift-1',
-      title: 'Apple Watch Series 9',
-      imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80',
-      productUrl: 'https://apple.com',
-      price: '45 000 ₽',
-      isReserved: false,
-    },
-    {
-      id: 'gift-2',
-      title: 'Sony WH-1000XM5 Наушники',
-      imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80',
-      productUrl: 'https://sony.com',
-      price: '32 000 ₽',
-      isReserved: true,
-    },
-    {
-      id: 'gift-3',
-      title: 'Nike Air Max 90',
-      imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80',
-      productUrl: 'https://nike.com',
-      price: '15 000 ₽',
-      isReserved: false,
-    },
-    {
-      id: 'gift-4',
-      title: 'Книга "Атомные привычки"',
-      price: '800 ₽',
-      isReserved: false,
-    },
-  ]);
-
   const t = translations[currentLang];
 
   // Check authentication on mount
@@ -275,6 +234,48 @@ export default function WishlistPage() {
     setIsGiftModalOpen(true);
   };
 
+  // Open gift edit modal
+  const openEditGiftModal = (item: WishlistItem) => {
+    setSelectedItem(item);
+    setGiftModalMode('edit');
+    setIsGiftModalOpen(true);
+  };
+
+  // Update gift (edit)
+  const handleUpdateItem = async (data: UpdateWishlistDto) => {
+    if (!selectedItem) return;
+    try {
+      const updated = await updateWishlistItem(selectedItem.id, data);
+      if (updated) {
+        setApiItems((prev) =>
+          prev.map((i) => (i.id === selectedItem.id ? { ...updated, source: 'api' as const } : i))
+        );
+        setIsGiftModalOpen(false);
+        setSelectedItem(null);
+      }
+    } catch (error) {
+      console.error('Error updating item:', error);
+      alert(error instanceof Error ? error.message : 'Не удалось обновить. Попробуйте снова.');
+      throw error;
+    }
+  };
+
+  // Delete gift
+  const handleDeleteGift = async (id: string) => {
+    if (!confirm('Удалить этот подарок?')) return;
+    try {
+      const ok = await deleteWishlistItem(id);
+      if (ok) {
+        setApiItems((prev) => prev.filter((i) => i.id !== id));
+      } else {
+        alert('Не удалось удалить. Попробуйте снова.');
+      }
+    } catch (error) {
+      console.error('Error deleting item:', error);
+      alert(error instanceof Error ? error.message : 'Не удалось удалить. Попробуйте снова.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f7f7f7]">
       <Header 
@@ -283,12 +284,13 @@ export default function WishlistPage() {
         username={username}
       />
       <main className="px-4 sm:px-6 md:px-8 py-8 md:py-12 pt-24 md:pt-32 pb-16 md:pb-24 max-w-7xl mx-auto">
-        {/* Tabs - Scrollable on mobile with fade hint */}
+        {/* Tabs - Scrollable on mobile; fade hint on desktop */}
         <div className="relative mb-8 sm:mb-12 md:mb-16 lg:mb-24">
-          {/* Scroll fade indicator on right */}
-          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#f7f7f7] to-transparent pointer-events-none z-10 sm:hidden" />
-          
-          <div className="flex gap-3 sm:gap-6 md:gap-10 lg:gap-16 overflow-x-auto py-3 sm:py-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+          {/* Left-side fade to hint horizontal scroll (desktop only) */}
+          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#f7f7f7] to-transparent pointer-events-none z-10 hidden sm:block" />
+          {/* Right-side fade to hint horizontal scroll (desktop only) */}
+          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#f7f7f7] to-transparent pointer-events-none z-10 hidden sm:block" />
+          <div className="flex gap-3 sm:gap-6 md:gap-10 lg:gap-16 overflow-x-auto py-3 sm:py-0 -mx-4 px-6 sm:px-8 sm:mx-0 scrollbar-hide">
             <button
               onClick={() => setActiveTab('create')}
               className={`font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 ${
@@ -336,46 +338,52 @@ export default function WishlistPage() {
         {activeTab === 'create' && (
           <>
             {/* Create Options */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
-              {/* Create Gift Card */}
-              <CreateWishlistCard onClick={openCreateGiftModal} text='Создать подарок'/>
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
+              <CreateWishlistCard onClick={openCreateGiftModal} text="Создать подарок" />
             </div>
 
-            {/* Recent Gifts Section */}
-            {gifts.length > 0 && (
-              <>
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 font-geologica mb-4 sm:mb-6">
-                  Мои подарки
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                  {gifts.map((gift) => (
-                    <GiftCard
-                      key={gift.id}
-                      id={gift.id}
-                      title={gift.title}
-                      imageUrl={gift.imageUrl}
-                      productUrl={gift.productUrl}
-                      price={gift.price}
-                      isReserved={gift.isReserved}
-                      onClick={() => console.log('Open gift:', gift.id)}
-                      onMenuClick={() => console.log('Menu for gift:', gift.id)}
-                      onReserveClick={() => console.log('Reserve gift:', gift.id)}
-                    />
-                  ))}
-                </div>
-              </>
+            {/* Мои подарки - from API */}
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 font-geologica mb-4 sm:mb-6">
+              Мои подарки
+            </h2>
+            {isLoading ? (
+              <div className="text-center py-8">
+                <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-pink-500 border-t-transparent"></div>
+                <p className="mt-3 text-gray-500 text-sm font-geologica">{t.loading}</p>
+              </div>
+            ) : !isUserAuthenticated ? (
+              <p className="text-gray-500 font-geologica py-4">
+                Войдите, чтобы видеть свои подарки
+              </p>
+            ) : apiItems.length === 0 ? (
+              <p className="text-gray-500 font-geologica py-4">
+                Пока нет подарков. Нажмите «Создать подарок» выше.
+              </p>
+            ) : (
+              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                {apiItems.map((item) => (
+                  <GiftCard
+                    key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    imageUrl={item.imageurl || undefined}
+                    productUrl={item.producturl || undefined}
+                    isOwner={isUserAuthenticated}
+                    onEditClick={() => openEditGiftModal(item)}
+                    onDeleteClick={() => handleDeleteGift(item.id)}
+                    onClick={() => console.log('Open gift:', item.id)}
+                    onReserveClick={() => console.log('Reserve gift:', item.id)}
+                  />
+                ))}
+              </div>
             )}
           </>
         )}
 
         {activeTab === 'my' && (
           <>
-            {/* Wishlist Cards Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-              {/* Create Wishlist Card */}
-              <CreateWishlistCard onClick={openCreateWishlistModal} text='Создать вишлист'/>
-              
-              {/* Wishlist Cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+              <CreateWishlistCard onClick={openCreateWishlistModal} text="Создать вишлист" />
               {wishlists.map((wishlist) => (
                 <WishlistCard
                   key={wishlist.id}
@@ -384,25 +392,11 @@ export default function WishlistPage() {
                   itemCount={wishlist.itemCount}
                   coverImage={wishlist.coverImage}
                   previewItems={wishlist.previewItems}
-                  onClick={() => {
-                    // Handle wishlist click - open details
-                    console.log('Open wishlist:', wishlist.id);
-                  }}
-                  onMenuClick={() => {
-                    // Handle menu click - show options
-                    console.log('Menu for wishlist:', wishlist.id);
-                  }}
+                  onClick={() => console.log('Open wishlist:', wishlist.id)}
+                  onMenuClick={() => console.log('Menu for wishlist:', wishlist.id)}
                 />
               ))}
             </div>
-
-            {/* Loading State */}
-            {isLoading && (
-              <div className="text-center py-12">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-pink-500 border-t-transparent"></div>
-                <p className="mt-4 text-gray-600 font-geologica">{t.loading}</p>
-              </div>
-            )}
           </>
         )}
 
@@ -431,7 +425,7 @@ export default function WishlistPage() {
         {activeTab === 'ideas' && (
           <>
             {/* Ideas Grid with Create Card */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {/* Create Idea Card */}
               <CreateWishlistCard onClick={openCreateWishlistModal} text='Создать идею'/>
               
@@ -477,12 +471,15 @@ export default function WishlistPage() {
         }}
         onSubmit={async (data) => {
           try {
-            await handleCreateItem(data as CreateWishlistDto);
-            setIsGiftModalOpen(false);
-            setSelectedItem(null);
+            if (selectedItem && giftModalMode === 'edit') {
+              await handleUpdateItem(data as UpdateWishlistDto);
+            } else {
+              await handleCreateItem(data as CreateWishlistDto);
+              setIsGiftModalOpen(false);
+              setSelectedItem(null);
+            }
           } catch (error) {
-            // Error is already handled in handleCreateItem
-            // Don't close modal on error so user can retry
+            // Error is already handled in handlers
           }
         }}
         item={selectedItem}
