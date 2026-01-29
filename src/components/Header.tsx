@@ -1,22 +1,47 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X } from 'react-feather';
+import { Menu, X, LogOut, User, Users, CreditCard, Bookmark, Moon } from 'react-feather';
 import Logo from '@/components/Logo';
 
 interface HeaderProps {
   onSignInClick?: () => void;
+  onLogout?: () => void;
   isAuthenticated?: boolean;
   username?: string;
 }
 
-export default function Header({ onSignInClick, isAuthenticated, username }: HeaderProps) {
+export default function Header({ onSignInClick, onLogout, isAuthenticated, username }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const profileModalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isProfileModalOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (profileModalRef.current && !profileModalRef.current.contains(e.target as Node)) {
+        setIsProfileModalOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isProfileModalOpen]);
 
   const handleSignInClick = () => {
     setIsMobileMenuOpen(false);
     onSignInClick?.();
+  };
+
+  const openProfileModal = () => {
+    setIsMobileMenuOpen(false);
+    setIsProfileModalOpen(true);
+  };
+
+  const handleLogout = () => {
+    setIsProfileModalOpen(false);
+    onLogout?.();
   };
 
   return (
@@ -32,12 +57,17 @@ export default function Header({ onSignInClick, isAuthenticated, username }: Hea
           О сервисе
         </Link>
         {isAuthenticated ? (
-          <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={openProfileModal}
+            className="flex items-center gap-3 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2"
+            aria-label="Profile menu"
+          >
             <span className="text-sm text-gray-600 font-geologica hidden lg:block">{username}</span>
-            <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold font-geologica text-sm lg:text-base">
+            <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold font-geologica text-sm lg:text-base hover:opacity-90 transition-opacity">
               {username?.charAt(0).toUpperCase() || 'U'}
             </div>
-          </div>
+          </button>
         ) : (
           <button 
             onClick={onSignInClick}
@@ -69,12 +99,16 @@ export default function Header({ onSignInClick, isAuthenticated, username }: Hea
               О сервисе
             </Link>
             {isAuthenticated ? (
-              <div className="flex items-center gap-3 py-2">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold font-geologica">
+              <button
+                type="button"
+                onClick={openProfileModal}
+                className="flex items-center gap-3 py-2 w-full text-left rounded-xl hover:bg-gray-50 transition-colors"
+              >
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold font-geologica flex-shrink-0">
                   {username?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 <span className="text-base text-gray-700 font-geologica">{username}</span>
-              </div>
+              </button>
             ) : (
               <button 
                 onClick={handleSignInClick}
@@ -85,6 +119,114 @@ export default function Header({ onSignInClick, isAuthenticated, username }: Hea
             )}
           </nav>
         </div>
+      )}
+
+      {/* Profile card modal — dropdown from top-right (example style) */}
+      {isProfileModalOpen && (
+        <>
+          <div className="fixed inset-0 z-[99] bg-black/20 md:bg-transparent" aria-hidden="true" />
+          <div
+            ref={profileModalRef}
+            className="fixed z-[100] w-full max-w-[280px] bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden animate-in zoom-in-95 duration-200 md:top-20 md:right-4 lg:right-16 xl:right-32 top-20 left-4 right-4 mx-auto md:mx-0 md:left-auto"
+            role="dialog"
+            aria-labelledby="profile-modal-title"
+            aria-modal="true"
+          >
+            {/* User block */}
+            <div className="p-4 border-b border-gray-200">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold font-geologica text-base flex-shrink-0">
+                  {username?.charAt(0).toUpperCase() || 'U'}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h2 id="profile-modal-title" className="text-[15px] font-bold text-[#222222] font-geologica truncate">
+                    {username || 'Пользователь'}
+                  </h2>
+                  <p className="text-[13px] text-gray-500 font-geologica truncate">
+                    {username ? `${username}@weesh` : 'Аккаунт'}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Options list */}
+            <div className="py-2">
+              <button
+                type="button"
+                onClick={() => setIsProfileModalOpen(false)}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left font-geologica text-[#222222] hover:bg-gray-50 transition-colors"
+              >
+                <User className="w-[18px] h-[18px] text-gray-500 flex-shrink-0" />
+                <span className="text-sm font-medium">Аккаунт</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsProfileModalOpen(false)}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left font-geologica text-[#222222] hover:bg-gray-50 transition-colors"
+              >
+                <Users className="w-[18px] h-[18px] text-gray-500 flex-shrink-0" />
+                <span className="text-sm font-medium">Рефералы</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsProfileModalOpen(false)}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left font-geologica text-[#222222] hover:bg-gray-50 transition-colors"
+              >
+                <Users className="w-[18px] h-[18px] text-gray-500 flex-shrink-0" />
+                <span className="text-sm font-medium">Сообщество</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsProfileModalOpen(false)}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left font-geologica text-[#222222] hover:bg-gray-50 transition-colors"
+              >
+                <CreditCard className="w-[18px] h-[18px] text-gray-500 flex-shrink-0" />
+                <span className="text-sm font-medium">Способ оплаты</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsProfileModalOpen(false)}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left font-geologica text-[#222222] hover:bg-gray-50 transition-colors"
+              >
+                <Bookmark className="w-[18px] h-[18px] text-gray-500 flex-shrink-0" />
+                <span className="text-sm font-medium">Закладки</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsDarkMode((v) => !v)}
+                className="w-full flex items-center justify-between gap-3 px-4 py-2.5 text-left font-geologica text-[#222222] hover:bg-gray-50 transition-colors"
+              >
+                <span className="flex items-center gap-3">
+                  <Moon className="w-[18px] h-[18px] text-gray-500 flex-shrink-0" />
+                  <span className="text-sm font-medium">Тёмная тема</span>
+                </span>
+                <span
+                  className={`w-9 h-5 rounded-full flex flex-shrink-0 items-center transition-colors ${
+                    isDarkMode ? 'justify-end bg-gradient-to-r from-pink-500 to-orange-500' : 'justify-start bg-gray-300'
+                  }`}
+                  role="switch"
+                  aria-checked={isDarkMode}
+                >
+                  <span className="block w-4 h-4 rounded-full bg-white shadow mx-0.5" />
+                </span>
+              </button>
+            </div>
+
+            {/* Divider before logout */}
+            <div className="border-t border-gray-200" />
+
+            <div className="py-2">
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left font-geologica text-red-600 hover:bg-red-50 transition-colors"
+              >
+                <LogOut className="w-[18px] h-[18px] flex-shrink-0" />
+                <span className="text-sm font-medium">Выйти</span>
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </header>
   );

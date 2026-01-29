@@ -14,6 +14,7 @@ import {
   isAuthenticated,
   signIn,
   signUp,
+  signOut,
   getUsername,
   type WishlistItem,
   type CreateWishlistDto,
@@ -225,7 +226,7 @@ export default function WishlistPage() {
     setIsWishlistModalOpen(false);
   };
 
-  const [activeTab, setActiveTab] = useState<'create' | 'my' | 'shared' | 'ideas'>('my');
+  const [activeTab, setActiveTab] = useState<'create' | 'my' | 'shared' | 'ideas'>('create');
 
   // Open gift creation modal
   const openCreateGiftModal = () => {
@@ -280,6 +281,11 @@ export default function WishlistPage() {
     <div className="min-h-screen bg-[#f7f7f7]">
       <Header 
         onSignInClick={() => setIsAuthModalOpen(true)}
+        onLogout={() => {
+          signOut();
+          setIsUserAuthenticated(false);
+          setUsernameState('');
+        }}
         isAuthenticated={isUserAuthenticated}
         username={username}
       />
