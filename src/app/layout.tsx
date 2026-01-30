@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     default: "Wishlist - Create and Share Your Dream Wishlist",
     template: "%s | Wishlist",
   },
+  icons: {
+    icon: "/favicon.png",
+  },
   description:
     "Create, manage, and share your personal wishlist with friends and family. Add unlimited items with images and links.",
   keywords: [
@@ -37,6 +40,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
         className={`${plusJakartaSans.variable} antialiased`}
         suppressHydrationWarning
