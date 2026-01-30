@@ -19,7 +19,7 @@ export default function EmptyWishlist({ onCreateFirst }: EmptyWishlistProps) {
         {/* Main Card */}
         <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 overflow-hidden">
           {/* Gradient Header */}
-          <div className="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-8 text-center">
+          <div className="theme-gradient-bg p-8 text-center" style={{ background: 'linear-gradient(135deg, var(--theme-gradient-start) 0%, var(--theme-gradient-end) 100%)' }}>
             <div className="inline-flex p-6 bg-white/20 backdrop-blur-sm rounded-3xl mb-4 animate-bounce">
               <Gift className="w-16 h-16 text-white" />
             </div>
@@ -57,7 +57,7 @@ export default function EmptyWishlist({ onCreateFirst }: EmptyWishlistProps) {
             {/* CTA Button */}
             <button
               onClick={onCreateFirst}
-              className="w-full flex items-center justify-center gap-3 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full flex items-center justify-center gap-3 py-4 theme-gradient-bg text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl hover:opacity-90 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
             >
               <Plus className="w-6 h-6" />
               {t('emptyWishlist.createFirst')}

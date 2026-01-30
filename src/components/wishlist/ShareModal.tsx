@@ -56,7 +56,7 @@ export default function ShareModal({
         <div className="px-6 pt-6 pb-1">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
-              <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-r from-[#E6007A] to-[#FF6600] text-white flex-shrink-0">
+              <span className="flex items-center justify-center w-11 h-11 rounded-xl theme-gradient-bg text-white flex-shrink-0">
                 <Share2 className="w-5 h-5" />
               </span>
               <div className="min-w-0">
@@ -95,7 +95,7 @@ export default function ShareModal({
             type="button"
             onClick={handleCopy}
             disabled={copied}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 border border-transparent bg-gradient-to-r from-[#E6007A] to-[#FF6600] text-white rounded-xl font-semibold font-geologica hover:opacity-90 hover:border-pink-400 transition-all shadow-sm disabled:opacity-90"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 border border-transparent theme-gradient-bg text-white rounded-xl font-semibold font-geologica hover:opacity-90 transition-all shadow-sm disabled:opacity-90"
           >
             {copied ? (
               <>

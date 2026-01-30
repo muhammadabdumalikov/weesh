@@ -101,7 +101,7 @@ export default function GiftModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gray-100 sm:bg-white sm:shadow-[0_8px_24px_rgba(15,23,42,0.18)] flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 sm:hover:bg-gradient-to-r sm:hover:from-pink-500 sm:hover:via-red-500 sm:hover:to-orange-500 sm:hover:text-white z-10"
+          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gray-100 sm:bg-white sm:shadow-[0_8px_24px_rgba(15,23,42,0.18)] flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 theme-close-btn-hover z-10"
         >
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
@@ -134,7 +134,7 @@ export default function GiftModal({
                   className="block text-sm font-semibold text-gray-800 font-geologica"
                 >
                   {t('giftModal.titleLabel')}
-                  <span className="text-pink-500">*</span>
+                  <span className="theme-icon-color">*</span>
                 </label>
                 <input
                   type="text"
@@ -143,7 +143,7 @@ export default function GiftModal({
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder={t('giftModal.titlePlaceholder')}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl theme-input-focus transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
                 />
               </div>
 
@@ -162,7 +162,7 @@ export default function GiftModal({
                   onChange={(e) => setProductUrl(e.target.value)}
                   placeholder={t('giftModal.productUrlPlaceholder')}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl theme-input-focus transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
                 />
               </div>
 
@@ -181,7 +181,7 @@ export default function GiftModal({
                   onChange={(e) => setImageUrl(e.target.value)}
                   placeholder={t('giftModal.imageUrlPlaceholder')}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl theme-input-focus transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
                 />
               </div>
 
@@ -199,7 +199,7 @@ export default function GiftModal({
                   onChange={(e) => setComment(e.target.value)}
                   rows={3}
                   placeholder={t('giftModal.commentPlaceholder')}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 resize-none font-geologica"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl theme-input-focus transition-all text-gray-900 placeholder:text-gray-400 resize-none font-geologica"
                 />
               </div>
             </div>
@@ -214,7 +214,7 @@ export default function GiftModal({
                   className="rounded-[1.75rem] p-[2px]"
                   style={{
                     background:
-                      'linear-gradient(135deg, #E6007A 0%, #FF6600 100%)',
+                      'linear-gradient(135deg, var(--theme-gradient-start) 0%, var(--theme-gradient-end) 100%)',
                   }}
                 >
                   <div className="h-64 w-full rounded-[1.5rem] overflow-hidden bg-white/0 text-center flex items-center justify-center">
@@ -230,7 +230,7 @@ export default function GiftModal({
                       />
                     ) : (
                       <div className="flex h-full w-full flex-col items-center justify-center bg-white/80 px-4">
-                        <Image className="w-8 h-8 mb-2 text-pink-500" />
+                        <Image className="w-8 h-8 mb-2 theme-icon-color" />
                         <p className="text-sm font-medium text-gray-800 font-geologica">
                           {t('giftModal.imageUploadText')}
                         </p>
@@ -258,7 +258,7 @@ export default function GiftModal({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full sm:w-auto px-8 py-3 border border-transparent bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white rounded-xl font-geologica font-semibold shadow-lg hover:shadow-xl hover:border-pink-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:from-pink-600 hover:via-red-600 hover:to-orange-600"
+              className="w-full sm:w-auto px-8 py-3 border border-transparent theme-gradient-bg text-white rounded-xl font-geologica font-semibold shadow-lg hover:shadow-xl hover:opacity-90 hover:border-[var(--theme-gradient-start)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? t('giftModal.saving') : mode === 'create' ? t('giftModal.create') : t('giftModal.save')}
             </button>

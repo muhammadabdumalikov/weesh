@@ -38,10 +38,10 @@ export default function WishlistCard({
             />
           ) : (
             /* Gradient placeholder with pattern */
-            <div className="w-full h-full bg-gradient-to-br from-pink-100 via-orange-50 to-pink-50 flex items-center justify-center relative overflow-hidden">
+            <div className="w-full h-full theme-placeholder-bg flex items-center justify-center relative overflow-hidden">
               {/* Decorative circles */}
-              <div className="absolute -top-6 -right-6 sm:-top-8 sm:-right-8 w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-pink-200/50 to-orange-200/50 blur-sm" />
-              <div className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-orange-200/50 to-pink-200/50 blur-sm" />
+              <div className="absolute -top-6 -right-6 sm:-top-8 sm:-right-8 w-16 h-16 sm:w-24 sm:h-24 rounded-full theme-placeholder-bg-strong blur-sm opacity-50" />
+              <div className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-14 h-14 sm:w-20 sm:h-20 rounded-full theme-placeholder-bg-strong blur-sm opacity-50" />
               
               {/* Preview items grid or gift icon */}
               {previewItems.length > 0 ? (
@@ -58,24 +58,14 @@ export default function WishlistCard({
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <Gift className="w-4 h-4 sm:w-6 sm:h-6 text-pink-300" />
+                        <Gift className="w-4 h-4 sm:w-6 sm:h-6 theme-icon-color opacity-70" />
                       )}
                     </div>
                   ))}
                 </div>
               ) : (
-                <div
-                  className="w-14 h-14 sm:w-20 sm:h-20 rounded-full flex items-center justify-center"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(230, 0, 122, 0.1) 0%, rgba(255, 102, 0, 0.1) 100%)',
-                  }}
-                >
-                  <Gift
-                    className="w-7 h-7 sm:w-10 sm:h-10"
-                    style={{
-                      color: '#E6007A',
-                    }}
-                  />
+                <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-full flex items-center justify-center theme-placeholder-bg-strong">
+                  <Gift className="w-7 h-7 sm:w-10 sm:h-10 theme-icon-color" />
                 </div>
               )}
             </div>
@@ -105,12 +95,7 @@ export default function WishlistCard({
           
           {/* Item count with gradient accent */}
           <div className="flex items-center gap-2">
-            <div
-              className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
-              style={{
-                background: 'linear-gradient(135deg, #E6007A 0%, #FF6600 100%)',
-              }}
-            />
+            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full theme-gradient-bg" />
             <span className="text-xs sm:text-sm text-gray-500 font-geologica">
               {itemCount} {itemCount === 1 ? 'подарок' : itemCount < 5 ? 'подарка' : 'подарков'}
             </span>

@@ -121,7 +121,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
             className="flex items-center gap-4 focus:outline-none cursor-pointer px-2 py-1 hover:bg-gray-50 transition-colors rounded-full"
             aria-label={t('header.account')}
           >
-            <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold font-geologica text-sm lg:text-base">
+            <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-full theme-gradient-bg flex items-center justify-center text-white font-bold font-geologica text-sm lg:text-base">
               {username?.charAt(0).toUpperCase() || 'U'}
             </div>
             <span className="text-sm text-gray-600 font-geologica hidden lg:block">{username}</span>
@@ -202,7 +202,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                 onClick={openProfileModal}
                 className="flex items-center gap-3 py-2 w-full text-left rounded-xl hover:bg-gray-50 transition-colors"
               >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold font-geologica flex-shrink-0">
+                <div className="w-10 h-10 rounded-full theme-gradient-bg flex items-center justify-center text-white font-bold font-geologica flex-shrink-0">
                   {username?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 <span className="text-base text-gray-700 font-geologica">{username}</span>
@@ -233,7 +233,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
             {/* User block */}
             <div className="p-4 border-b border-gray-200">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold font-geologica text-base flex-shrink-0">
+                <div className="w-11 h-11 rounded-full theme-gradient-bg flex items-center justify-center text-white font-bold font-geologica text-base flex-shrink-0">
                   {username?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 <div className="min-w-0 flex-1">
@@ -300,7 +300,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                 </span>
                 <span
                   className={`w-9 h-5 rounded-full flex flex-shrink-0 items-center transition-colors ${
-                    isDarkMode ? 'justify-end bg-gradient-to-r from-pink-500 to-orange-500' : 'justify-start bg-gray-300'
+                    isDarkMode ? 'justify-end theme-gradient-bg' : 'justify-start bg-gray-300'
                   }`}
                   role="switch"
                   aria-checked={isDarkMode}

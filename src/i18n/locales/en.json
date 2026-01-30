@@ -19,7 +19,18 @@
     "heroLine3": "you",
     "heroLine4": "want",
     "createWishlist": "Create wishlist",
-    "illustrationAlt": "Wishlist illustration"
+    "illustrationAlt": "Wishlist illustration",
+    "styleNewTag": "NEW",
+    "styleSectionTitle": "Your Wishlist, Your Style",
+    "styleSectionSubtitle": "Style your wishlist exactly how you want it.",
+    "styleClassic": "Classic",
+    "stylePink": "Pink",
+    "styleWarm": "Warm",
+    "styleOcean": "Ocean",
+    "styleSage": "Sage",
+    "styleVintage": "Vintage",
+    "styleBold": "Bold",
+    "styleCitrus": "Citrus"
   },
   "footer": {
     "description": "Weesh helps you create wishlists and share them with loved ones — get only the gifts you want.",

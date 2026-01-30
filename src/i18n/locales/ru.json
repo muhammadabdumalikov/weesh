@@ -19,7 +19,18 @@
     "heroLine3": "желанные",
     "heroLine4": "подарки",
     "createWishlist": "Создать вишлист",
-    "illustrationAlt": "Иллюстрация вишлиста"
+    "illustrationAlt": "Иллюстрация вишлиста",
+    "styleNewTag": "НОВОЕ",
+    "styleSectionTitle": "Ваш вишлист — ваш стиль",
+    "styleSectionSubtitle": "Оформите вишлист так, как вам нравится.",
+    "styleClassic": "Классика",
+    "stylePink": "Розовый",
+    "styleWarm": "Тёплый",
+    "styleOcean": "Океан",
+    "styleSage": "Шалфей",
+    "styleVintage": "Винтаж",
+    "styleBold": "Яркий",
+    "styleCitrus": "Цитрус"
   },
   "footer": {
     "description": "Weesh помогает создавать вишлисты и делиться ими с близкими — получайте только желанные подарки.",

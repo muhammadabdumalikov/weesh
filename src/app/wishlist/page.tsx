@@ -242,7 +242,7 @@ export default function WishlistPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f7f7]">
+    <div className="min-h-screen" style={{ background: 'var(--theme-page-bg)' }}>
       <Header
         onSignInClick={() => setIsAuthModalOpen(true)}
         onLogout={() => {
@@ -262,10 +262,10 @@ export default function WishlistPage() {
       >
         {/* Tabs - Scrollable on mobile; fade hint on desktop */}
         <div className="relative mb-8 sm:mb-12 md:mb-16 lg:mb-24">
-          {/* Left-side fade to hint horizontal scroll (desktop only) */}
-          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#f7f7f7] to-transparent pointer-events-none z-10 hidden sm:block" />
-          {/* Right-side fade to hint horizontal scroll (desktop only) */}
-          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#f7f7f7] to-transparent pointer-events-none z-10 hidden sm:block" />
+          {/* Left-side fade to hint horizontal scroll (desktop only) - match theme page bg */}
+          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[var(--theme-page-bg)] to-transparent pointer-events-none z-10 hidden sm:block" />
+          {/* Right-side fade to hint horizontal scroll (desktop only) - match theme page bg */}
+          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[var(--theme-page-bg)] to-transparent pointer-events-none z-10 hidden sm:block" />
           <div className="flex gap-3 sm:gap-6 md:gap-10 lg:gap-16 overflow-x-auto py-3 sm:py-0 -mx-4 px-6 sm:px-8 sm:mx-0 scrollbar-hide">
             <button
               onClick={() => setActiveTab('create')}
@@ -327,7 +327,7 @@ export default function WishlistPage() {
             </h2>
             {isLoading ? (
               <div className="text-center py-8">
-                <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-pink-500 border-t-transparent"></div>
+                <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-t-transparent" style={{ borderColor: 'var(--theme-gradient-start)' }}></div>
                 <p className="mt-3 text-gray-500 text-sm font-geologica">{t('wishlistPage.loading')}</p>
               </div>
             ) : !isUserAuthenticated ? (
@@ -430,14 +430,15 @@ export default function WishlistPage() {
 
       {/* Share your weesh — floating CTA (only when authenticated, create tab) */}
       {isUserAuthenticated && activeTab === 'create' && getOwnerCode() && (
-        <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-6 z-40 p-[2px] rounded-full bg-gradient-to-r from-[#E6007A] to-[#FF6600] shadow-lg hover:shadow-xl transition-shadow">
+        <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-6 z-40 theme-gradient-border-wrap shadow-lg hover:shadow-xl transition-shadow">
           <button
             type="button"
             onClick={() => setIsShareModalOpen(true)}
-            className="group flex items-center gap-2.5 sm:gap-3 pl-1.5 pr-4 sm:pl-2 sm:pr-5 py-2.5 sm:py-3 rounded-full bg-[#f7f7f7] hover:bg-white transition-colors w-full"
+            className="group flex items-center gap-2.5 sm:gap-3 pl-1.5 pr-4 sm:pl-2 sm:pr-5 py-2.5 sm:py-3 rounded-full w-full transition-colors min-h-0"
+            style={{ background: 'var(--theme-page-bg)' }}
             aria-label={t('wishlistPage.shareYourWeesh')}
           >
-            <span className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-r from-[#E6007A] to-[#FF6600] text-white shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+            <span className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full theme-gradient-bg text-white shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
               <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </span>
             <span className="font-geologica font-semibold text-sm sm:text-base text-[#222222]">

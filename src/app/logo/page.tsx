@@ -13,6 +13,9 @@ export default function LogoExportPage() {
 
     async function buildSvg() {
       try {
+        const start = typeof document !== 'undefined' ? getComputedStyle(document.documentElement).getPropertyValue('--theme-gradient-start').trim() || '#E6007A' : '#E6007A';
+        const end = typeof document !== 'undefined' ? getComputedStyle(document.documentElement).getPropertyValue('--theme-gradient-end').trim() || '#FF6600' : '#FF6600';
+
         const fontRes = await fetch('/fonts/MoreSugar.ttf');
         if (!fontRes.ok) throw new Error('Font not found');
         const fontBlob = await fontRes.blob();
@@ -30,8 +33,8 @@ export default function LogoExportPage() {
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
   <defs>
     <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#E6007A"/>
-      <stop offset="100%" stop-color="#FF6600"/>
+      <stop offset="0%" stop-color="${start}"/>
+      <stop offset="100%" stop-color="${end}"/>
     </linearGradient>
     <style>
       @font-face {
@@ -75,7 +78,7 @@ export default function LogoExportPage() {
   }, [svgUrl]);
 
   return (
-    <div className="min-h-screen bg-[#f7f7f7] p-8 flex flex-col items-center gap-8">
+    <div className="min-h-screen bg-[var(--theme-page-bg)] p-8 flex flex-col items-center gap-8">
       <Link href="/" className="text-gray-500 hover:text-gray-700 text-sm">
         ← Back
       </Link>
@@ -101,7 +104,7 @@ export default function LogoExportPage() {
       {svgUrl && (
         <button
           onClick={handleDownloadSvg}
-          className="px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
+          className="px-6 py-3 theme-gradient-bg text-white font-semibold rounded-xl hover:opacity-90 transition-opacity"
         >
           Download SVG
         </button>

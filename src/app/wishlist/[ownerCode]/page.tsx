@@ -14,8 +14,8 @@ export default function WishlistOwnerCodeRedirect() {
   }, [ownerCode, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#f7f7f7]">
-      <div className="animate-spin rounded-full h-10 w-10 border-2 border-[#E6007A] border-t-transparent" />
+    <div className="min-h-screen flex items-center justify-center bg-[var(--theme-page-bg)]">
+      <div className="animate-spin rounded-full h-10 w-10 border-2 border-t-transparent" style={{ borderColor: 'var(--theme-gradient-start)' }} />
     </div>
   );
 }

@@ -47,7 +47,7 @@ export default function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
         {/* CTA Button */}
         <button
           onClick={onGetStarted}
-          className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 text-white text-lg font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105 active:scale-95 animate-in zoom-in duration-700 delay-300"
+          className="inline-flex items-center gap-3 px-8 py-4 theme-gradient-bg text-white text-lg font-bold rounded-2xl shadow-2xl hover:shadow-3xl hover:opacity-90 transition-all transform hover:scale-105 active:scale-95 animate-in zoom-in duration-700 delay-300"
         >
           <Star className="w-6 h-6" />
           {t('welcome.getStarted')}

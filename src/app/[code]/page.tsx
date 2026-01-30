@@ -52,7 +52,7 @@ export default function PublicWishlistByCodePage() {
   const ownerLabel = displayOwnerLabel(code);
 
   return (
-    <div className="min-h-screen bg-[#f5f3ef]">
+    <div className="min-h-screen bg-[var(--theme-page-bg)]">
       <Header />
 
       <main className="px-3 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12 pt-[4.5rem] sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-24 max-w-6xl mx-auto">
@@ -63,7 +63,7 @@ export default function PublicWishlistByCodePage() {
             {ownerLabel && (
               <>
                 {' — '}
-                <span className="bg-gradient-to-r from-[#E6007A] to-[#FF6600] bg-clip-text text-transparent">
+                <span className="theme-gradient-text">
                   {ownerLabel}
                 </span>
               </>
@@ -77,13 +77,8 @@ export default function PublicWishlistByCodePage() {
         {/* Loading */}
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-12 sm:py-16 md:py-24">
-            <div
-              className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4"
-              style={{
-                background: 'linear-gradient(135deg, rgba(230,0,122,0.1) 0%, rgba(255,102,0,0.1) 100%)',
-              }}
-            >
-              <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-2 border-[#E6007A] border-t-transparent" />
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 theme-placeholder-bg-strong">
+              <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-2 border-t-transparent" style={{ borderColor: 'var(--theme-gradient-start)' }} />
             </div>
             <p className="text-gray-600 font-geologica text-sm sm:text-base">{t('publicWishlist.loading')}</p>
           </div>
@@ -93,19 +88,14 @@ export default function PublicWishlistByCodePage() {
         {!isLoading && error && (
           <div className="max-w-md mx-auto text-center py-8 sm:py-12 md:py-16 px-2">
             <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border-2 border-red-100 shadow-sm">
-              <div
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(230,0,122,0.08) 0%, rgba(255,102,0,0.08) 100%)',
-                }}
-              >
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 theme-placeholder-bg-strong">
                 <Gift className="w-7 h-7 sm:w-8 sm:h-8 text-red-400" />
               </div>
               <h2 className="text-lg sm:text-xl font-bold text-[#222222] font-geologica mb-1.5 sm:mb-2">{t('publicWishlist.error')}</h2>
               <p className="text-gray-600 font-geologica text-sm sm:text-base mb-5 sm:mb-6">{t('publicWishlist.errorSubtitle')}</p>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 min-h-[44px] px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#E6007A] to-[#FF6600] text-white rounded-xl sm:rounded-2xl font-medium font-geologica hover:opacity-90 active:opacity-95 transition-opacity text-sm sm:text-base touch-manipulation"
+                className="inline-flex items-center gap-2 min-h-[44px] px-5 sm:px-6 py-2.5 sm:py-3 theme-gradient-bg text-white rounded-xl sm:rounded-2xl font-medium font-geologica hover:opacity-90 active:opacity-95 transition-opacity text-sm sm:text-base touch-manipulation"
               >
                 {t('publicWishlist.backHome')}
                 <ArrowRight className="w-4 h-4 flex-shrink-0" />
@@ -118,12 +108,7 @@ export default function PublicWishlistByCodePage() {
         {!isLoading && !error && items.length === 0 && (
           <div className="max-w-md mx-auto text-center py-8 sm:py-12 md:py-16 px-2">
             <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border border-gray-200 shadow-sm">
-              <div
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 bg-gray-50"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(230,0,122,0.06) 0%, rgba(255,102,0,0.06) 100%)',
-                }}
-              >
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 theme-placeholder-bg">
                 <Gift className="w-7 h-7 sm:w-8 sm:h-8 text-gray-400" />
               </div>
               <h2 className="text-lg sm:text-xl font-bold text-[#222222] font-geologica mb-1.5 sm:mb-2">{t('publicWishlist.empty')}</h2>
@@ -163,9 +148,9 @@ export default function PublicWishlistByCodePage() {
         {/* CTA: Create your own wishlist */}
         <div className="mt-8 sm:mt-12 md:mt-16 max-w-2xl mx-auto px-1">
           <div
-            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 overflow-hidden shadow-xl"
+            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 overflow-hidden shadow-xl theme-gradient-bg"
             style={{
-              background: 'linear-gradient(135deg, #E6007A 0%, #FF6600 100%)',
+              background: 'linear-gradient(135deg, var(--theme-gradient-start) 0%, var(--theme-gradient-end) 100%)',
             }}
           >
             <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-white/10 rounded-full -mr-12 sm:-mr-16 -mt-12 sm:-mt-16" />

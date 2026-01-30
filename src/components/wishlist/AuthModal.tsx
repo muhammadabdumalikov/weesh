@@ -98,7 +98,8 @@ export default function AuthModal({
         <button
           type="button"
           onClick={handleClose}
-          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-100 sm:bg-white sm:shadow-[0_8px_24px_rgba(15,23,42,0.18)] flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 sm:hover:bg-gradient-to-r sm:hover:from-pink-500 sm:hover:via-red-500 sm:hover:to-orange-500 sm:hover:text-white z-10"
+          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-100 sm:bg-white sm:shadow-[0_8px_24px_rgba(15,23,42,0.18)] flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 sm:hover:opacity-90 z-10 sm:[.theme-gradient-bg]:hover:bg-none"
+          style={{ ['--tw-gradient-stretch' as string]: undefined }}
         >
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
@@ -106,12 +107,7 @@ export default function AuthModal({
         {/* Header */}
         <div className="p-6 sm:p-8 pb-4 sm:pb-6 text-center">
           {/* Logo icon */}
-          <div 
-            className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-xl sm:rounded-2xl flex items-center justify-center"
-            style={{
-              background: 'linear-gradient(135deg, #E6007A 0%, #FF6600 100%)',
-            }}
-          >
+          <div className="w-14 h-14 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 rounded-xl sm:rounded-2xl flex items-center justify-center theme-gradient-bg">
             <Gift className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
           </div>
           
@@ -166,7 +162,7 @@ export default function AuthModal({
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder={t('auth.usernamePlaceholder')}
                 required
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl theme-input-focus transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
                 autoComplete="username"
               />
             </div>
@@ -187,7 +183,7 @@ export default function AuthModal({
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t('auth.passwordPlaceholder')}
                 required
-                className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
+                className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl theme-input-focus transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
                 autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
               />
               <button
@@ -211,7 +207,7 @@ export default function AuthModal({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 border border-transparent bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 hover:from-pink-600 hover:via-red-600 hover:to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:border-pink-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
+            className="w-full py-3 border border-transparent theme-gradient-bg text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:opacity-90 hover:border-[var(--theme-gradient-start)] transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
           >
             {isSubmitting
               ? mode === 'signin'
@@ -230,7 +226,7 @@ export default function AuthModal({
               className="text-sm text-gray-500 hover:text-gray-700 transition-colors font-geologica"
             >
               {mode === 'signin' ? t('auth.switchToSignUp') : t('auth.switchToSignIn')}{' '}
-              <span className="font-semibold bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent">
+              <span className="font-semibold theme-gradient-text">
                 {mode === 'signin' ? t('auth.signUp') : t('auth.signIn')}
               </span>
             </button>

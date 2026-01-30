@@ -19,7 +19,18 @@
     "heroLine3": "sovg'alaringizni",
     "heroLine4": "oling",
     "createWishlist": "Istaklar ro'yxatini yaratish",
-    "illustrationAlt": "Istaklar ro'yxati rasmi"
+    "illustrationAlt": "Istaklar ro'yxati rasmi",
+    "styleNewTag": "YANGI",
+    "styleSectionTitle": "Sizning ro'yxatingiz — sizning uslubingiz",
+    "styleSectionSubtitle": "Istaklar ro'yxatini xohlagancha uslublashtiring.",
+    "styleClassic": "Klassik",
+    "stylePink": "Pushti",
+    "styleWarm": "Issiq",
+    "styleOcean": "Okean",
+    "styleSage": "Maviy",
+    "styleVintage": "Vintage",
+    "styleBold": "Jasur",
+    "styleCitrus": "Sitrus"
   },
   "footer": {
     "description": "Weesh istaklar ro'yxatini yaratish va yaqinlaringiz bilan ulashishga yordam beradi — faqat xohlagan sovg'alaringizni oling.",

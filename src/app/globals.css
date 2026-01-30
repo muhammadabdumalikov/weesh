@@ -14,6 +14,10 @@
   --foreground: #171717;
   --font-geologica: 'Geologica', sans-serif;
   --font-moresugar: 'MoreSugar', cursive, sans-serif;
+  /* Theme (updated by ThemeProvider) */
+  --theme-gradient-start: #E6007A;
+  --theme-gradient-end: #FF6600;
+  --theme-page-bg: #f7f7f7;
 }
 
 .font-moresugar {
@@ -32,10 +36,11 @@
 }
 
 body {
-  background: #f5f3ef;
+  background: var(--theme-page-bg);
   color: var(--foreground);
   font-family: var(--font-plus-jakarta-sans), system-ui, -apple-system, sans-serif;
   min-height: 100vh;
+  transition: background-color 0.3s ease;
 }
 
 /* Custom scrollbar - subtle and minimal */
@@ -153,13 +158,14 @@ body {
   );
 }
 
-/* Gradient border for oval image */
+/* Gradient border for oval image (theme-aware) */
 .gradient-border {
-  background: linear-gradient(135deg, #E6007A 0%, #FF6600 100%);
+  background: linear-gradient(135deg, var(--theme-gradient-start) 0%, var(--theme-gradient-end) 100%);
   padding: 3px;
   border-radius: 9999px;
   display: inline-block;
   width: 100%;
+  transition: background 0.3s ease;
 }
 
 .gradient-border-inner {
@@ -171,9 +177,9 @@ body {
   display: block;
 }
 
-/* Gradient border for button */
+/* Gradient border for button (theme-aware) */
 .gradient-border-button {
-  background: linear-gradient(to right, #E6007A, #FF6600);
+  background: linear-gradient(to right, var(--theme-gradient-start), var(--theme-gradient-end));
   padding: 2px;
   border-radius: 50%;
   display: inline-flex;
@@ -181,6 +187,7 @@ body {
   justify-content: center;
   width: 36px;
   height: 36px;
+  transition: background 0.3s ease;
 }
 
 .gradient-border-button-inner {
@@ -193,16 +200,88 @@ body {
   justify-content: center;
 }
 
-/* Button gradient border wrapper */
+/* Button gradient border wrapper (theme-aware) */
 .button-gradient-border {
-  background: linear-gradient(to right, #E6007A, #FF6600);
+  background: linear-gradient(to right, var(--theme-gradient-start), var(--theme-gradient-end));
   padding: 2px;
   border-radius: 9999px;
   display: inline-block;
+  transition: background 0.3s ease;
 }
 
 .button-gradient-border button {
   background: white;
+}
+
+/* Theme-aware gradient text (use for hero, headings) */
+.theme-gradient-text {
+  background: linear-gradient(to right, var(--theme-gradient-start), var(--theme-gradient-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: background 0.3s ease;
+}
+
+.theme-gradient-text-135 {
+  background: linear-gradient(135deg, var(--theme-gradient-start) 0%, var(--theme-gradient-end) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: background 0.3s ease;
+}
+
+/* Theme-aware gradient background (buttons, badges) */
+.theme-gradient-bg {
+  background: linear-gradient(to right, var(--theme-gradient-start), var(--theme-gradient-end));
+  transition: background 0.3s ease;
+}
+
+/* Theme-aware gradient border (e.g. share button wrapper) */
+.theme-gradient-border-wrap {
+  background: linear-gradient(to right, var(--theme-gradient-start), var(--theme-gradient-end));
+  padding: 2px;
+  border-radius: 9999px;
+  transition: background 0.3s ease;
+}
+
+/* Theme placeholder background (cards, empty states) */
+.theme-placeholder-bg {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--theme-gradient-start) 12%, white) 0%, color-mix(in srgb, var(--theme-gradient-end) 12%, white) 100%);
+  transition: background 0.3s ease;
+}
+
+.theme-placeholder-bg-strong {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--theme-gradient-start) 15%, transparent) 0%, color-mix(in srgb, var(--theme-gradient-end) 15%, transparent) 100%);
+  transition: background 0.3s ease;
+}
+
+/* Theme icon/accents color */
+.theme-icon-color {
+  color: var(--theme-gradient-start);
+  transition: color 0.3s ease;
+}
+
+/* Theme-aware card hover shadow (replaces hardcoded pink shadow) */
+.theme-card-hover-shadow:hover {
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.05),
+    0 4px 6px -4px color-mix(in srgb, var(--theme-gradient-start) 35%, transparent);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Theme-aware input focus (border + ring) */
+.theme-input-focus:focus {
+  border-color: var(--theme-gradient-start);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-gradient-start) 20%, transparent);
+  outline: none;
+}
+
+/* Modal close button: theme gradient on hover (desktop) */
+@media (min-width: 640px) {
+  .theme-close-btn-hover:hover {
+    background: linear-gradient(to right, var(--theme-gradient-start), var(--theme-gradient-end));
+    color: white;
+  }
 }
 
 /* Font utility class */

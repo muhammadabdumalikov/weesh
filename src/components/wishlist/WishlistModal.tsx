@@ -113,7 +113,7 @@ export default function WishlistModal({
         <button
           type="button"
           onClick={handleClose}
-          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-100 sm:bg-white sm:shadow-[0_8px_24px_rgba(15,23,42,0.18)] flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 sm:hover:bg-gradient-to-r sm:hover:from-pink-500 sm:hover:via-red-500 sm:hover:to-orange-500 sm:hover:text-white z-10"
+          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-100 sm:bg-white sm:shadow-[0_8px_24px_rgba(15,23,42,0.18)] flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 theme-close-btn-hover z-10"
         >
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
@@ -139,7 +139,7 @@ export default function WishlistModal({
               className="block text-sm font-semibold text-gray-800 font-geologica"
             >
               {t('wishlistModal.nameLabel')}
-              <span className="text-pink-500">*</span>
+              <span className="theme-icon-color">*</span>
             </label>
             <input
               ref={nameInputRef}
@@ -149,7 +149,7 @@ export default function WishlistModal({
               onChange={(e) => setName(e.target.value)}
               placeholder={t('wishlistModal.namePlaceholder')}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl theme-input-focus transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
             />
           </div>
 
@@ -168,7 +168,7 @@ export default function WishlistModal({
               style={{
                 background: coverImage 
                   ? 'transparent' 
-                  : 'linear-gradient(135deg, #E6007A 0%, #FF6600 100%)',
+                  : 'linear-gradient(135deg, var(--theme-gradient-start) 0%, var(--theme-gradient-end) 100%)',
               }}
             >
               <div className="h-40 w-full rounded-[14px] overflow-hidden bg-gray-50 flex items-center justify-center">
@@ -183,13 +183,8 @@ export default function WishlistModal({
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center text-center px-4">
-                    <div
-                      className="w-14 h-14 rounded-full flex items-center justify-center mb-3"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(230, 0, 122, 0.1) 0%, rgba(255, 102, 0, 0.1) 100%)',
-                      }}
-                    >
-                      <Image className="w-7 h-7 text-pink-500" />
+                    <div className="w-14 h-14 rounded-full flex items-center justify-center mb-3 theme-placeholder-bg-strong">
+                      <Image className="w-7 h-7 theme-icon-color" />
                     </div>
                     <p className="text-sm text-gray-500 font-geologica">
                       {t('wishlistModal.coverHint')}
@@ -205,7 +200,7 @@ export default function WishlistModal({
               value={coverImage}
               onChange={(e) => setCoverImage(e.target.value)}
               placeholder={t('wishlistModal.coverPlaceholder')}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica text-sm"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl theme-input-focus transition-all text-gray-900 placeholder:text-gray-400 font-geologica text-sm"
             />
           </div>
 
@@ -222,7 +217,7 @@ export default function WishlistModal({
             <button
               type="submit"
               disabled={isSubmitting || !name.trim()}
-              className="flex-1 px-6 py-3 border border-transparent bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white rounded-xl font-geologica font-semibold shadow-lg hover:shadow-xl hover:border-pink-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:from-pink-600 hover:via-red-600 hover:to-orange-600"
+              className="flex-1 px-6 py-3 border border-transparent theme-gradient-bg text-white rounded-xl font-geologica font-semibold shadow-lg hover:shadow-xl hover:opacity-90 hover:border-[var(--theme-gradient-start)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? t('wishlistModal.saving') : mode === 'create' ? t('wishlistModal.create') : t('wishlistModal.save')}
             </button>

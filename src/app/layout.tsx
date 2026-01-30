@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import FontLoader from "@/components/FontLoader";
 import I18nProvider from "@/components/I18nProvider";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -51,7 +52,9 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <FontLoader />
-        <I18nProvider>{children}</I18nProvider>
+        <ThemeProvider>
+          <I18nProvider>{children}</I18nProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -53,7 +53,7 @@ export default function GiftCard({
 
   return (
     <div
-      className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-pink-200/50 hover:scale-[0.98] sm:hover:scale-95 cursor-pointer group overflow-hidden relative"
+      className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white shadow-sm transition-all duration-300 hover:scale-[0.98] cursor-pointer group overflow-hidden relative theme-card-hover-shadow origin-center"
       onClick={onClick}
     >
       {/* Main card */}
@@ -71,14 +71,9 @@ export default function GiftCard({
             />
           ) : (
             /* Placeholder with gradient */
-            <div className="w-full h-full bg-gradient-to-br from-pink-50 via-orange-50 to-pink-100 flex items-center justify-center">
-              <div
-                className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(230, 0, 122, 0.15) 0%, rgba(255, 102, 0, 0.15) 100%)',
-                }}
-              >
-                <Gift className="w-6 h-6 sm:w-8 sm:h-8 text-pink-400" />
+            <div className="w-full h-full theme-placeholder-bg flex items-center justify-center">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center theme-placeholder-bg-strong">
+                <Gift className="w-6 h-6 sm:w-8 sm:h-8 theme-icon-color" />
               </div>
             </div>
           )}
@@ -101,7 +96,7 @@ export default function GiftCard({
               {title}
             </h3>
             {price && (
-              <p className="text-base sm:text-lg font-bold font-geologica bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent truncate">
+              <p className="text-base sm:text-lg font-bold font-geologica theme-gradient-text truncate">
                 {price}
               </p>
             )}
@@ -141,7 +136,7 @@ export default function GiftCard({
                     className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors font-geologica min-w-0 overflow-hidden ${
                       showReserveButton
                         ? 'flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700'
-                        : 'w-full bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-semibold shadow-sm hover:shadow-md'
+                        : 'w-full theme-gradient-bg text-white font-semibold shadow-sm hover:shadow-md hover:opacity-90'
                     }`}
                   >
                     {showReserveButton && <ExternalLink className="hidden sm:block w-3.5 h-3.5 flex-shrink-0" />}
@@ -154,7 +149,7 @@ export default function GiftCard({
                       e.stopPropagation();
                       onReserveClick?.();
                     }}
-                    className="flex-1 min-w-0 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold text-white transition-all shadow-sm hover:shadow-md font-geologica overflow-hidden"
+                    className="flex-1 min-w-0 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 theme-gradient-bg rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold text-white transition-all shadow-sm hover:shadow-md hover:opacity-90 font-geologica overflow-hidden"
                   >
                     <span className="truncate">{t('giftCard.reserve')}</span>
                   </button>
