@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Gift, ExternalLink, MoreVertical, Check, Edit2, Trash2 } from 'react-feather';
 
 interface GiftCardProps {
@@ -11,7 +12,7 @@ interface GiftCardProps {
   price?: string;
   isReserved?: boolean;
   isOwner?: boolean;
-  /** Label for the product link (e.g. "Купить" or "Смотреть товар"). Default: "Купить" */
+  /** Label for the product link (e.g. "Buy" or "View product"). Default: from i18n giftCard.buy */
   productLinkLabel?: string;
   /** Show "Подарить" / reserve button. Default: true. Set false on public wishlist. */
   showReserveButton?: boolean;
@@ -30,7 +31,7 @@ export default function GiftCard({
   price,
   isReserved = false,
   isOwner = false,
-  productLinkLabel = 'Купить',
+  productLinkLabel,
   showReserveButton = true,
   onClick,
   onMenuClick,
@@ -38,8 +39,10 @@ export default function GiftCard({
   onEditClick,
   onDeleteClick,
 }: GiftCardProps) {
+  const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const linkLabel = productLinkLabel ?? t('giftCard.buy');
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -130,7 +133,7 @@ export default function GiftCard({
                     className="w-full px-4 py-2 flex items-center gap-2 text-left text-sm text-gray-700 hover:bg-gray-50 font-geologica"
                   >
                     <Edit2 className="w-4 h-4" />
-                    Редактировать
+                    {t('giftCard.edit')}
                   </button>
                 )}
                 {onDeleteClick && (
@@ -139,7 +142,7 @@ export default function GiftCard({
                     className="w-full px-4 py-2 flex items-center gap-2 text-left text-sm text-red-600 hover:bg-red-50 font-geologica"
                   >
                     <Trash2 className="w-4 h-4" />
-                    Удалить
+                    {t('giftCard.delete')}
                   </button>
                 )}
               </div>
@@ -176,7 +179,7 @@ export default function GiftCard({
                 }`}
               >
                 {showReserveButton && <ExternalLink className="hidden sm:block w-3.5 h-3.5" />}
-                {productLinkLabel}
+                {linkLabel}
               </a>
             )}
             {showReserveButton && !isReserved && (
@@ -187,7 +190,7 @@ export default function GiftCard({
                 }}
                 className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold text-white transition-all shadow-sm hover:shadow-md font-geologica"
               >
-                Подарить
+                {t('giftCard.reserve')}
               </button>
             )}
           </div>

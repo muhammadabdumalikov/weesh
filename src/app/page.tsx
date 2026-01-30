@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
 import { Plus } from 'react-feather';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
@@ -17,11 +18,11 @@ import {
 } from '@/lib/api/wishlist';
 
 export default function Home() {
+  const { t } = useTranslation();
   const router = useRouter();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [username, setUsernameState] = useState('');
-  const [currentLang, setCurrentLang] = useState<'en' | 'ru' | 'uz'>('ru');
 
   useEffect(() => {
     setIsUserAuthenticated(isAuthenticated());
@@ -54,8 +55,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#f7f7f7] relative overflow-hidden">
       <Header
-        language={currentLang}
-        onLanguageChange={setCurrentLang}
         onSignInClick={() => setIsAuthModalOpen(true)}
         onLogout={() => {
           signOut();
@@ -70,7 +69,6 @@ export default function Home() {
         onClose={() => setIsAuthModalOpen(false)}
         onSignIn={handleSignIn}
         onSignUp={handleSignUp}
-        currentLang="ru"
       />
 
       {/* Main Content */}
@@ -80,12 +78,12 @@ export default function Home() {
           {/* Left: Headline */}
           <div className="flex-1 space-y-4 lg:space-y-6 relative z-10 text-center lg:text-left w-full">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.1] font-geologica">
-              <span className="block lg:ml-12 text-[#222222]">получайте</span>
-              <span className="block text-[#222222]">только</span>
+              <span className="block lg:ml-12 text-[#222222]">{t('home.heroLine1')}</span>
+              <span className="block text-[#222222]">{t('home.heroLine2')}</span>
               <span className="block lg:ml-24 bg-gradient-to-r from-[#E6007A] to-[#FF6600] bg-clip-text text-transparent">
-                желанные
+                {t('home.heroLine3')}
               </span>
-              <span className="block lg:ml-32 text-[#222222]">подарки</span>
+              <span className="block lg:ml-32 text-[#222222]">{t('home.heroLine4')}</span>
             </h1>
 
             {/* CTA Button */}
@@ -100,7 +98,7 @@ export default function Home() {
                       <Plus className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF0000]" />
                     </div>
                   </div>
-                  <span className="text-[#222222] text-lg sm:text-xl whitespace-nowrap">Создать вишлист</span>
+                  <span className="text-[#222222] text-lg sm:text-xl whitespace-nowrap">{t('home.createWishlist')}</span>
                 </button>
               </div>
             </div>
@@ -111,7 +109,7 @@ export default function Home() {
             <div className="gradient-border-inner relative">
               <Image
                 src="/pux.jpeg"
-                alt="Wishlist illustration"
+                alt={t('home.illustrationAlt')}
                 width={600}
                 height={600}
                 className="rounded-full object-cover w-full h-auto"

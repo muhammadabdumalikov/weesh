@@ -1,78 +1,31 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, Gift, Image, Link2, MoreVertical } from 'react-feather';
 import type { WishlistItem, CreateWishlistDto, UpdateWishlistDto } from '@/lib/api/wishlist';
 
-interface WishlistModalProps {
+interface GiftModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: CreateWishlistDto | UpdateWishlistDto) => Promise<void>;
   item?: WishlistItem | null;
   mode: 'create' | 'edit';
-  currentLang: 'en' | 'ru' | 'uz';
 }
 
-const modalTranslations = {
-  en: {
-    createTitle: 'Wishlist name',
-    editTitle: 'Edit wishlist',
-    titleLabel: 'Title',
-    titlePlaceholder: 'Enter product title',
-    imageUrlLabel: 'Image URL',
-    imageUrlPlaceholder: 'https://example.com/image.jpg',
-    productUrlLabel: 'Product URL',
-    productUrlPlaceholder: 'https://example.com/product',
-    cancel: 'Cancel',
-    save: 'Save',
-    create: 'Create',
-    saving: 'Saving...',
-  },
-  ru: {
-    createTitle: 'Название вишлиста',
-    editTitle: 'Редактировать вишлист',
-    titleLabel: 'Подарок',
-    titlePlaceholder: 'Название подарка',
-    imageUrlLabel: 'Ссылка на изображение',
-    imageUrlPlaceholder: 'https://example.com/image.jpg',
-    productUrlLabel: 'Где купить',
-    productUrlPlaceholder: 'Название магазина или ссылка',
-    cancel: 'Отмена',
-    save: 'Сохранить',
-    create: 'Создать',
-    saving: 'Сохранение...',
-  },
-  uz: {
-    createTitle: 'Yangi mahsulot qo\'shish',
-    editTitle: 'Mahsulotni tahrirlash',
-    titleLabel: 'Nomi',
-    titlePlaceholder: 'Mahsulot nomini kiriting',
-    imageUrlLabel: 'Rasm URL',
-    imageUrlPlaceholder: 'https://example.com/image.jpg',
-    productUrlLabel: 'Mahsulot URL',
-    productUrlPlaceholder: 'https://example.com/product',
-    cancel: 'Bekor qilish',
-    save: 'Saqlash',
-    create: 'Yaratish',
-    saving: 'Saqlanmoqda...',
-  },
-};
-
-export default function WishlistModal({
+export default function GiftModal({
   isOpen,
   onClose,
   onSubmit,
   item,
   mode,
-  currentLang,
-}: WishlistModalProps) {
+}: GiftModalProps) {
+  const { t } = useTranslation();
   const [title, setTitle] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [productUrl, setProductUrl] = useState('');
   const [comment, setComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const t = modalTranslations[currentLang];
 
   useEffect(() => {
     if (isOpen) {
@@ -160,7 +113,7 @@ export default function WishlistModal({
           {/* Header */}
           <div className="flex items-start justify-between gap-4 pr-8 sm:pr-0">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 font-geologica flex-1">
-              {mode === 'create' ? t.createTitle : t.editTitle}
+              {mode === 'create' ? t('giftModal.createTitle') : t('giftModal.editTitle')}
             </h2>
             <button
               type="button"
@@ -180,7 +133,7 @@ export default function WishlistModal({
                   htmlFor="title"
                   className="block text-sm font-semibold text-gray-800 font-geologica"
                 >
-                  {t.titleLabel}
+                  {t('giftModal.titleLabel')}
                   <span className="text-pink-500">*</span>
                 </label>
                 <input
@@ -188,7 +141,7 @@ export default function WishlistModal({
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder={t.titlePlaceholder}
+                  placeholder={t('giftModal.titlePlaceholder')}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
                 />
@@ -200,14 +153,14 @@ export default function WishlistModal({
                   htmlFor="productUrl"
                   className="block text-sm font-semibold text-gray-800 font-geologica"
                 >
-                  {t.productUrlLabel}
+                  {t('giftModal.productUrlLabel')}
                 </label>
                 <input
                   type="url"
                   id="productUrl"
                   value={productUrl}
                   onChange={(e) => setProductUrl(e.target.value)}
-                  placeholder={t.productUrlPlaceholder}
+                  placeholder={t('giftModal.productUrlPlaceholder')}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
                 />
@@ -219,14 +172,14 @@ export default function WishlistModal({
                   htmlFor="imageUrl"
                   className="block text-sm font-semibold text-gray-800 font-geologica"
                 >
-                  {t.imageUrlLabel}
+                  {t('giftModal.imageUrlLabel')}
                 </label>
                 <input
                   type="url"
                   id="imageUrl"
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder={t.imageUrlPlaceholder}
+                  placeholder={t('giftModal.imageUrlPlaceholder')}
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
                 />
@@ -238,24 +191,14 @@ export default function WishlistModal({
                   htmlFor="comment"
                   className="block text-sm font-semibold text-gray-800 font-geologica"
                 >
-                  {currentLang === 'ru'
-                    ? 'Комментарий'
-                    : currentLang === 'uz'
-                      ? 'Izoh'
-                      : 'Comment'}
+                  {t('giftModal.commentLabel')}
                 </label>
                 <textarea
                   id="comment"
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   rows={3}
-                  placeholder={
-                    currentLang === 'ru'
-                      ? 'Комментарий...'
-                      : currentLang === 'uz'
-                        ? 'Izoh...'
-                        : 'Comment...'
-                  }
+                  placeholder={t('giftModal.commentPlaceholder')}
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 resize-none font-geologica"
                 />
               </div>
@@ -265,11 +208,7 @@ export default function WishlistModal({
             <div className="space-y-5">
               <div className="space-y-2">
                 <span className="block text-sm font-semibold text-gray-800 font-geologica">
-                  {currentLang === 'ru'
-                    ? 'Изображение'
-                    : currentLang === 'uz'
-                      ? 'Rasm'
-                      : 'Image'}
+                  {t('giftModal.imageLabel')}
                 </span>
                 <div
                   className="rounded-[1.75rem] p-[2px]"
@@ -293,18 +232,10 @@ export default function WishlistModal({
                       <div className="flex h-full w-full flex-col items-center justify-center bg-white/80 px-4">
                         <Image className="w-8 h-8 mb-2 text-pink-500" />
                         <p className="text-sm font-medium text-gray-800 font-geologica">
-                          {currentLang === 'ru'
-                            ? 'Загрузите или перетащите изображение'
-                            : currentLang === 'uz'
-                              ? 'Rasmni yuklang yoki tortib keling'
-                              : 'Upload or drag an image'}
+                          {t('giftModal.imageUploadText')}
                         </p>
                         <p className="mt-1 text-xs text-gray-400 font-geologica">
-                          {currentLang === 'ru'
-                            ? 'Сейчас используется ссылка на изображение'
-                            : currentLang === 'uz'
-                              ? 'Hozircha faqat rasm havolasi ishlatiladi'
-                              : 'Currently uses image URL only'}
+                          {t('giftModal.imageUploadHint')}
                         </p>
                       </div>
                     )}
@@ -322,14 +253,14 @@ export default function WishlistModal({
               disabled={isSubmitting}
               className="w-full sm:w-auto px-8 py-3 border border-gray-300 text-gray-800 rounded-xl font-semibold hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
             >
-              {t.cancel}
+              {t('giftModal.cancel')}
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
               className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white rounded-xl font-geologica font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:from-pink-600 hover:via-red-600 hover:to-orange-600"
             >
-              {isSubmitting ? t.saving : mode === 'create' ? t.create : t.save}
+              {isSubmitting ? t('giftModal.saving') : mode === 'create' ? t('giftModal.create') : t('giftModal.save')}
             </button>
           </div>
         </form>

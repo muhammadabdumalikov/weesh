@@ -1,50 +1,17 @@
 'use client';
 
+import { useTranslation } from 'react-i18next';
 import { Gift, Plus, Star, Heart } from 'react-feather';
 
 interface EmptyWishlistProps {
   onCreateFirst: () => void;
-  currentLang: 'en' | 'ru' | 'uz';
 }
 
-const translations = {
-  en: {
-    title: 'Your Wishlist is Empty',
-    subtitle: 'Start building your dream wishlist',
-    description: 'Add items you love and share your wishlist with friends and family. They\'ll know exactly what makes you happy!',
-    createFirst: 'Add Your First Item',
-    features: [
-      { icon: Gift, text: 'Add unlimited items' },
-      { icon: Heart, text: 'Share with loved ones' },
-      { icon: Star, text: 'Track your wishes' },
-    ],
-  },
-  ru: {
-    title: 'Ваш список желаний пуст',
-    subtitle: 'Начните создавать список своей мечты',
-    description: 'Добавляйте любимые вещи и делитесь списком с друзьями и семьей. Они будут точно знать, что сделает вас счастливыми!',
-    createFirst: 'Добавить первый товар',
-    features: [
-      { icon: Gift, text: 'Неограниченное количество товаров' },
-      { icon: Heart, text: 'Делитесь с близкими' },
-      { icon: Star, text: 'Отслеживайте желания' },
-    ],
-  },
-  uz: {
-    title: 'Sizning istaklar ro\'yxatingiz bo\'sh',
-    subtitle: 'Orzuingizdagi ro\'yxatni yaratishni boshlang',
-    description: 'Yoqtirgan narsalaringizni qo\'shing va do\'stlaringiz hamda oilangiz bilan baham ko\'ring. Ular sizni nima xursand qilishini aniq bilishadi!',
-    createFirst: 'Birinchi mahsulotni qo\'shish',
-    features: [
-      { icon: Gift, text: 'Cheksiz mahsulotlar' },
-      { icon: Heart, text: 'Yaqinlaringiz bilan baham ko\'ring' },
-      { icon: Star, text: 'Istaklaringizni kuzating' },
-    ],
-  },
-};
+const FEATURE_ICONS = [Gift, Heart, Star];
+const FEATURE_KEYS = ['emptyWishlist.feature1', 'emptyWishlist.feature2', 'emptyWishlist.feature3'] as const;
 
-export default function EmptyWishlist({ onCreateFirst, currentLang }: EmptyWishlistProps) {
-  const t = translations[currentLang];
+export default function EmptyWishlist({ onCreateFirst }: EmptyWishlistProps) {
+  const { t } = useTranslation();
 
   return (
     <div className="flex items-center justify-center min-h-[60vh] px-4">
@@ -57,37 +24,34 @@ export default function EmptyWishlist({ onCreateFirst, currentLang }: EmptyWishl
               <Gift className="w-16 h-16 text-white" />
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
-              {t.title}
+              {t('emptyWishlist.title')}
             </h2>
             <p className="text-white/90 text-lg">
-              {t.subtitle}
+              {t('emptyWishlist.subtitle')}
             </p>
           </div>
 
           {/* Content */}
           <div className="p-8 md:p-12">
             <p className="text-gray-600 text-center text-lg mb-8">
-              {t.description}
+              {t('emptyWishlist.description')}
             </p>
 
             {/* Features Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              {t.features.map((feature, index) => {
-                const Icon = feature.icon;
-                return (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all"
-                  >
-                    <div className="p-3 bg-white rounded-xl shadow-sm mb-3">
-                      <Icon className="w-6 h-6 text-indigo-600" />
-                    </div>
-                    <p className="text-sm font-medium text-gray-700 text-center">
-                      {feature.text}
-                    </p>
+              {FEATURE_ICONS.map((Icon, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all"
+                >
+                  <div className="p-3 bg-white rounded-xl shadow-sm mb-3">
+                    <Icon className="w-6 h-6 text-indigo-600" />
                   </div>
-                );
-              })}
+                  <p className="text-sm font-medium text-gray-700 text-center">
+                    {t(FEATURE_KEYS[index])}
+                  </p>
+                </div>
+              ))}
             </div>
 
             {/* CTA Button */}
@@ -96,7 +60,7 @@ export default function EmptyWishlist({ onCreateFirst, currentLang }: EmptyWishl
               className="w-full flex items-center justify-center gap-3 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-[1.02] active:scale-[0.98]"
             >
               <Plus className="w-6 h-6" />
-              {t.createFirst}
+              {t('emptyWishlist.createFirst')}
             </button>
           </div>
         </div>

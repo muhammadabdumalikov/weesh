@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import FontLoader from "@/components/FontLoader";
+import I18nProvider from "@/components/I18nProvider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -41,7 +42,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <FontLoader />
-        {children}
+        <I18nProvider>{children}</I18nProvider>
       </body>
     </html>
   );

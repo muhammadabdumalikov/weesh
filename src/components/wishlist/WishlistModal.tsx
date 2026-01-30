@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, Image, MoreVertical } from 'react-feather';
 
 interface WishlistModalProps {
@@ -9,47 +10,7 @@ interface WishlistModalProps {
   onSubmit: (data: { title: string; coverImage?: string }) => Promise<void>;
   wishlist?: { id: string; title: string; coverImage?: string } | null;
   mode: 'create' | 'edit';
-  currentLang: 'en' | 'ru' | 'uz';
 }
-
-const modalTranslations = {
-  en: {
-    createTitle: 'Create wishlist',
-    editTitle: 'Edit wishlist',
-    nameLabel: 'Wishlist name',
-    namePlaceholder: 'e.g. Birthday gifts',
-    coverLabel: 'Cover image',
-    coverPlaceholder: 'https://example.com/image.jpg',
-    cancel: 'Cancel',
-    save: 'Save',
-    create: 'Create',
-    saving: 'Saving...',
-  },
-  ru: {
-    createTitle: 'Создать вишлист',
-    editTitle: 'Редактировать вишлист',
-    nameLabel: 'Название вишлиста',
-    namePlaceholder: 'например, На день рождения',
-    coverLabel: 'Обложка',
-    coverPlaceholder: 'https://example.com/image.jpg',
-    cancel: 'Отмена',
-    save: 'Сохранить',
-    create: 'Создать',
-    saving: 'Сохранение...',
-  },
-  uz: {
-    createTitle: 'Wishlist yaratish',
-    editTitle: 'Wishlistni tahrirlash',
-    nameLabel: 'Wishlist nomi',
-    namePlaceholder: "masalan, Tug'ilgan kun sovg'alari",
-    coverLabel: 'Muqova rasmi',
-    coverPlaceholder: 'https://example.com/image.jpg',
-    cancel: 'Bekor qilish',
-    save: 'Saqlash',
-    create: 'Yaratish',
-    saving: 'Saqlanmoqda...',
-  },
-};
 
 export default function WishlistModal({
   isOpen,
@@ -57,15 +18,13 @@ export default function WishlistModal({
   onSubmit,
   wishlist,
   mode,
-  currentLang,
 }: WishlistModalProps) {
+  const { t } = useTranslation();
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const [name, setName] = useState('');
   const [coverImage, setCoverImage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-
-  const t = modalTranslations[currentLang];
 
   useEffect(() => {
     if (isOpen) {
@@ -163,7 +122,7 @@ export default function WishlistModal({
           {/* Header */}
           <div className="flex items-center justify-between pr-8 sm:pr-0">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 font-geologica">
-              {mode === 'create' ? t.createTitle : t.editTitle}
+              {mode === 'create' ? t('wishlistModal.createTitle') : t('wishlistModal.editTitle')}
             </h2>
             <button
               type="button"
@@ -179,7 +138,7 @@ export default function WishlistModal({
               htmlFor="wishlistName"
               className="block text-sm font-semibold text-gray-800 font-geologica"
             >
-              {t.nameLabel}
+              {t('wishlistModal.nameLabel')}
               <span className="text-pink-500">*</span>
             </label>
             <input
@@ -188,7 +147,7 @@ export default function WishlistModal({
               id="wishlistName"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder={t.namePlaceholder}
+              placeholder={t('wishlistModal.namePlaceholder')}
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
             />
@@ -200,7 +159,7 @@ export default function WishlistModal({
               htmlFor="coverImage"
               className="block text-sm font-semibold text-gray-800 font-geologica"
             >
-              {t.coverLabel}
+              {t('wishlistModal.coverLabel')}
             </label>
             
             {/* Image preview or placeholder */}
@@ -233,11 +192,7 @@ export default function WishlistModal({
                       <Image className="w-7 h-7 text-pink-500" />
                     </div>
                     <p className="text-sm text-gray-500 font-geologica">
-                      {currentLang === 'ru' 
-                        ? 'Добавьте обложку для вишлиста' 
-                        : currentLang === 'uz'
-                          ? 'Wishlist uchun muqova qo\'shing'
-                          : 'Add a cover for your wishlist'}
+                      {t('wishlistModal.coverHint')}
                     </p>
                   </div>
                 )}
@@ -249,7 +204,7 @@ export default function WishlistModal({
               id="coverImage"
               value={coverImage}
               onChange={(e) => setCoverImage(e.target.value)}
-              placeholder={t.coverPlaceholder}
+              placeholder={t('wishlistModal.coverPlaceholder')}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica text-sm"
             />
           </div>
@@ -262,14 +217,14 @@ export default function WishlistModal({
               disabled={isSubmitting}
               className="flex-1 px-6 py-3 border border-gray-300 text-gray-800 rounded-xl font-semibold hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
             >
-              {t.cancel}
+              {t('wishlistModal.cancel')}
             </button>
             <button
               type="submit"
               disabled={isSubmitting || !name.trim()}
               className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white rounded-xl font-geologica font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:from-pink-600 hover:via-red-600 hover:to-orange-600"
             >
-              {isSubmitting ? t.saving : mode === 'create' ? t.create : t.save}
+              {isSubmitting ? t('wishlistModal.saving') : mode === 'create' ? t('wishlistModal.create') : t('wishlistModal.save')}
             </button>
           </div>
         </form>

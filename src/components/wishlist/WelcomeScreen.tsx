@@ -1,86 +1,21 @@
 'use client';
 
+import { useTranslation } from 'react-i18next';
 import { Gift, Heart, Star, Share2, Lock } from 'react-feather';
 
 interface WelcomeScreenProps {
   onGetStarted: () => void;
-  currentLang: 'en' | 'ru' | 'uz';
 }
 
-const translations = {
-  en: {
-    title: 'Welcome to Your Wishlist',
-    subtitle: 'Create, manage, and share your dream wishlist with friends and family',
-    getStarted: 'Get Started',
-    features: [
-      {
-        icon: Gift,
-        title: 'Create Your Wishlist',
-        description: 'Add unlimited items with images and links to products you love',
-      },
-      {
-        icon: Share2,
-        title: 'Share Easily',
-        description: 'Get a unique link to share your wishlist with anyone',
-      },
-      {
-        icon: Lock,
-        title: 'Private & Secure',
-        description: 'Your wishlist is private and only accessible with your account',
-      },
-    ],
-  },
-  ru: {
-    title: 'Добро пожаловать в ваш список желаний',
-    subtitle: 'Создавайте, управляйте и делитесь списком желаний с друзьями и семьей',
-    getStarted: 'Начать',
-    features: [
-      {
-        icon: Gift,
-        title: 'Создайте свой список',
-        description: 'Добавляйте неограниченное количество товаров с изображениями и ссылками',
-      },
-      {
-        icon: Share2,
-        title: 'Легко делитесь',
-        description: 'Получите уникальную ссылку для обмена списком с кем угодно',
-      },
-      {
-        icon: Lock,
-        title: 'Приватно и безопасно',
-        description: 'Ваш список приватный и доступен только с вашей учетной записью',
-      },
-    ],
-  },
-  uz: {
-    title: 'Istaklar ro\'yxatingizga xush kelibsiz',
-    subtitle: 'Do\'stlar va oila a\'zolari bilan istaklar ro\'yxatingizni yarating, boshqaring va ulashing',
-    getStarted: 'Boshlash',
-    features: [
-      {
-        icon: Gift,
-        title: 'Ro\'yxatingizni yarating',
-        description: 'Yoqtirgan mahsulotlaringizni rasm va havolalar bilan qo\'shing',
-      },
-      {
-        icon: Share2,
-        title: 'Oson ulashing',
-        description: 'Ro\'yxatingizni har kim bilan ulashish uchun noyob havola oling',
-      },
-      {
-        icon: Lock,
-        title: 'Xavfsiz va shaxsiy',
-        description: 'Ro\'yxatingiz shaxsiy va faqat sizning hisobingiz orqali ochiladi',
-      },
-    ],
-  },
-};
+const FEATURE_ICONS = [Gift, Share2, Lock];
 
-export default function WelcomeScreen({
-  onGetStarted,
-  currentLang,
-}: WelcomeScreenProps) {
-  const t = translations[currentLang];
+export default function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
+  const { t } = useTranslation();
+  const features = [
+    { icon: FEATURE_ICONS[0], titleKey: 'welcome.feature1Title' as const, descKey: 'welcome.feature1Desc' as const },
+    { icon: FEATURE_ICONS[1], titleKey: 'welcome.feature2Title' as const, descKey: 'welcome.feature2Desc' as const },
+    { icon: FEATURE_ICONS[2], titleKey: 'welcome.feature3Title' as const, descKey: 'welcome.feature3Desc' as const },
+  ];
 
   return (
     <div className="max-w-4xl mx-auto py-8 md:py-16">
@@ -101,12 +36,12 @@ export default function WelcomeScreen({
 
         {/* Title */}
         <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-4 animate-in slide-in-from-bottom duration-700">
-          {t.title}
+          {t('welcome.title')}
         </h1>
         
         {/* Subtitle */}
         <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-8 animate-in slide-in-from-bottom duration-700 delay-200">
-          {t.subtitle}
+          {t('welcome.subtitle')}
         </p>
 
         {/* CTA Button */}
@@ -115,13 +50,13 @@ export default function WelcomeScreen({
           className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 text-white text-lg font-bold rounded-2xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105 active:scale-95 animate-in zoom-in duration-700 delay-300"
         >
           <Star className="w-6 h-6" />
-          {t.getStarted}
+          {t('welcome.getStarted')}
         </button>
       </div>
 
       {/* Features Grid */}
       <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-        {t.features.map((feature, index) => {
+        {features.map((feature, index) => {
           const Icon = feature.icon;
           return (
             <div
@@ -135,10 +70,10 @@ export default function WelcomeScreen({
                 </div>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">
-                {feature.title}
+                {t(feature.titleKey)}
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                {feature.description}
+                {t(feature.descKey)}
               </p>
             </div>
           );
@@ -150,9 +85,7 @@ export default function WelcomeScreen({
         <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-full border-2 border-indigo-100">
           <Star className="w-5 h-5 text-indigo-600" />
           <span className="text-sm font-semibold text-gray-700">
-            {currentLang === 'en' && 'Free forever • No credit card required'}
-            {currentLang === 'ru' && 'Бесплатно навсегда • Без кредитной карты'}
-            {currentLang === 'uz' && 'Abadiy bepul • Karta talab qilinmaydi'}
+            {t('welcome.freeForever')}
           </span>
         </div>
       </div>

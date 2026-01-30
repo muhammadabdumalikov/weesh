@@ -1,64 +1,26 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, Share2, Copy, Check, Link2 } from 'react-feather';
 
 interface ShareModalProps {
   isOpen: boolean;
   onClose: () => void;
   ownerId: string;
-  currentLang: 'en' | 'ru' | 'uz';
 }
-
-const translations = {
-  en: {
-    title: 'Share Your Wishlist',
-    subtitle: 'Share this link with friends and family so they can see your wishlist',
-    copyLink: 'Copy Link',
-    copied: 'Copied!',
-    close: 'Close',
-    shareUrl: 'Your Shareable Link',
-    makeShort: 'Make Short URL',
-    shortening: 'Shortening...',
-    useOriginal: 'Use Original URL',
-  },
-  ru: {
-    title: 'Поделиться списком желаний',
-    subtitle: 'Поделитесь этой ссылкой с друзьями и семьей, чтобы они могли увидеть ваш список желаний',
-    copyLink: 'Копировать ссылку',
-    copied: 'Скопировано!',
-    close: 'Закрыть',
-    shareUrl: 'Ваша ссылка для обмена',
-    makeShort: 'Сократить URL',
-    shortening: 'Сокращение...',
-    useOriginal: 'Использовать полный URL',
-  },
-  uz: {
-    title: 'Istaklar ro\'yxatini ulashish',
-    subtitle: 'Do\'stlar va oila a\'zolariga istaklar ro\'yxatingizni ko\'rishlari uchun ushbu havolani ulashing',
-    copyLink: 'Havolani nusxalash',
-    copied: 'Nusxalandi!',
-    close: 'Yopish',
-    shareUrl: 'Ulashish havolangiz',
-    makeShort: 'Qisqa URL yaratish',
-    shortening: 'Qisqartirilmoqda...',
-    useOriginal: 'To\'liq URL ishlatish',
-  },
-};
 
 export default function ShareModal({
   isOpen,
   onClose,
   ownerId,
-  currentLang,
 }: ShareModalProps) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
   const [originalUrl, setOriginalUrl] = useState('');
   const [isShortened, setIsShortened] = useState(false);
   const [isShortening, setIsShortening] = useState(false);
-
-  const t = translations[currentLang];
 
   useEffect(() => {
     if (isOpen && typeof window !== 'undefined') {
@@ -134,7 +96,7 @@ export default function ShareModal({
                 <Share2 className="w-6 h-6" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold">{t.title}</h2>
+                <h2 className="text-2xl font-bold">{t('shareModal.title')}</h2>
               </div>
             </div>
             <button
@@ -144,7 +106,7 @@ export default function ShareModal({
               <X className="w-5 h-5" />
             </button>
           </div>
-          <p className="mt-3 text-white/90 text-sm relative">{t.subtitle}</p>
+          <p className="mt-3 text-white/90 text-sm relative">{t('shareModal.subtitle')}</p>
         </div>
 
         {/* Content */}
@@ -154,7 +116,7 @@ export default function ShareModal({
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
                 <Link2 className="w-4 h-4 text-indigo-600" />
-                {t.shareUrl}
+                {t('shareModal.shareUrl')}
               </label>
               {isShortened && (
                 <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full font-medium">
@@ -177,7 +139,7 @@ export default function ShareModal({
               className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-indigo-200 text-indigo-600 rounded-xl font-semibold hover:bg-indigo-50 hover:border-indigo-300 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Link2 className="w-4 h-4" />
-              {isShortening ? t.shortening : t.makeShort}
+              {isShortening ? t('shareModal.shortening') : t('shareModal.makeShort')}
             </button>
           ) : (
             <button
@@ -185,7 +147,7 @@ export default function ShareModal({
               className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white border-2 border-gray-200 text-gray-600 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-300 transition-all"
             >
               <Link2 className="w-4 h-4" />
-              {t.useOriginal}
+              {t('shareModal.useOriginal')}
             </button>
           )}
 
@@ -198,12 +160,12 @@ export default function ShareModal({
             {copied ? (
               <>
                 <Check className="w-5 h-5" />
-                {t.copied}
+                {t('shareModal.copied')}
               </>
             ) : (
               <>
                 <Copy className="w-5 h-5" />
-                {t.copyLink}
+                {t('shareModal.copyLink')}
               </>
             )}
           </button>
@@ -213,7 +175,7 @@ export default function ShareModal({
             onClick={onClose}
             className="w-full px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all"
           >
-            {t.close}
+            {t('shareModal.close')}
           </button>
         </div>
       </div>

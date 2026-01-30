@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Gift } from 'react-feather';
 import GiftModal from '@/components/wishlist/GiftModal';
 import WishlistModal from '@/components/wishlist/WishlistModal';
@@ -35,57 +36,8 @@ interface Wishlist {
   previewItems?: Array<{ imageUrl?: string; title: string }>;
 }
 
-// Translations
-const translations = {
-  en: {
-    title: 'List of things which you can gift to me',
-    description: 'Thanks for considering! Here are some items I\'d love to receive. Click on any product to view more details and purchase options.',
-    viewProduct: 'View Product',
-    footerNote: '💝 These are just suggestions! Any gift or even just your kind thoughts are greatly appreciated. Thank you for being so thoughtful!',
-    addNew: 'Add New Item',
-    edit: 'Edit',
-    delete: 'Delete',
-    confirmDelete: 'Are you sure you want to delete this item?',
-    loading: 'Loading...',
-    localItem: 'Local',
-    apiItem: 'My Wishlist',
-    share: 'Share',
-    signIn: 'Sign In',
-  },
-  ru: {
-    title: 'Список вещей, которые вы можете мне подарить',
-    description: 'Спасибо, что рассмотрели! Вот некоторые предметы, которые мне бы хотелось получить. Нажмите на любой продукт, чтобы просмотреть подробности и варианты покупки.',
-    viewProduct: 'Просмотр продукта',
-    footerNote: '💝 Это всего лишь предложения! Любой подарок или даже просто ваши добрые мысли очень ценятся. Спасибо, что вы такие внимательные!',
-    addNew: 'Добавить новый',
-    edit: 'Редактировать',
-    delete: 'Удалить',
-    confirmDelete: 'Вы уверены, что хотите удалить этот элемент?',
-    loading: 'Загрузка...',
-    localItem: 'Локальный',
-    apiItem: 'Мой список',
-    share: 'Поделиться',
-    signIn: 'Войти',
-  },
-  uz: {
-    title: 'Menga sovg\'a qila oladigan narsalar ro\'yxati',
-    description: 'Ko\'rib chiqganingiz uchun rahmat! Quyida menga juda yoqadigan ba\'zi narsalar. Batafsil ma\'lumot va xarid qilish variantlarini ko\'rish uchun har qanday mahsulotni bosing.',
-    viewProduct: 'Mahsulotni ko\'rish',
-    footerNote: '💝 Bu faqat takliflar! Har qanday sovg\'a yoki hatto faqat sizning mehribon fikrlaringiz juda qadrlanadi. Sizga minnatdorman!',
-    addNew: 'Yangi qo\'shish',
-    edit: 'Tahrirlash',
-    delete: 'O\'chirish',
-    confirmDelete: 'Ushbu elementni o\'chirishga ishonchingiz komilmi?',
-    loading: 'Yuklanmoqda...',
-    localItem: 'Lokal',
-    apiItem: 'Mening ro\'yxatim',
-    share: 'Ulashish',
-    signIn: 'Kirish',
-  }
-};
-
 export default function WishlistPage() {
-  const [currentLang, setCurrentLang] = useState<'en' | 'ru' | 'uz'>('ru');
+  const { t } = useTranslation();
   const [apiItems, setApiItems] = useState<WishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -140,8 +92,6 @@ export default function WishlistPage() {
       coverImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80',
     },
   ]);
-
-  const t = translations[currentLang];
 
   // Check authentication on mount
   useEffect(() => {
@@ -273,15 +223,13 @@ export default function WishlistPage() {
       }
     } catch (error) {
       console.error('Error deleting item:', error);
-      alert(error instanceof Error ? error.message : 'Не удалось удалить. Попробуйте снова.');
+      alert(error instanceof Error ? error.message : t('wishlistPage.confirmDelete'));
     }
   };
 
   return (
     <div className="min-h-screen bg-[#f7f7f7]">
       <Header
-        language={currentLang}
-        onLanguageChange={setCurrentLang}
         onSignInClick={() => setIsAuthModalOpen(true)}
         onLogout={() => {
           signOut();
@@ -307,7 +255,7 @@ export default function WishlistPage() {
                   : 'text-gray-400 cursor-pointer active:text-gray-500'
               }`}
             >
-              создать
+              {t('wishlistPage.tabCreate')}
             </button>
             <button
               onClick={() => setActiveTab('my')}
@@ -317,7 +265,7 @@ export default function WishlistPage() {
                   : 'text-gray-400 cursor-pointer active:text-gray-500'
               }`}
             >
-              мои вишлисты
+              {t('wishlistPage.tabMy')}
             </button>
             <button
               onClick={() => setActiveTab('shared')}
@@ -327,7 +275,7 @@ export default function WishlistPage() {
                   : 'text-gray-400 cursor-pointer active:text-gray-500'
               }`}
             >
-              поделились
+              {t('wishlistPage.tabShared')}
             </button>
             <button
               onClick={() => setActiveTab('ideas')}
@@ -337,7 +285,7 @@ export default function WishlistPage() {
                   : 'text-gray-400 cursor-pointer active:text-gray-500'
               }`}
             >
-              идеи
+              {t('wishlistPage.tabIdeas')}
             </button>
           </div>
         </div>
@@ -347,25 +295,25 @@ export default function WishlistPage() {
           <>
             {/* Create Options */}
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
-              <CreateWishlistCard onClick={openCreateGiftModal} text="Создать подарок" />
+              <CreateWishlistCard onClick={openCreateGiftModal} text={t('wishlistPage.createGift')} />
             </div>
 
             {/* Мои подарки - from API */}
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 font-geologica mb-4 sm:mb-6">
-              Мои подарки
+              {t('wishlistPage.myGifts')}
             </h2>
             {isLoading ? (
               <div className="text-center py-8">
                 <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-pink-500 border-t-transparent"></div>
-                <p className="mt-3 text-gray-500 text-sm font-geologica">{t.loading}</p>
+                <p className="mt-3 text-gray-500 text-sm font-geologica">{t('wishlistPage.loading')}</p>
               </div>
             ) : !isUserAuthenticated ? (
               <p className="text-gray-500 font-geologica py-4">
-                Войдите, чтобы видеть свои подарки
+                {t('wishlistPage.signInToSeeGifts')}
               </p>
             ) : apiItems.length === 0 ? (
               <p className="text-gray-500 font-geologica py-4">
-                Пока нет подарков. Нажмите «Создать подарок» выше.
+                {t('wishlistPage.noGiftsYet')}
               </p>
             ) : (
               <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
@@ -391,7 +339,7 @@ export default function WishlistPage() {
         {activeTab === 'my' && (
           <>
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-              <CreateWishlistCard onClick={openCreateWishlistModal} text="Создать вишлист" />
+              <CreateWishlistCard onClick={openCreateWishlistModal} text={t('wishlistPage.createWishlist')} />
               {wishlists.map((wishlist) => (
                 <WishlistCard
                   key={wishlist.id}
@@ -421,10 +369,10 @@ export default function WishlistPage() {
                 <Gift className="w-12 h-12 text-pink-400" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 font-geologica mb-2">
-                Пока пусто
+                {t('wishlistPage.sharedEmptyTitle')}
               </h3>
               <p className="text-gray-500 font-geologica text-center max-w-md">
-                Здесь будут вишлисты, которыми с вами поделились друзья
+                {t('wishlistPage.sharedEmptySubtitle')}
               </p>
             </div>
           </>
@@ -435,19 +383,19 @@ export default function WishlistPage() {
             {/* Ideas Grid with Create Card */}
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
               {/* Create Idea Card */}
-              <CreateWishlistCard onClick={openCreateWishlistModal} text='Создать идею'/>
+              <CreateWishlistCard onClick={openCreateWishlistModal} text={t('wishlistPage.createIdea')}/>
               
               {/* Sample idea cards */}
               <WishlistCard
                 id="idea-1"
-                title="Подарки для путешественников"
+                title={t('wishlistPage.ideasTravel')}
                 itemCount={8}
                 coverImage="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&q=80"
                 onClick={() => console.log('Open idea 1')}
               />
               <WishlistCard
                 id="idea-2"
-                title="Техника и гаджеты"
+                title={t('wishlistPage.ideasTech')}
                 itemCount={15}
                 coverImage="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&q=80"
                 onClick={() => console.log('Open idea 2')}
@@ -468,7 +416,6 @@ export default function WishlistPage() {
         onSubmit={handleCreateWishlist}
         wishlist={selectedWishlist}
         mode={wishlistModalMode}
-        currentLang={currentLang}
       />
       
       <GiftModal
@@ -492,7 +439,6 @@ export default function WishlistPage() {
         }}
         item={selectedItem}
         mode={giftModalMode}
-        currentLang={currentLang}
       />
 
       <AuthModal
@@ -500,7 +446,6 @@ export default function WishlistPage() {
         onClose={() => setIsAuthModalOpen(false)}
         onSignIn={handleSignIn}
         onSignUp={handleSignUp}
-        currentLang={currentLang}
       />
     </div>
   );

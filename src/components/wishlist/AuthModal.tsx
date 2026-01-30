@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { X, User, Lock, Eye, EyeOff, Gift } from 'react-feather';
 import type { AuthCredentials } from '@/lib/api/wishlist';
 
@@ -9,70 +10,15 @@ interface AuthModalProps {
   onClose: () => void;
   onSignIn: (credentials: AuthCredentials) => Promise<void>;
   onSignUp: (credentials: AuthCredentials) => Promise<void>;
-  currentLang: 'en' | 'ru' | 'uz';
 }
-
-const translations = {
-  en: {
-    welcome: 'Welcome to Weesh',
-    subtitle: 'Create wishlists and share them with loved ones',
-    signIn: 'Sign In',
-    signUp: 'Sign Up',
-    username: 'Username',
-    password: 'Password',
-    usernamePlaceholder: 'Enter your username',
-    passwordPlaceholder: 'Enter your password',
-    signInButton: 'Sign In',
-    signUpButton: 'Create Account',
-    switchToSignUp: "Don't have an account?",
-    switchToSignIn: 'Already have an account?',
-    signingIn: 'Signing in...',
-    creatingAccount: 'Creating account...',
-    errorGeneric: 'Something went wrong. Please try again.',
-  },
-  ru: {
-    welcome: 'Добро пожаловать в Weesh',
-    subtitle: 'Создавайте вишлисты и делитесь ими с близкими',
-    signIn: 'Войти',
-    signUp: 'Регистрация',
-    username: 'Имя пользователя',
-    password: 'Пароль',
-    usernamePlaceholder: 'Введите имя пользователя',
-    passwordPlaceholder: 'Введите пароль',
-    signInButton: 'Войти',
-    signUpButton: 'Создать аккаунт',
-    switchToSignUp: 'Нет аккаунта?',
-    switchToSignIn: 'Уже есть аккаунт?',
-    signingIn: 'Вход...',
-    creatingAccount: 'Создание аккаунта...',
-    errorGeneric: 'Что-то пошло не так. Попробуйте снова.',
-  },
-  uz: {
-    welcome: 'Weeshga xush kelibsiz',
-    subtitle: 'Wishlistlar yarating va yaqinlaringiz bilan ulashing',
-    signIn: 'Kirish',
-    signUp: 'Ro\'yxatdan o\'tish',
-    username: 'Foydalanuvchi nomi',
-    password: 'Parol',
-    usernamePlaceholder: 'Foydalanuvchi nomini kiriting',
-    passwordPlaceholder: 'Parolni kiriting',
-    signInButton: 'Kirish',
-    signUpButton: 'Akkaunt yaratish',
-    switchToSignUp: 'Akkauntingiz yo\'qmi?',
-    switchToSignIn: 'Akkauntingiz bormi?',
-    signingIn: 'Kirilmoqda...',
-    creatingAccount: 'Akkaunt yaratilmoqda...',
-    errorGeneric: 'Xatolik yuz berdi. Qaytadan urinib ko\'ring.',
-  },
-};
 
 export default function AuthModal({
   isOpen,
   onClose,
   onSignIn,
   onSignUp,
-  currentLang,
 }: AuthModalProps) {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -80,8 +26,6 @@ export default function AuthModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
-
-  const t = translations[currentLang];
 
   // Reset on close
   useEffect(() => {
@@ -125,7 +69,7 @@ export default function AuthModal({
       }
       handleClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : t.errorGeneric);
+      setError(err instanceof Error ? err.message : t('auth.errorGeneric'));
     } finally {
       setIsSubmitting(false);
     }
@@ -172,10 +116,10 @@ export default function AuthModal({
           </div>
           
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 font-geologica mb-1 sm:mb-2">
-            {t.welcome}
+            {t('auth.welcome')}
           </h2>
           <p className="text-gray-500 text-xs sm:text-sm font-geologica">
-            {t.subtitle}
+            {t('auth.subtitle')}
           </p>
         </div>
 
@@ -190,7 +134,7 @@ export default function AuthModal({
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            {t.signIn}
+            {t('auth.signIn')}
           </button>
           <button
             type="button"
@@ -201,7 +145,7 @@ export default function AuthModal({
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            {t.signUp}
+            {t('auth.signUp')}
           </button>
         </div>
 
@@ -210,7 +154,7 @@ export default function AuthModal({
           {/* Username */}
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-gray-800 font-geologica">
-              {t.username}
+              {t('auth.username')}
             </label>
             <div className="relative">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
@@ -220,7 +164,7 @@ export default function AuthModal({
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder={t.usernamePlaceholder}
+                placeholder={t('auth.usernamePlaceholder')}
                 required
                 className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
                 autoComplete="username"
@@ -231,7 +175,7 @@ export default function AuthModal({
           {/* Password */}
           <div className="space-y-2">
             <label className="block text-sm font-semibold text-gray-800 font-geologica">
-              {t.password}
+              {t('auth.password')}
             </label>
             <div className="relative">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
@@ -241,7 +185,7 @@ export default function AuthModal({
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder={t.passwordPlaceholder}
+                placeholder={t('auth.passwordPlaceholder')}
                 required
                 className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-xl focus:border-pink-500 focus:ring-2 focus:ring-pink-100 outline-none transition-all text-gray-900 placeholder:text-gray-400 font-geologica"
                 autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
@@ -271,11 +215,11 @@ export default function AuthModal({
           >
             {isSubmitting
               ? mode === 'signin'
-                ? t.signingIn
-                : t.creatingAccount
+                ? t('auth.signingIn')
+                : t('auth.creatingAccount')
               : mode === 'signin'
-                ? t.signInButton
-                : t.signUpButton}
+                ? t('auth.signInButton')
+                : t('auth.signUpButton')}
           </button>
 
           {/* Switch Mode */}
@@ -285,9 +229,9 @@ export default function AuthModal({
               onClick={switchMode}
               className="text-sm text-gray-500 hover:text-gray-700 transition-colors font-geologica"
             >
-              {mode === 'signin' ? t.switchToSignUp : t.switchToSignIn}{' '}
+              {mode === 'signin' ? t('auth.switchToSignUp') : t('auth.switchToSignIn')}{' '}
               <span className="font-semibold bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent">
-                {mode === 'signin' ? t.signUp : t.signIn}
+                {mode === 'signin' ? t('auth.signUp') : t('auth.signIn')}
               </span>
             </button>
           </div>
