@@ -17,15 +17,11 @@ const navColumnsConfig = [
     links: [
       { key: 'features' as const, href: '#features' },
       { key: 'pricing' as const, href: '#pricing' },
-      { key: 'integrations' as const, href: '#integrations' },
-      { key: 'changelog' as const, href: '#changelog' },
     ],
   },
   {
     titleKey: 'resources' as const,
     links: [
-      { key: 'documentation' as const, href: '#docs' },
-      { key: 'tutorials' as const, href: '#tutorials' },
       { key: 'blog' as const, href: '#blog' },
       { key: 'support' as const, href: '#support' },
     ],
@@ -34,9 +30,7 @@ const navColumnsConfig = [
     titleKey: 'company' as const,
     links: [
       { key: 'aboutUs' as const, href: '#about' },
-      { key: 'careers' as const, href: '#careers' },
       { key: 'contact' as const, href: '#contact' },
-      { key: 'partners' as const, href: '#partners' },
     ],
   },
 ];
