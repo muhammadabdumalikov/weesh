@@ -63,7 +63,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-8 md:px-16 lg:px-32 py-2 md:py-4 flex justify-between items-center backdrop-blur-md bg-white/80 border-b border-gray-200 shadow-xs">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full px-8 sm:px-12 md:px-24 lg:px-32 xl:px-40 py-2 md:py-4 flex justify-between items-center backdrop-blur-md bg-white/80 border-b border-gray-200 shadow-xs">
       <Logo />
 
       {/* Desktop Navigation */}

@@ -175,6 +175,139 @@ export default function Home() {
             })}
           </div>
         </section>
+
+        {/* How It Works */}
+        <section className="mt-20 md:mt-28 lg:mt-36 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#222222] font-geologica mb-2">
+            {t('home.howItWorksTitle')}
+          </h2>
+          <p className="text-gray-500 text-sm sm:text-base font-geologica max-w-xl mx-auto mb-12 md:mb-16">
+            {t('home.howItWorksSubtitle')}
+          </p>
+
+          {/* Step 1: Text left, placeholder right */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center mb-16 md:mb-24">
+            <div className="order-2 lg:order-1 text-center max-w-md mx-auto">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-[#222222] font-bold font-geologica text-xl mb-4 mx-auto">
+                1
+              </div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#222222] font-geologica mb-3">
+                {t('home.howItWorksStep1Title')}
+              </h3>
+              <p className="text-gray-500 text-sm sm:text-base font-geologica leading-relaxed">
+                {t('home.howItWorksStep1Desc')}
+              </p>
+            </div>
+            <div className="order-1 lg:order-2 flex justify-center">
+              <div className="w-full max-w-[280px] aspect-[9/19] rounded-3xl bg-slate-100/80 shadow-lg flex items-center justify-center">
+                <span className="text-slate-400 text-sm font-geologica">Phone mockup</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 2: Placeholder left, text right */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center mb-16 md:mb-24">
+            <div className="flex justify-center order-1">
+              <div className="w-full max-w-[280px] aspect-[9/19] rounded-3xl bg-violet-50/90 shadow-lg flex items-center justify-center">
+                <span className="text-violet-400 text-sm font-geologica">Phone mockup</span>
+              </div>
+            </div>
+            <div className="order-2 text-center max-w-md mx-auto">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-[#222222] font-bold font-geologica text-xl mb-4 mx-auto">
+                2
+              </div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#222222] font-geologica mb-3">
+                {t('home.howItWorksStep2Title')}
+              </h3>
+              <p className="text-gray-500 text-sm sm:text-base font-geologica leading-relaxed">
+                {t('home.howItWorksStep2Desc')}
+              </p>
+            </div>
+          </div>
+
+          {/* Step 3: Text left, placeholder right */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+            <div className="order-2 lg:order-1 text-center max-w-md mx-auto">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-[#222222] font-bold font-geologica text-xl mb-4 mx-auto">
+                3
+              </div>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#222222] font-geologica mb-3">
+                {t('home.howItWorksStep3Title')}
+              </h3>
+              <p className="text-gray-500 text-sm sm:text-base font-geologica leading-relaxed">
+                {t('home.howItWorksStep3Desc')}
+              </p>
+            </div>
+            <div className="order-1 lg:order-2 flex justify-center">
+              <div className="w-full max-w-[280px] aspect-[9/19] rounded-3xl bg-emerald-50/90 shadow-lg flex items-center justify-center">
+                <span className="text-emerald-400 text-sm font-geologica">Phone mockup</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Create any type of wishlist */}
+        <section className="mt-20 md:mt-28 lg:mt-36 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#222222] font-geologica mb-3 text-balance max-w-2xl mx-auto">
+            {t('home.createAnyWishlistTitle')}
+          </h2>
+          <p className="text-gray-500 text-sm sm:text-base font-geologica mb-12 md:mb-16 text-balance max-w-xl mx-auto">
+            {t('home.createAnyWishlistSubtitle')}
+          </p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 lg:gap-10 items-center max-w-6xl mx-auto px-2">
+            {/* Left column: 3 cards — slight negative rotation, compact single-line */}
+            <div className="flex flex-col gap-3 lg:gap-4 order-2 lg:order-1 items-center lg:items-end">
+              {[
+                { emoji: '🎂', key: 'wishlistTypeBirthday', bg: '#FCEEF6', rotate: '-2deg' },
+                { emoji: '🎄', key: 'wishlistTypeChristmas', bg: '#DFF5EB', rotate: '-1deg' },
+                { emoji: '👶', key: 'wishlistTypeBaby', bg: '#FFF5DF', rotate: '-3deg' },
+              ].map((item) => (
+                <div
+                  key={item.key}
+                  className="rounded-xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1 w-full max-w-[140px] sm:max-w-[160px] shadow-md transition-transform hover:scale-[1.02]"
+                  style={{ backgroundColor: item.bg, transform: `rotate(${item.rotate})` }}
+                >
+                  <span className="text-2xl sm:text-3xl" aria-hidden>{item.emoji}</span>
+                  <span className="font-semibold text-[#222222] font-geologica text-xs sm:text-sm text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+                    {t(`home.${item.key}`)}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Center: phone mockup — light gray, phone aspect */}
+            <div className="flex justify-center order-1 lg:order-2">
+              <div
+                className="relative overflow-hidden rounded-[1.5rem] max-w-[240px] w-full aspect-[9/19] pt-12 flex flex-col items-center justify-start shadow-xl"
+                style={{ backgroundColor: '#f0f0f0' }}
+              >
+                <span className="text-gray-600 font-semibold font-geologica text-sm mt-2">My Lists</span>
+                <span className="text-gray-400 font-geologica text-xs mt-3">+ New Wishlist</span>
+              </div>
+            </div>
+
+            {/* Right column: 3 cards — slight positive rotation, compact single-line */}
+            <div className="flex flex-col gap-3 lg:gap-4 order-3 items-center lg:items-start">
+              {[
+                { emoji: '💍', key: 'wishlistTypeWedding', bg: '#EDEBFD', rotate: '2deg' },
+                { emoji: '🛍️', key: 'wishlistTypeShopping', bg: '#E4F2FE', rotate: '1deg' },
+                { emoji: '✨', key: 'wishlistTypeInspiration', bg: '#FEF2D0', rotate: '3deg' },
+              ].map((item) => (
+                <div
+                  key={item.key}
+                  className="rounded-xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1 w-full max-w-[140px] sm:max-w-[160px] shadow-md transition-transform hover:scale-[1.02]"
+                  style={{ backgroundColor: item.bg, transform: `rotate(${item.rotate})` }}
+                >
+                  <span className="text-2xl sm:text-3xl" aria-hidden>{item.emoji}</span>
+                  <span className="font-semibold text-[#222222] font-geologica text-xs sm:text-sm text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+                    {t(`home.${item.key}`)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />
