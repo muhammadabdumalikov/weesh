@@ -253,7 +253,13 @@ export default function WishlistPage() {
         isAuthenticated={isUserAuthenticated}
         username={username}
       />
-      <main className="px-4 sm:px-6 md:px-8 py-8 md:py-12 pt-24 md:pt-32 pb-16 md:pb-24 max-w-7xl mx-auto">
+      <main
+        className={`px-4 sm:px-6 md:px-8 py-8 md:py-12 pt-24 md:pt-32 max-w-7xl mx-auto ${
+          isUserAuthenticated && activeTab === 'create' && getOwnerCode()
+            ? 'pb-28 sm:pb-32 md:pb-36'
+            : 'pb-16 md:pb-24'
+        }`}
+      >
         {/* Tabs - Scrollable on mobile; fade hint on desktop */}
         <div className="relative mb-8 sm:mb-12 md:mb-16 lg:mb-24">
           {/* Left-side fade to hint horizontal scroll (desktop only) */}

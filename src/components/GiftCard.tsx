@@ -94,39 +94,39 @@ export default function GiftCard({
         </div>
         
         {/* Content area */}
-        <div className="flex-1 p-3 sm:p-4 flex flex-col justify-between relative">
+        <div className="flex-1 min-w-0 p-3 sm:p-4 flex flex-col justify-between relative">
           {/* Title and price */}
-          <div>
+          <div className="min-w-0">
             <h3 className="text-sm sm:text-base font-bold text-gray-900 font-geologica line-clamp-2 leading-tight mb-0.5 sm:mb-1">
               {title}
             </h3>
             {price && (
-              <p className="text-base sm:text-lg font-bold font-geologica bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent">
+              <p className="text-base sm:text-lg font-bold font-geologica bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent truncate">
                 {price}
               </p>
             )}
           </div>
           
           {/* Actions - owner: Edit/Delete; else: Buy + Reserve */}
-          <div className="flex gap-2 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 transition-all duration-200">
+          <div className="flex gap-2 min-h-0 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 transition-all duration-200">
             {isOwner && (onEditClick || onDeleteClick) ? (
               <>
                 {onEditClick && (
                   <button
                     onClick={handleEdit}
-                    className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium font-geologica bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+                    className="flex-1 min-w-0 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium font-geologica bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors overflow-hidden"
                   >
-                    <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    {t('giftCard.edit')}
+                    <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                    <span className="truncate">{t('giftCard.edit')}</span>
                   </button>
                 )}
                 {onDeleteClick && (
                   <button
                     onClick={handleDelete}
-                    className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium font-geologica bg-red-50 hover:bg-red-100 text-red-600 transition-colors"
+                    className="flex-1 min-w-0 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium font-geologica bg-red-50 hover:bg-red-100 text-red-600 transition-colors overflow-hidden"
                   >
-                    <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    {t('giftCard.delete')}
+                    <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                    <span className="truncate">{t('giftCard.delete')}</span>
                   </button>
                 )}
               </>
@@ -138,14 +138,14 @@ export default function GiftCard({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors font-geologica ${
+                    className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors font-geologica min-w-0 overflow-hidden ${
                       showReserveButton
                         ? 'flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700'
                         : 'w-full bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-semibold shadow-sm hover:shadow-md'
                     }`}
                   >
-                    {showReserveButton && <ExternalLink className="hidden sm:block w-3.5 h-3.5" />}
-                    {linkLabel}
+                    {showReserveButton && <ExternalLink className="hidden sm:block w-3.5 h-3.5 flex-shrink-0" />}
+                    <span className="truncate">{linkLabel}</span>
                   </a>
                 )}
                 {showReserveButton && !isReserved && (
@@ -154,9 +154,9 @@ export default function GiftCard({
                       e.stopPropagation();
                       onReserveClick?.();
                     }}
-                    className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold text-white transition-all shadow-sm hover:shadow-md font-geologica"
+                    className="flex-1 min-w-0 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold text-white transition-all shadow-sm hover:shadow-md font-geologica overflow-hidden"
                   >
-                    {t('giftCard.reserve')}
+                    <span className="truncate">{t('giftCard.reserve')}</span>
                   </button>
                 )}
               </>
