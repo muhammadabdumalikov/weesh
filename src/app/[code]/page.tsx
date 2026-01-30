@@ -10,16 +10,16 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import GiftCard from '@/components/GiftCard';
 
-function displayOwnerLabel(ownerId: string): string {
-  if (!ownerId) return '';
-  if (ownerId.length > 20 || ownerId.includes('-')) return ownerId;
-  return `@${ownerId}`;
+function displayOwnerLabel(code: string): string {
+  if (!code) return '';
+  if (code.length > 20 || code.includes('-')) return code;
+  return `@${code}`;
 }
 
-export default function PublicWishlistPage() {
+export default function PublicWishlistByCodePage() {
   const params = useParams();
   const router = useRouter();
-  const ownerId = params.ownerId as string;
+  const code = params.code as string;
 
   const { t } = useTranslation();
   const [items, setItems] = useState<WishlistItem[]>([]);
@@ -27,14 +27,15 @@ export default function PublicWishlistPage() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    loadWishlist();
-  }, [ownerId]);
+    if (code) loadWishlist();
+  }, [code]);
 
   const loadWishlist = async () => {
+    if (!code) return;
     setIsLoading(true);
     setError(false);
     try {
-      const data = await fetchPublicWishlist(ownerId);
+      const data = await fetchPublicWishlist(code);
       setItems(data);
     } catch (err) {
       console.error('Error loading wishlist:', err);
@@ -48,7 +49,7 @@ export default function PublicWishlistPage() {
     router.push('/wishlist');
   };
 
-  const ownerLabel = displayOwnerLabel(ownerId);
+  const ownerLabel = displayOwnerLabel(code);
 
   return (
     <div className="min-h-screen bg-[#f5f3ef]">
@@ -131,7 +132,7 @@ export default function PublicWishlistPage() {
           </div>
         )}
 
-        {/* Gift grid - same card style as create tab */}
+        {/* Gift grid */}
         {!isLoading && !error && items.length > 0 && (
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {items.map((product) => (

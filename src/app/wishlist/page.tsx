@@ -18,11 +18,11 @@ import {
   signUp,
   signOut,
   getUsername,
-  getOwnerId,
   type WishlistItem,
   type CreateWishlistDto,
   type UpdateWishlistDto,
   type AuthCredentials,
+  getOwnerCode,
 } from '@/lib/api/wishlist';
 import Header from '@/components/Header';
 import CreateWishlistCard from '@/components/CreateWishlistCard';
@@ -423,7 +423,7 @@ export default function WishlistPage() {
       </main>
 
       {/* Share your weesh — floating CTA (only when authenticated, create tab) */}
-      {isUserAuthenticated && activeTab === 'create' && getOwnerId() && (
+      {isUserAuthenticated && activeTab === 'create' && getOwnerCode() && (
         <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-6 z-40 p-[2px] rounded-full bg-gradient-to-r from-[#E6007A] to-[#FF6600] shadow-lg hover:shadow-xl transition-shadow">
           <button
             type="button"
@@ -488,7 +488,7 @@ export default function WishlistPage() {
       <ShareModal
         isOpen={isShareModalOpen}
         onClose={() => setIsShareModalOpen(false)}
-        ownerId={getOwnerId() ?? ''}
+        ownerCode={getOwnerCode() ?? ''}
       />
 
       {/* Delete confirmation modal (page-level) */}

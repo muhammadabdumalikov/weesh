@@ -3,6 +3,7 @@ const API_BASE_URL = "https://api.wetrippo.com/api";
 
 const OWNER_ID_KEY = "w-o-id";
 const USERNAME_KEY = "w-username";
+const OWNER_CODE_KEY = "w-code";
 
 export interface WishlistItem {
   id: string;
@@ -32,6 +33,7 @@ export interface AuthCredentials {
 export interface AuthResponse {
   id: string;
   login: string;
+  code: string;
 }
 
 // Auth helpers
@@ -45,9 +47,24 @@ export function setOwnerId(id: string): void {
   localStorage.setItem(OWNER_ID_KEY, id);
 }
 
+export function setOwnerCode(code: string): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(OWNER_CODE_KEY, code);
+}
+
+export function getOwnerCode(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(OWNER_CODE_KEY);
+}
+
 export function clearOwnerId(): void {
   if (typeof window === "undefined") return;
   localStorage.removeItem(OWNER_ID_KEY);
+}
+
+export function clearOwnerCode(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(OWNER_CODE_KEY);
 }
 
 export function isAuthenticated(): boolean {
@@ -92,6 +109,7 @@ export async function signUp(
     const data: AuthResponse = await response.json();
     setOwnerId(data.id);
     setUsername(data.login);
+    setOwnerCode(data.code);
     return data;
   } catch (error) {
     console.error("Error during signup:", error);
@@ -121,6 +139,7 @@ export async function signIn(
     const data: AuthResponse = await response.json();
     setOwnerId(data.id);
     setUsername(data.login);
+    setOwnerCode(data.code);
     return data;
   } catch (error) {
     console.error("Error during sign in:", error);
@@ -131,11 +150,12 @@ export async function signIn(
 export function signOut(): void {
   clearOwnerId();
   clearUsername();
+  clearOwnerCode();
 }
 
 // Fetch public wishlist by owner ID (no authentication required)
 export async function fetchPublicWishlist(
-  ownerId: string
+  ownerCode: string
 ): Promise<WishlistItem[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/wishlist/list`, {
@@ -143,7 +163,7 @@ export async function fetchPublicWishlist(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ owner_id: ownerId }),
+      body: JSON.stringify({ code: ownerCode }),
     });
 
     if (!response.ok) {
@@ -197,8 +217,8 @@ const normalizeWishlistItem = (item: ApiWishlistRecord | null | undefined): Wish
 
 // Fetch all wishlist items from API
 export async function fetchWishlistItems(): Promise<WishlistItem[]> {
-  const ownerId = getOwnerId();
-  if (!ownerId) {
+  const ownerCode = getOwnerCode();
+  if (!ownerCode) {
     return [];
   }
 
@@ -208,7 +228,7 @@ export async function fetchWishlistItems(): Promise<WishlistItem[]> {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ owner_id: ownerId }),
+      body: JSON.stringify({ code: ownerCode }),
     });
     if (!response.ok) {
       throw new Error(

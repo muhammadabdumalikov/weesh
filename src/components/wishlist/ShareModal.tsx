@@ -7,13 +7,13 @@ import { X, Share2, Copy, Check, Link2 } from 'react-feather';
 interface ShareModalProps {
   isOpen: boolean;
   onClose: () => void;
-  ownerId: string;
+  ownerCode: string;
 }
 
 export default function ShareModal({
   isOpen,
   onClose,
-  ownerId,
+  ownerCode,
 }: ShareModalProps) {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
@@ -21,9 +21,9 @@ export default function ShareModal({
 
   useEffect(() => {
     if (isOpen && typeof window !== 'undefined') {
-      setShareUrl(`${window.location.origin}/wishlist/${ownerId}`);
+      setShareUrl(`${window.location.origin}/${ownerCode}`);
     }
-  }, [isOpen, ownerId]);
+  }, [isOpen, ownerCode]);
 
   const handleCopy = async () => {
     try {
