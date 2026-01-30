@@ -258,34 +258,37 @@ export default function WishlistPage() {
               {t('wishlistPage.tabCreate')}
             </button>
             <button
-              onClick={() => setActiveTab('my')}
-              className={`font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 ${
-                activeTab === 'my'
-                  ? 'text-black'
-                  : 'text-gray-400 cursor-pointer active:text-gray-500'
-              }`}
+              type="button"
+              disabled
+              aria-disabled="true"
+              className="relative font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 text-gray-300 cursor-not-allowed"
             >
               {t('wishlistPage.tabMy')}
+              <span className="absolute -top-0.5 right-0 sm:top-0 sm:-right-1 inline-flex items-center px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-semibold bg-gray-100 text-gray-400 font-geologica whitespace-nowrap">
+                {t('wishlistPage.soon')}
+              </span>
             </button>
             <button
-              onClick={() => setActiveTab('shared')}
-              className={`font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 ${
-                activeTab === 'shared'
-                  ? 'text-black'
-                  : 'text-gray-400 cursor-pointer active:text-gray-500'
-              }`}
+              type="button"
+              disabled
+              aria-disabled="true"
+              className="relative font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 text-gray-300 cursor-not-allowed"
             >
               {t('wishlistPage.tabShared')}
+              <span className="absolute -top-0.5 right-0 sm:top-0 sm:-right-1 inline-flex items-center px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-semibold bg-gray-100 text-gray-400 font-geologica whitespace-nowrap">
+                {t('wishlistPage.soon')}
+              </span>
             </button>
             <button
-              onClick={() => setActiveTab('ideas')}
-              className={`font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 ${
-                activeTab === 'ideas'
-                  ? 'text-black'
-                  : 'text-gray-400 cursor-pointer active:text-gray-500'
-              }`}
+              type="button"
+              disabled
+              aria-disabled="true"
+              className="relative font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 text-gray-300 cursor-not-allowed"
             >
               {t('wishlistPage.tabIdeas')}
+              <span className="absolute -top-0.5 right-0 sm:top-0 sm:-right-1 inline-flex items-center px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-semibold bg-gray-100 text-gray-400 font-geologica whitespace-nowrap">
+                {t('wishlistPage.soon')}
+              </span>
             </button>
           </div>
         </div>
