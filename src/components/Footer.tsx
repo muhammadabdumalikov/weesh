@@ -6,7 +6,7 @@ import Logo from '@/components/Logo';
 
 const socialConfig = [
   { href: 'https://x.com', key: 'socialX' as const },
-  { href: 'https://instagram.com/weesh.link', key: 'socialInstagram' as const },
+  { href: 'https://instagram.com/weeshlol', key: 'socialInstagram' as const },
   { href: 'https://telegram.org', key: 'socialTelegram' as const },
   { href: 'https://facebook.com', key: 'socialFacebook' as const },
 ];
