@@ -279,7 +279,9 @@ export default function WishlistPage() {
 
   return (
     <div className="min-h-screen bg-[#f7f7f7]">
-      <Header 
+      <Header
+        language={currentLang}
+        onLanguageChange={setCurrentLang}
         onSignInClick={() => setIsAuthModalOpen(true)}
         onLogout={() => {
           signOut();

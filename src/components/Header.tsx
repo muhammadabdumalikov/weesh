@@ -2,32 +2,51 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, LogOut, User, Users, CreditCard, Bookmark, Moon } from 'react-feather';
+import { Menu, X, LogOut, User, Users, CreditCard, Bookmark, Moon, Globe } from 'react-feather';
 import Logo from '@/components/Logo';
+
+export type HeaderLang = 'en' | 'ru' | 'uz';
+
+const LANG_LABELS: Record<HeaderLang, string> = {
+  en: 'En',
+  ru: 'Ru',
+  uz: 'Uz',
+};
 
 interface HeaderProps {
   onSignInClick?: () => void;
   onLogout?: () => void;
   isAuthenticated?: boolean;
   username?: string;
+  /** When set, shows language selector in header (e.g. on public wishlist page) */
+  language?: HeaderLang;
+  onLanguageChange?: (lang: HeaderLang) => void;
 }
 
-export default function Header({ onSignInClick, onLogout, isAuthenticated, username }: HeaderProps) {
+export default function Header({ onSignInClick, onLogout, isAuthenticated, username, language, onLanguageChange }: HeaderProps) {
+  const showLang = language !== undefined && onLanguageChange !== undefined;
+  const langOptions: HeaderLang[] = ['en', 'ru', 'uz'];
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const profileModalRef = useRef<HTMLDivElement>(null);
+  const langDropdownDesktopRef = useRef<HTMLDivElement>(null);
+  const langDropdownMobileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isProfileModalOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
       if (profileModalRef.current && !profileModalRef.current.contains(e.target as Node)) {
         setIsProfileModalOpen(false);
       }
+      const target = e.target as Node;
+      const desktop = langDropdownDesktopRef.current?.contains(target);
+      const mobile = langDropdownMobileRef.current?.contains(target);
+      if (!desktop && !mobile) setIsLangOpen(false);
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isProfileModalOpen]);
+  }, [isProfileModalOpen, isLangOpen]);
 
   const handleSignInClick = () => {
     setIsMobileMenuOpen(false);
@@ -49,7 +68,49 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
       <Logo />
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+      <nav className="hidden md:flex items-center gap-4 sm:gap-6 lg:gap-8">
+        {showLang && (
+          <div className="relative" ref={langDropdownDesktopRef}>
+            <button
+              type="button"
+              onClick={() => setIsLangOpen((v) => !v)}
+              className="flex items-center gap-1.5 text-black hover:text-gray-600 transition-colors cursor-pointer font-geologica text-sm lg:text-base"
+              aria-expanded={isLangOpen}
+              aria-haspopup="listbox"
+              aria-label="Select language"
+            >
+              <span>{LANG_LABELS[language ?? 'ru']}</span>
+              <Globe className="w-4 h-4 text-current" strokeWidth={2} />
+            </button>
+            {isLangOpen && (
+              <div
+                className="absolute top-full left-0 mt-1.5 min-w-[4.5rem] py-1 rounded-xl border border-gray-200 bg-white shadow-lg z-50 animate-in zoom-in-95 duration-150"
+                role="listbox"
+                aria-label="Language options"
+              >
+                {langOptions.map((lang) => (
+                  <button
+                    key={lang}
+                    type="button"
+                    role="option"
+                    aria-selected={language === lang}
+                    onClick={() => {
+                      onLanguageChange?.(lang);
+                      setIsLangOpen(false);
+                    }}
+                    className={`w-full px-3 py-2 text-left text-xs font-medium font-geologica transition-colors cursor-pointer first:rounded-t-[11px] last:rounded-b-[11px] ${
+                      language === lang
+                        ? 'bg-gray-100 text-gray-900'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    {LANG_LABELS[lang]}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
         <Link 
           href="#about" 
           className="text-black hover:text-gray-600 transition-colors text-sm lg:text-base font-geologica cursor-pointer"
@@ -71,7 +132,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
         ) : (
           <button 
             onClick={onSignInClick}
-            className="px-4 lg:px-5 py-2 border border-black rounded-full text-black hover:bg-gray-50 transition-colors text-sm lg:text-base font-geologica cursor-pointer"
+            className="px-4 lg:px-5 py-2 border border-black rounded-full text-black text-sm lg:text-base font-geologica cursor-pointer"
           >
             Войти
           </button>
@@ -91,6 +152,48 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-lg md:hidden animate-in slide-in-from-top-2 duration-200">
           <nav className="flex flex-col p-4 gap-4">
+            {showLang && (
+              <div className="relative self-start" ref={langDropdownMobileRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsLangOpen((v) => !v)}
+                  className="flex items-center gap-2 text-black hover:text-gray-600 transition-colors cursor-pointer font-geologica text-base py-2 min-h-[44px] touch-manipulation"
+                  aria-expanded={isLangOpen}
+                  aria-haspopup="listbox"
+                  aria-label="Select language"
+                >
+                  <span>{LANG_LABELS[language ?? 'ru']}</span>
+                  <Globe className="w-4 h-4 text-current" strokeWidth={1.5} />
+                </button>
+                {isLangOpen && (
+                  <div
+                    className="absolute top-full left-0 mt-1.5 min-w-[5rem] py-1 rounded-xl border border-gray-200 bg-white shadow-lg z-50 animate-in zoom-in-95 duration-150"
+                    role="listbox"
+                    aria-label="Language options"
+                  >
+                    {langOptions.map((lang) => (
+                      <button
+                        key={lang}
+                        type="button"
+                        role="option"
+                        aria-selected={language === lang}
+                        onClick={() => {
+                          onLanguageChange?.(lang);
+                          setIsLangOpen(false);
+                        }}
+                        className={`w-full px-4 py-2.5 text-left text-sm font-medium font-geologica transition-colors cursor-pointer first:rounded-t-[11px] last:rounded-b-[11px] touch-manipulation ${
+                          language === lang
+                            ? 'bg-gray-100 text-gray-900'
+                            : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        {LANG_LABELS[lang]}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             <Link 
               href="#about" 
               onClick={() => setIsMobileMenuOpen(false)}
@@ -112,7 +215,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
             ) : (
               <button 
                 onClick={handleSignInClick}
-                className="w-full px-5 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-full font-medium transition-colors text-base font-geologica cursor-pointer"
+                className="w-full px-5 py-3 border border-black rounded-full text-black hover:bg-gray-50 transition-colors text-base font-geologica cursor-pointer"
               >
                 Войти
               </button>

@@ -3,10 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ExternalLink, Gift, Heart, ArrowRight, Star } from 'react-feather';
+import { Gift, Heart, ArrowRight, Star } from 'react-feather';
 import { fetchPublicWishlist, type WishlistItem } from '@/lib/api/wishlist';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import GiftCard from '@/components/GiftCard';
 
 const translations = {
   en: {
@@ -65,13 +66,9 @@ export default function PublicWishlistPage() {
   const [items, setItems] = useState<WishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
-  const [isMounted, setIsMounted] = useState(false);
-
   const t = translations[currentLang];
 
   useEffect(() => {
-    setIsMounted(true);
     loadWishlist();
   }, [ownerId]);
 
@@ -89,10 +86,6 @@ export default function PublicWishlistPage() {
     }
   };
 
-  const handleImageError = (id: string) => {
-    setImageErrors((prev) => new Set(prev).add(id));
-  };
-
   const handleCreateOwn = () => {
     router.push('/wishlist');
   };
@@ -101,39 +94,15 @@ export default function PublicWishlistPage() {
 
   return (
     <div className="min-h-screen bg-[#f5f3ef]">
-      <Header />
+      <Header
+        language={currentLang}
+        onLanguageChange={setCurrentLang}
+      />
 
-      <main className="px-4 sm:px-6 md:px-8 py-8 md:py-12 pt-20 md:pt-24 pb-16 md:pb-24 max-w-6xl mx-auto">
-        {/* Language selector */}
-        <div className="flex justify-end mb-6">
-          <div className="bg-white/80 backdrop-blur rounded-2xl p-1 border border-gray-200/80 shadow-sm flex gap-0.5">
-            {(['en', 'ru', 'uz'] as const).map((lang) => (
-              <button
-                key={lang}
-                onClick={() => setCurrentLang(lang)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium font-geologica transition-all ${
-                  currentLang === lang
-                    ? 'bg-gradient-to-r from-[#E6007A] to-[#FF6600] text-white shadow-md'
-                    : 'text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                {lang.toUpperCase()}
-              </button>
-            ))}
-          </div>
-        </div>
-
+      <main className="px-3 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12 pt-[4.5rem] sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-24 max-w-6xl mx-auto">
         {/* Hero: whose wishlist */}
-        <div className="text-center mb-10 md:mb-14">
-          <div className="inline-flex items-center justify-center gap-2 mb-3">
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-gradient-to-br from-[#E6007A] to-[#FF6600] flex items-center justify-center shadow-lg">
-              <Gift className="w-5 h-5 md:w-6 md:h-6 text-white" />
-            </div>
-            <span className="font-moresugar text-2xl md:text-3xl bg-gradient-to-r from-[#E6007A] to-[#FF6600] bg-clip-text text-transparent">
-              weesh
-            </span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#222222] font-geologica mb-2">
+        <div className="text-center mb-8 sm:mb-10 md:mb-14 px-1">
+          <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-[#222222] font-geologica mb-1.5 sm:mb-2 px-1 break-words leading-tight">
             {t.title}
             {ownerLabel && (
               <>
@@ -144,46 +113,46 @@ export default function PublicWishlistPage() {
               </>
             )}
           </h1>
-          <p className="text-gray-600 text-base md:text-lg max-w-xl mx-auto font-geologica">
+          <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-xl mx-auto font-geologica px-2">
             {t.description}
           </p>
         </div>
 
         {/* Loading */}
         {isLoading && (
-          <div className="flex flex-col items-center justify-center py-16 md:py-24">
+          <div className="flex flex-col items-center justify-center py-12 sm:py-16 md:py-24">
             <div
-              className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4"
               style={{
                 background: 'linear-gradient(135deg, rgba(230,0,122,0.1) 0%, rgba(255,102,0,0.1) 100%)',
               }}
             >
-              <div className="animate-spin rounded-full h-8 w-8 border-2 border-[#E6007A] border-t-transparent" />
+              <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-2 border-[#E6007A] border-t-transparent" />
             </div>
-            <p className="text-gray-600 font-geologica">{t.loading}</p>
+            <p className="text-gray-600 font-geologica text-sm sm:text-base">{t.loading}</p>
           </div>
         )}
 
         {/* Error */}
         {!isLoading && error && (
-          <div className="max-w-md mx-auto text-center py-12 md:py-16">
-            <div className="bg-white rounded-3xl p-8 md:p-10 border-2 border-red-100 shadow-sm">
+          <div className="max-w-md mx-auto text-center py-8 sm:py-12 md:py-16 px-2">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border-2 border-red-100 shadow-sm">
               <div
-                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4"
                 style={{
                   background: 'linear-gradient(135deg, rgba(230,0,122,0.08) 0%, rgba(255,102,0,0.08) 100%)',
                 }}
               >
-                <Gift className="w-8 h-8 text-red-400" />
+                <Gift className="w-7 h-7 sm:w-8 sm:h-8 text-red-400" />
               </div>
-              <h2 className="text-xl font-bold text-[#222222] font-geologica mb-2">{t.error}</h2>
-              <p className="text-gray-600 font-geologica mb-6">{t.errorSubtitle}</p>
+              <h2 className="text-lg sm:text-xl font-bold text-[#222222] font-geologica mb-1.5 sm:mb-2">{t.error}</h2>
+              <p className="text-gray-600 font-geologica text-sm sm:text-base mb-5 sm:mb-6">{t.errorSubtitle}</p>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#E6007A] to-[#FF6600] text-white rounded-2xl font-medium font-geologica hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 min-h-[44px] px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#E6007A] to-[#FF6600] text-white rounded-xl sm:rounded-2xl font-medium font-geologica hover:opacity-90 active:opacity-95 transition-opacity text-sm sm:text-base touch-manipulation"
               >
                 На главную
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 flex-shrink-0" />
               </Link>
             </div>
           </div>
@@ -191,112 +160,80 @@ export default function PublicWishlistPage() {
 
         {/* Empty */}
         {!isLoading && !error && items.length === 0 && (
-          <div className="max-w-md mx-auto text-center py-12 md:py-16">
-            <div className="bg-white rounded-3xl p-8 md:p-10 border border-gray-200 shadow-sm">
+          <div className="max-w-md mx-auto text-center py-8 sm:py-12 md:py-16 px-2">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border border-gray-200 shadow-sm">
               <div
-                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-gray-50"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 bg-gray-50"
                 style={{
                   background: 'linear-gradient(135deg, rgba(230,0,122,0.06) 0%, rgba(255,102,0,0.06) 100%)',
                 }}
               >
-                <Gift className="w-8 h-8 text-gray-400" />
+                <Gift className="w-7 h-7 sm:w-8 sm:h-8 text-gray-400" />
               </div>
-              <h2 className="text-xl font-bold text-[#222222] font-geologica mb-2">{t.empty}</h2>
-              <p className="text-gray-600 font-geologica">{t.emptySubtitle}</p>
+              <h2 className="text-lg sm:text-xl font-bold text-[#222222] font-geologica mb-1.5 sm:mb-2">{t.empty}</h2>
+              <p className="text-gray-600 font-geologica text-sm sm:text-base">{t.emptySubtitle}</p>
             </div>
           </div>
         )}
 
-        {/* Gift grid */}
+        {/* Gift grid - same card style as create tab */}
         {!isLoading && !error && items.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {items.map((product) => (
-              <article
+              <GiftCard
                 key={product.id}
-                className="group rounded-3xl sm:rounded-[1.75rem] bg-white shadow-sm overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-lg hover:shadow-pink-200/30 hover:border-pink-100"
-              >
-                <div className="relative aspect-square overflow-hidden bg-gray-50">
-                  {!isMounted || imageErrors.has(product.id) ? (
-                    <div
-                      className="w-full h-full flex items-center justify-center"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(230,0,122,0.06) 0%, rgba(255,102,0,0.08) 100%)',
-                      }}
-                    >
-                      <Gift className="w-12 h-12 md:w-16 md:h-16 text-pink-300" />
-                    </div>
-                  ) : (
-                    <img
-                      src={product.imageurl}
-                      alt={product.title}
-                      onError={() => handleImageError(product.id)}
-                      onLoad={(e) => {
-                        const img = e.currentTarget;
-                        if (img.naturalWidth === 0 || img.naturalHeight === 0) {
-                          handleImageError(product.id);
-                        }
-                      }}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  )}
-                </div>
-                <div className="p-4 md:p-5 flex flex-col gap-3">
-                  <h3 className="text-base md:text-lg font-bold text-[#222222] font-geologica line-clamp-2 min-h-[2.5rem]">
-                    {product.title}
-                  </h3>
-                  <a
-                    href={product.producturl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-2.5 md:py-3 px-4 rounded-xl font-medium text-sm md:text-base font-geologica bg-gradient-to-r from-[#E6007A] to-[#FF6600] text-white hover:opacity-90 transition-opacity shadow-md"
-                  >
-                    {t.viewProduct}
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                </div>
-              </article>
+                id={product.id}
+                title={product.title}
+                imageUrl={product.imageurl || undefined}
+                productUrl={product.producturl || undefined}
+                isOwner={false}
+                showReserveButton={false}
+                productLinkLabel={t.viewProduct}
+                isReserved={false}
+              />
             ))}
           </div>
         )}
 
         {/* Footer note when there are items */}
         {!isLoading && !error && items.length > 0 && (
-          <div className="mt-10 md:mt-12 text-center">
-            <div className="bg-white/80 backdrop-blur rounded-2xl p-5 md:p-6 border border-gray-200/80 shadow-sm max-w-2xl mx-auto">
-              <p className="text-gray-600 text-sm font-geologica">{t.footerNote}</p>
+          <div className="mt-8 sm:mt-10 md:mt-12 text-center px-1">
+            <div className="bg-white/80 backdrop-blur rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 border border-gray-200/80 shadow-sm max-w-2xl mx-auto">
+              <p className="text-gray-600 text-xs sm:text-sm font-geologica">{t.footerNote}</p>
             </div>
           </div>
         )}
 
         {/* CTA: Create your own wishlist */}
-        <div className="mt-12 md:mt-16 max-w-2xl mx-auto">
+        <div className="mt-8 sm:mt-12 md:mt-16 max-w-2xl mx-auto px-1">
           <div
-            className="relative rounded-3xl p-8 md:p-10 overflow-hidden shadow-xl"
+            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 overflow-hidden shadow-xl"
             style={{
               background: 'linear-gradient(135deg, #E6007A 0%, #FF6600 100%)',
             }}
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16" />
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12" />
+            <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-white/10 rounded-full -mr-12 sm:-mr-16 -mt-12 sm:-mt-16" />
+            <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-24 sm:h-24 bg-white/10 rounded-full -ml-10 sm:-ml-12 -mb-10 sm:-mb-12" />
             <div className="relative text-center text-white">
-              <div className="flex justify-center gap-2 mb-3">
-                <Star className="w-6 h-6 md:w-7 md:h-7" />
-                <Heart className="w-6 h-6 md:w-7 md:h-7" />
-                <Gift className="w-6 h-6 md:w-7 md:h-7" />
+              <div className="flex justify-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+                <Star className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+                <Heart className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+                <Gift className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
               </div>
-              <h2 className="text-xl md:text-2xl font-bold font-geologica mb-2">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold font-geologica mb-1.5 sm:mb-2">
                 {t.createYourOwn}
               </h2>
-              <p className="text-white/90 text-sm md:text-base mb-6 font-geologica max-w-md mx-auto">
+              <p className="text-white/90 text-xs sm:text-sm md:text-base mb-4 sm:mb-6 font-geologica max-w-md mx-auto px-1">
                 {t.createSubtitle}
               </p>
               <div className="button-gradient-border">
                 <button
+                  type="button"
                   onClick={handleCreateOwn}
-                  className="flex items-center justify-center gap-2 px-6 md:px-8 py-3 md:py-4 rounded-full font-geologica font-medium text-[#222222] bg-white hover:bg-gray-50 transition-colors text-base md:text-lg w-full sm:w-auto"
+                  className="flex items-center justify-center gap-2 px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full font-geologica font-medium text-[#222222] bg-white hover:bg-gray-50 active:bg-gray-100 transition-colors text-sm sm:text-base md:text-lg w-full sm:w-auto min-h-[44px] touch-manipulation"
                 >
                   {t.createYourOwn}
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                 </button>
               </div>
             </div>

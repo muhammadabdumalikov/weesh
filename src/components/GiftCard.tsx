@@ -11,6 +11,10 @@ interface GiftCardProps {
   price?: string;
   isReserved?: boolean;
   isOwner?: boolean;
+  /** Label for the product link (e.g. "Купить" or "Смотреть товар"). Default: "Купить" */
+  productLinkLabel?: string;
+  /** Show "Подарить" / reserve button. Default: true. Set false on public wishlist. */
+  showReserveButton?: boolean;
   onClick?: () => void;
   onMenuClick?: () => void;
   onReserveClick?: () => void;
@@ -26,6 +30,8 @@ export default function GiftCard({
   price,
   isReserved = false,
   isOwner = false,
+  productLinkLabel = 'Купить',
+  showReserveButton = true,
   onClick,
   onMenuClick,
   onReserveClick,
@@ -163,13 +169,17 @@ export default function GiftCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-100 hover:bg-gray-200 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium text-gray-700 transition-colors font-geologica"
+                className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors font-geologica ${
+                  showReserveButton
+                    ? 'flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700'
+                    : 'w-full bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-semibold shadow-sm hover:shadow-md'
+                }`}
               >
-                <ExternalLink className="hidden sm:block w-3.5 h-3.5" />
-                Купить
+                {showReserveButton && <ExternalLink className="hidden sm:block w-3.5 h-3.5" />}
+                {productLinkLabel}
               </a>
             )}
-            {!isReserved && (
+            {showReserveButton && !isReserved && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();

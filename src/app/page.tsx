@@ -21,6 +21,7 @@ export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [username, setUsernameState] = useState('');
+  const [currentLang, setCurrentLang] = useState<'en' | 'ru' | 'uz'>('ru');
 
   useEffect(() => {
     setIsUserAuthenticated(isAuthenticated());
@@ -53,6 +54,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#f7f7f7] relative overflow-hidden">
       <Header
+        language={currentLang}
+        onLanguageChange={setCurrentLang}
         onSignInClick={() => setIsAuthModalOpen(true)}
         onLogout={() => {
           signOut();
