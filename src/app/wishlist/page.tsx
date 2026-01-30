@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Gift, Trash2, X } from 'react-feather';
+import { Gift, Trash2, X, Share2 } from 'react-feather';
 import GiftModal from '@/components/wishlist/GiftModal';
 import WishlistModal from '@/components/wishlist/WishlistModal';
 import AuthModal from '@/components/wishlist/AuthModal';
+import ShareModal from '@/components/wishlist/ShareModal';
 import Footer from '@/components/Footer';
 import {
   fetchWishlistItems,
@@ -17,6 +18,7 @@ import {
   signUp,
   signOut,
   getUsername,
+  getOwnerId,
   type WishlistItem,
   type CreateWishlistDto,
   type UpdateWishlistDto,
@@ -58,6 +60,9 @@ export default function WishlistPage() {
 
   // Delete confirmation (page-level modal)
   const [itemToDelete, setItemToDelete] = useState<WishlistItem | null>(null);
+
+  // Share modal
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   
   // Sample wishlists data
   const [wishlists, setWishlists] = useState<Wishlist[]>([
@@ -416,6 +421,26 @@ export default function WishlistPage() {
           </>
         )}
       </main>
+
+      {/* Share your weesh — floating CTA (only when authenticated, create tab) */}
+      {isUserAuthenticated && activeTab === 'create' && getOwnerId() && (
+        <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-6 z-40 p-[2px] rounded-full bg-gradient-to-r from-[#E6007A] to-[#FF6600] shadow-lg hover:shadow-xl transition-shadow">
+          <button
+            type="button"
+            onClick={() => setIsShareModalOpen(true)}
+            className="group flex items-center gap-2.5 sm:gap-3 pl-1.5 pr-4 sm:pl-2 sm:pr-5 py-2.5 sm:py-3 rounded-full bg-[#f7f7f7] hover:bg-white transition-colors w-full"
+            aria-label={t('wishlistPage.shareYourWeesh')}
+          >
+            <span className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-r from-[#E6007A] to-[#FF6600] text-white shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+              <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
+            </span>
+            <span className="font-geologica font-semibold text-sm sm:text-base text-[#222222]">
+              {t('wishlistPage.shareYourWeesh')}
+            </span>
+          </button>
+        </div>
+      )}
+
       <Footer />
 
       {/* Modals */}
@@ -458,6 +483,12 @@ export default function WishlistPage() {
         onClose={() => setIsAuthModalOpen(false)}
         onSignIn={handleSignIn}
         onSignUp={handleSignUp}
+      />
+
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        ownerId={getOwnerId() ?? ''}
       />
 
       {/* Delete confirmation modal (page-level) */}
