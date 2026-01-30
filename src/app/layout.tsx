@@ -12,8 +12,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Wishlist - Create and Share Your Dream Wishlist",
-    template: "%s | Wishlist",
+    default: "Weesh - Create and Share Your Dream Wishlist",
+    template: "%s | Weesh",
   },
   icons: {
     icon: "/favicon.png",
