@@ -331,3 +331,26 @@ body {
   display: none;
 }
 
+/* Footer socials (Uiverse.io style) */
+.socials-container {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+}
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+.social svg {
+  fill: #222222;
+  height: 22px;
+  width: 22px;
+}
+

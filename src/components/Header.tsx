@@ -52,7 +52,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
       <nav className="hidden md:flex items-center gap-6 lg:gap-8">
         <Link 
           href="#about" 
-          className="text-black hover:text-gray-600 transition-colors text-sm lg:text-base font-geologica"
+          className="text-black hover:text-gray-600 transition-colors text-sm lg:text-base font-geologica cursor-pointer"
         >
           О сервисе
         </Link>
@@ -60,18 +60,18 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
           <button
             type="button"
             onClick={openProfileModal}
-            className="flex items-center gap-3 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2"
+            className="flex items-center gap-4 focus:outline-none cursor-pointer px-2 py-1 hover:bg-gray-50 transition-colors rounded-full"
             aria-label="Profile menu"
           >
-            <span className="text-sm text-gray-600 font-geologica hidden lg:block">{username}</span>
-            <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold font-geologica text-sm lg:text-base hover:opacity-90 transition-opacity">
+            <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 flex items-center justify-center text-white font-bold font-geologica text-sm lg:text-base">
               {username?.charAt(0).toUpperCase() || 'U'}
             </div>
+            <span className="text-sm text-gray-600 font-geologica hidden lg:block">{username}</span>
           </button>
         ) : (
           <button 
             onClick={onSignInClick}
-            className="px-4 lg:px-5 py-2 border border-black rounded-full text-black hover:bg-gray-50 transition-colors text-sm lg:text-base font-geologica"
+            className="px-4 lg:px-5 py-2 border border-black rounded-full text-black hover:bg-gray-50 transition-colors text-sm lg:text-base font-geologica cursor-pointer"
           >
             Войти
           </button>
@@ -94,7 +94,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
             <Link 
               href="#about" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-black hover:text-gray-600 transition-colors text-base font-geologica py-2"
+              className="text-black hover:text-gray-600 transition-colors text-base font-geologica py-2 cursor-pointer"
             >
               О сервисе
             </Link>
@@ -112,7 +112,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
             ) : (
               <button 
                 onClick={handleSignInClick}
-                className="w-full px-5 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-full font-medium transition-colors text-base font-geologica"
+                className="w-full px-5 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-full font-medium transition-colors text-base font-geologica cursor-pointer"
               >
                 Войти
               </button>
