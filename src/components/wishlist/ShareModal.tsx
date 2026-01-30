@@ -155,7 +155,7 @@ export default function ShareModal({
           <button
             onClick={handleCopy}
             disabled={copied}
-            className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-90 transform hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full flex items-center justify-center gap-2 px-6 py-4 border border-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white rounded-xl font-semibold hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 hover:border-pink-400 transition-all shadow-lg hover:shadow-xl disabled:opacity-90 transform hover:scale-[1.02] active:scale-[0.98]"
           >
             {copied ? (
               <>

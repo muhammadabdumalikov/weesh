@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Gift } from 'react-feather';
+import { Gift, Trash2, X } from 'react-feather';
 import GiftModal from '@/components/wishlist/GiftModal';
 import WishlistModal from '@/components/wishlist/WishlistModal';
 import AuthModal from '@/components/wishlist/AuthModal';
@@ -55,6 +55,9 @@ export default function WishlistPage() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [username, setUsernameState] = useState<string>('');
+
+  // Delete confirmation (page-level modal)
+  const [itemToDelete, setItemToDelete] = useState<WishlistItem | null>(null);
   
   // Sample wishlists data
   const [wishlists, setWishlists] = useState<Wishlist[]>([
@@ -211,13 +214,19 @@ export default function WishlistPage() {
     }
   };
 
-  // Delete gift
+  // Request delete: open page-level confirmation modal (and close edit modal if open)
+  const openDeleteConfirm = (item: WishlistItem) => {
+    setIsGiftModalOpen(false);
+    setItemToDelete(item);
+  };
+
+  // Delete gift (called after user confirms in delete modal)
   const handleDeleteGift = async (id: string) => {
-    if (!confirm('Удалить этот подарок?')) return;
     try {
       const ok = await deleteWishlistItem(id);
       if (ok) {
         setApiItems((prev) => prev.filter((i) => i.id !== id));
+        setItemToDelete(null);
       } else {
         alert('Не удалось удалить. Попробуйте снова.');
       }
@@ -329,7 +338,7 @@ export default function WishlistPage() {
                     productUrl={item.producturl || undefined}
                     isOwner={isUserAuthenticated}
                     onEditClick={() => openEditGiftModal(item)}
-                    onDeleteClick={() => handleDeleteGift(item.id)}
+                    onDeleteClick={() => openDeleteConfirm(item)}
                     onClick={() => console.log('Open gift:', item.id)}
                     onReserveClick={() => console.log('Reserve gift:', item.id)}
                   />
@@ -450,6 +459,59 @@ export default function WishlistPage() {
         onSignIn={handleSignIn}
         onSignUp={handleSignUp}
       />
+
+      {/* Delete confirmation modal (page-level) */}
+      {itemToDelete && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          onClick={() => setItemToDelete(null)}
+        >
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" aria-hidden="true" />
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-confirm-title"
+            className="relative bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setItemToDelete(null)}
+              className="absolute top-3 right-3 p-1.5 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+              aria-label={t('shareModal.close')}
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center flex-shrink-0">
+                <Trash2 className="w-5 h-5 text-rose-600" />
+              </div>
+              <h2 id="delete-confirm-title" className="text-lg font-bold text-gray-900 font-geologica pr-8">
+                {t('giftCard.delete')}
+              </h2>
+            </div>
+            <p className="text-gray-600 text-sm font-geologica mb-6">
+              {t('wishlistPage.confirmDelete')}
+            </p>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setItemToDelete(null)}
+                className="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-semibold font-geologica hover:bg-gray-50 hover:border-gray-400 transition-colors"
+              >
+                {t('wishlistModal.cancel')}
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDeleteGift(itemToDelete.id)}
+                className="flex-1 px-4 py-2.5 rounded-xl border border-transparent bg-rose-600 text-white font-semibold font-geologica hover:bg-rose-700 hover:border-rose-500 transition-colors"
+              >
+                {t('giftCard.delete')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

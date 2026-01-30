@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Gift, ExternalLink, MoreVertical, Check, Edit2, Trash2 } from 'react-feather';
+import { Gift, ExternalLink, Check, Edit2, Trash2 } from 'react-feather';
 
 interface GiftCardProps {
   id: string;
@@ -40,39 +39,15 @@ export default function GiftCard({
   onDeleteClick,
 }: GiftCardProps) {
   const { t } = useTranslation();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
   const linkLabel = productLinkLabel ?? t('giftCard.buy');
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [menuOpen]);
-
-  const handleMenuClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (isOwner && (onEditClick || onDeleteClick)) {
-      setMenuOpen((prev) => !prev);
-    } else {
-      onMenuClick?.();
-    }
-  };
 
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setMenuOpen(false);
     onEditClick?.();
   };
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setMenuOpen(false);
     onDeleteClick?.();
   };
 
@@ -116,38 +91,6 @@ export default function GiftCard({
               <span className="sm:hidden">Занят</span>
             </div>
           )}
-          
-          {/* Menu button + dropdown for owner (Edit/Delete) */}
-          <div className="absolute top-2 right-2 sm:top-3 sm:right-3 z-20" ref={menuRef}>
-            <button
-              onClick={handleMenuClick}
-              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-600 hover:bg-white hover:text-gray-800 transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 shadow-sm"
-            >
-              <MoreVertical className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            </button>
-            {isOwner && menuOpen && (onEditClick || onDeleteClick) && (
-              <div className="absolute right-0 top-full mt-1 py-1 min-w-[120px] bg-white rounded-xl shadow-lg border border-gray-100">
-                {onEditClick && (
-                  <button
-                    onClick={handleEdit}
-                    className="w-full px-4 py-2 flex items-center gap-2 text-left text-sm text-gray-700 hover:bg-gray-50 font-geologica"
-                  >
-                    <Edit2 className="w-4 h-4" />
-                    {t('giftCard.edit')}
-                  </button>
-                )}
-                {onDeleteClick && (
-                  <button
-                    onClick={handleDelete}
-                    className="w-full px-4 py-2 flex items-center gap-2 text-left text-sm text-red-600 hover:bg-red-50 font-geologica"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                    {t('giftCard.delete')}
-                  </button>
-                )}
-              </div>
-            )}
-          </div>
         </div>
         
         {/* Content area */}
@@ -164,39 +107,63 @@ export default function GiftCard({
             )}
           </div>
           
-          {/* Actions - always visible on mobile, hover on desktop */}
+          {/* Actions - owner: Edit/Delete; else: Buy + Reserve */}
           <div className="flex gap-2 sm:opacity-0 sm:translate-y-2 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 transition-all duration-200">
-            {productUrl && (
-              <a
-                href={productUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors font-geologica ${
-                  showReserveButton
-                    ? 'flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700'
-                    : 'w-full bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-semibold shadow-sm hover:shadow-md'
-                }`}
-              >
-                {showReserveButton && <ExternalLink className="hidden sm:block w-3.5 h-3.5" />}
-                {linkLabel}
-              </a>
-            )}
-            {showReserveButton && !isReserved && (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onReserveClick?.();
-                }}
-                className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold text-white transition-all shadow-sm hover:shadow-md font-geologica"
-              >
-                {t('giftCard.reserve')}
-              </button>
+            {isOwner && (onEditClick || onDeleteClick) ? (
+              <>
+                {onEditClick && (
+                  <button
+                    onClick={handleEdit}
+                    className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium font-geologica bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+                  >
+                    <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    {t('giftCard.edit')}
+                  </button>
+                )}
+                {onDeleteClick && (
+                  <button
+                    onClick={handleDelete}
+                    className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium font-geologica bg-red-50 hover:bg-red-100 text-red-600 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    {t('giftCard.delete')}
+                  </button>
+                )}
+              </>
+            ) : (
+              <>
+                {productUrl && (
+                  <a
+                    href={productUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors font-geologica ${
+                      showReserveButton
+                        ? 'flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700'
+                        : 'w-full bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-semibold shadow-sm hover:shadow-md'
+                    }`}
+                  >
+                    {showReserveButton && <ExternalLink className="hidden sm:block w-3.5 h-3.5" />}
+                    {linkLabel}
+                  </a>
+                )}
+                {showReserveButton && !isReserved && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onReserveClick?.();
+                    }}
+                    className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold text-white transition-all shadow-sm hover:shadow-md font-geologica"
+                  >
+                    {t('giftCard.reserve')}
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>
       </div>
-      
     </div>
   );
 }

@@ -215,14 +215,14 @@ export default function WishlistModal({
               type="button"
               onClick={handleClose}
               disabled={isSubmitting}
-              className="flex-1 px-6 py-3 border border-gray-300 text-gray-800 rounded-xl font-semibold hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
+              className="flex-1 px-6 py-3 border border-gray-300 text-gray-800 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
             >
               {t('wishlistModal.cancel')}
             </button>
             <button
               type="submit"
               disabled={isSubmitting || !name.trim()}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white rounded-xl font-geologica font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:from-pink-600 hover:via-red-600 hover:to-orange-600"
+              className="flex-1 px-6 py-3 border border-transparent bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white rounded-xl font-geologica font-semibold shadow-lg hover:shadow-xl hover:border-pink-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:from-pink-600 hover:via-red-600 hover:to-orange-600"
             >
               {isSubmitting ? t('wishlistModal.saving') : mode === 'create' ? t('wishlistModal.create') : t('wishlistModal.save')}
             </button>

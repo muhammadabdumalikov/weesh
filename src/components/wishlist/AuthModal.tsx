@@ -211,7 +211,7 @@ export default function AuthModal({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 hover:from-pink-600 hover:via-red-600 hover:to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
+            className="w-full py-3 border border-transparent bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 hover:from-pink-600 hover:via-red-600 hover:to-orange-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:border-pink-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
           >
             {isSubmitting
               ? mode === 'signin'

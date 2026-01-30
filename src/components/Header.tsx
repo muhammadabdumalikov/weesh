@@ -82,7 +82,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
           </button>
           {isLangOpen && (
             <div
-              className="absolute top-full left-0 mt-1.5 min-w-[4.5rem] py-1 rounded-xl border border-gray-200 bg-white shadow-lg z-50 animate-in zoom-in-95 duration-150"
+              className="absolute top-full left-0 mt-1.5 min-w-[4.5rem] rounded-xl border border-gray-200 bg-white shadow-lg z-50 animate-in zoom-in-95 duration-150"
               role="listbox"
               aria-label={t('header.languageOptions')}
             >
