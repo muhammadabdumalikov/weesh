@@ -32,11 +32,22 @@ export default function Home() {
     if (stored) setUsernameState(stored);
   }, []);
 
+  // Smooth scroll to pricing when landing with #pricing (e.g. from upgrade btn on other pages)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.location.hash !== '#pricing') return;
+    const id = setTimeout(() => {
+      document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+    return () => clearTimeout(id);
+  }, []);
+
   const handleSignIn = async (credentials: AuthCredentials) => {
     await signIn(credentials);
     setIsUserAuthenticated(true);
     setUsernameState(credentials.login);
     setIsAuthModalOpen(false);
+    router.push('/wishlist');
   };
 
   const handleSignUp = async (credentials: AuthCredentials) => {
@@ -44,6 +55,7 @@ export default function Home() {
     setIsUserAuthenticated(true);
     setUsernameState(credentials.login);
     setIsAuthModalOpen(false);
+    router.push('/wishlist');
   };
 
   const handleCreateWishlist = () => {

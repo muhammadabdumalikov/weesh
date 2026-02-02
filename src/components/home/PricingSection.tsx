@@ -12,7 +12,7 @@ export default function PricingSection({ onGetStartedClick, onNotifyMeClick }: P
   const { t } = useTranslation();
 
   return (
-    <section className="mt-20 md:mt-28 lg:mt-36 text-center">
+    <section id="pricing" className="mt-20 md:mt-28 lg:mt-36 text-center scroll-mt-24">
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#222222] font-geologica mb-2 text-balance max-w-2xl mx-auto">
         {t('home.pricingTitle')}
       </h2>
