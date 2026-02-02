@@ -20,11 +20,11 @@ export default function TestimonialCard({
     <div className="rounded-2xl bg-white p-6 border border-gray-200 flex flex-col h-full">
       <p className="text-gray-700 text-sm sm:text-base font-geologica leading-relaxed flex-1 mb-4 relative">
         <span className="text-2xl sm:text-3xl text-gray-300 font-serif leading-none select-none" aria-hidden>
-          "
+          &quot;
         </span>
         <span className="px-0.5">{quote}</span>
         <span className="text-2xl sm:text-3xl text-gray-300 font-serif leading-none select-none align-top" aria-hidden>
-          "
+          &quot;
         </span>
       </p>
       <div className="flex items-center justify-between gap-3 mt-auto">
