@@ -8,7 +8,7 @@ interface LogoProps {
 }
 
 export default function Logo({ className = 'text-4xl sm:text-5xl md:text-6xl', asSpan }: LogoProps) {
-  const sharedClassName = `font-moresugar pr-1 theme-gradient-text-135 tracking-tight ${className}`.trim();
+  const sharedClassName = `font-moresugar pr-1 theme-gradient-text-135 tracking-[-0.1em] ${className}`.trim();
 
   if (asSpan) {
     return <span className={sharedClassName}>weesh</span>;

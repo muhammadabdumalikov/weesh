@@ -53,7 +53,7 @@ export default function GiftCard({
 
   return (
     <div
-      className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white shadow-sm transition-all duration-300 hover:scale-[0.98] cursor-pointer group overflow-hidden relative theme-card-hover-shadow origin-center"
+      className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white transition-all duration-300 hover:scale-[0.98] cursor-pointer group overflow-hidden relative origin-center"
       onClick={onClick}
     >
       {/* Main card */}
@@ -136,7 +136,7 @@ export default function GiftCard({
                     className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition-colors font-geologica min-w-0 overflow-hidden ${
                       showReserveButton
                         ? 'flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700'
-                        : 'w-full theme-gradient-bg text-white font-semibold shadow-sm hover:shadow-md hover:opacity-90'
+                        : 'w-full theme-gradient-bg text-white font-semibold hover:opacity-90'
                     }`}
                   >
                     {showReserveButton && <ExternalLink className="hidden sm:block w-3.5 h-3.5 flex-shrink-0" />}
@@ -149,7 +149,7 @@ export default function GiftCard({
                       e.stopPropagation();
                       onReserveClick?.();
                     }}
-                    className="flex-1 min-w-0 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 theme-gradient-bg rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold text-white transition-all shadow-sm hover:shadow-md hover:opacity-90 font-geologica overflow-hidden"
+                    className="flex-1 min-w-0 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 theme-gradient-bg rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold text-white transition-all hover:opacity-90 font-geologica overflow-hidden"
                   >
                     <span className="truncate">{t('giftCard.reserve')}</span>
                   </button>

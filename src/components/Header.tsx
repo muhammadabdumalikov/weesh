@@ -63,10 +63,11 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full px-8 sm:px-12 md:px-24 lg:px-32 xl:px-40 py-2 md:py-4 flex justify-between items-center backdrop-blur-md bg-white/80 border-b border-gray-200 shadow-xs">
-      <Logo />
+    <header className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-md bg-white/80 border-b border-gray-200">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-2 md:py-4 flex justify-between items-center">
+        <Logo />
 
-      {/* Desktop Navigation */}
+        {/* Desktop Navigation */}
       <nav className="hidden md:flex items-center gap-4 sm:gap-6 lg:gap-8">
         <div className="relative" ref={langDropdownDesktopRef}>
           <button
@@ -82,7 +83,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
           </button>
           {isLangOpen && (
             <div
-              className="absolute top-full left-0 mt-1.5 min-w-[4.5rem] rounded-xl border border-gray-200 bg-white shadow-lg z-50 animate-in zoom-in-95 duration-150"
+              className="absolute top-full left-0 mt-1.5 min-w-[4.5rem] rounded-xl border border-gray-200 bg-white z-50 animate-in zoom-in-95 duration-150"
               role="listbox"
               aria-label={t('header.languageOptions')}
             >
@@ -147,8 +148,8 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-lg md:hidden animate-in slide-in-from-top-2 duration-200">
-          <nav className="flex flex-col p-4 gap-4">
+        <div className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 md:hidden animate-in slide-in-from-top-2 duration-200">
+          <nav className="flex flex-col p-4 gap-4 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <div className="relative self-start" ref={langDropdownMobileRef}>
               <button
                 type="button"
@@ -163,7 +164,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
               </button>
               {isLangOpen && (
                 <div
-                  className="absolute top-full left-0 mt-1.5 min-w-[5rem] py-1 rounded-xl border border-gray-200 bg-white shadow-lg z-50 animate-in zoom-in-95 duration-150"
+                  className="absolute top-full left-0 mt-1.5 min-w-[5rem] py-1 rounded-xl border border-gray-200 bg-white z-50 animate-in zoom-in-95 duration-150"
                   role="listbox"
                   aria-label={t('header.languageOptions')}
                 >
@@ -219,13 +220,15 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
         </div>
       )}
 
+      </div>
+
       {/* Profile card modal — dropdown from top-right (example style) */}
       {isProfileModalOpen && (
         <>
           <div className="fixed inset-0 z-[99] bg-black/20 md:bg-transparent" aria-hidden="true" />
           <div
             ref={profileModalRef}
-            className="fixed z-[100] w-full max-w-[280px] bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden animate-in zoom-in-95 duration-200 md:top-20 md:right-4 lg:right-16 xl:right-32 top-20 left-4 right-4 mx-auto md:mx-0 md:left-auto"
+            className="fixed z-[100] w-full max-w-[280px] bg-white rounded-2xl border border-gray-200 overflow-hidden animate-in zoom-in-95 duration-200 md:top-20 md:right-4 lg:right-16 xl:right-32 top-20 left-4 right-4 mx-auto md:mx-0 md:left-auto"
             role="dialog"
             aria-labelledby="profile-modal-title"
             aria-modal="true"
@@ -305,7 +308,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                   role="switch"
                   aria-checked={isDarkMode}
                 >
-                  <span className="block w-4 h-4 rounded-full bg-white shadow mx-0.5" />
+                  <span className="block w-4 h-4 rounded-full bg-white mx-0.5" />
                 </span>
               </button>
             </div>

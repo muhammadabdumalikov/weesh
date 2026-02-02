@@ -46,7 +46,21 @@
     "wishlistTypeBaby": "Chaqaloq reyestri",
     "wishlistTypeWedding": "To'y reyestri",
     "wishlistTypeShopping": "Xaridlar ro'yxati",
-    "wishlistTypeInspiration": "Ilhom ro'yxati"
+    "wishlistTypeInspiration": "Ilhom ro'yxati",
+    "testimonialsTitle": "Millionlab foydalanuvchilar Weeshni yaxshi ko'radi",
+    "testimonialsSubtitle": "Weesh bilan tajribasi haqida foydalanuvchilarimiz nima deyishini o'qing",
+    "testimonial1Quote": "To'y reyestri uchun Weeshdan foydalandik. Mehmonlar havolalar bilan aniq narsalarni ko'rdi — noto'g'ri o'lcham yoki takror yo'q. Ham bizga, ham ularga oson bo'ldi.",
+    "testimonial1Name": "Markus va Yuki Chen",
+    "testimonial2Quote": "Oilam boshqa mamlakatda yashaydi. Chaqaloq ziyofati uchun ular ham ro'yxatimdan xarid qila oldi — hamma narsada havola bor edi. Yonimizda ekanlardek his qildim. Minnatdorman.",
+    "testimonial2Name": "Priya Sharma",
+    "testimonial3Quote": "Nihoyat bitta ishni va yaxshi qiladigan ilova. Ortiqcha reklama yo'q. O'zim uchun ro'yxat saqlayman, birini sherikim bilan ulashaman. Oddiy va ishlaydi.",
+    "testimonial3Name": "Omar Hassan",
+    "testimonial4Quote": "Har Yangi yilda takror sovg'alar bo'lardi — kim nima olayotganini bilmas edik. Bu yil Weesh havolalarini ulashdik — muammo hal bo'ldi. Yillar ichidagi eng yaxshi bayram.",
+    "testimonial4Name": "Elena Kovalski",
+    "testimonial5Quote": "Tez-tez ko'chaman, oila tarqoq. Tug'ilgan kun ro'yxati uchun bitta havola, ro'yxatdan o'tish shart emas, istalgan vaqt yangilayman. Bog'lanish usulimiz o'zgardi.",
+    "testimonial5Name": "James Okonkwo",
+    "testimonial6Quote": "Tug'ilgan kun, uyga kirish va sayohat uchun alohida ro'yxatlar. Har biriga bitta havola, shunchaki bandlarni yangilayman. Har safar yangi havola yuborish shart emas. Ajoyib.",
+    "testimonial6Name": "Nina Bergström"
   },
   "footer": {
     "description": "Weesh istaklar ro'yxatini yaratish va yaqinlaringiz bilan ulashishga yordam beradi — faqat xohlagan sovg'alaringizni oling.",

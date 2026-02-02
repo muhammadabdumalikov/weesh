@@ -46,7 +46,21 @@
     "wishlistTypeBaby": "Baby Registry",
     "wishlistTypeWedding": "Wedding Registry",
     "wishlistTypeShopping": "Shopping List",
-    "wishlistTypeInspiration": "Inspiration List"
+    "wishlistTypeInspiration": "Inspiration List",
+    "testimonialsTitle": "Loved by millions of happy users",
+    "testimonialsSubtitle": "See what our users have to say about their experience with Weesh",
+    "testimonial1Quote": "We used Weesh for our wedding registry. Guests could see exactly what we wanted with links — no more wrong sizes or duplicates. Made everything so much easier for us and for them.",
+    "testimonial1Name": "Marcus & Yuki Chen",
+    "testimonial2Quote": "My family lives in another country. For the baby shower they could still shop from my list because everything had links. Felt like they were right there. So grateful for this.",
+    "testimonial2Name": "Priya Sharma",
+    "testimonial3Quote": "Finally an app that does one thing and does it well. No bloat, no ads. I keep a list for myself and share one with my partner. Simple and it just works.",
+    "testimonial3Name": "Omar Hassan",
+    "testimonial4Quote": "Every Christmas we had duplicate gifts because nobody knew what others were buying. This year we all shared our Weesh links — problem solved. Best holiday in years.",
+    "testimonial4Name": "Elena Kowalski",
+    "testimonial5Quote": "I move a lot so my family is spread everywhere. One link for my birthday list, they don't need to sign up, and I can update it anytime. Game changer for staying connected.",
+    "testimonial5Name": "James Okonkwo",
+    "testimonial6Quote": "I have separate lists for my birthday, housewarming, and travel gear. Same link for each, I just update the items. No more sending new links every time. Brilliant.",
+    "testimonial6Name": "Nina Bergström"
   },
   "footer": {
     "description": "Weesh helps you create wishlists and share them with loved ones — get only the gifts you want.",

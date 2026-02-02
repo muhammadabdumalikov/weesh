@@ -430,7 +430,7 @@ export default function WishlistPage() {
 
       {/* Share your weesh — floating CTA (only when authenticated, create tab) */}
       {isUserAuthenticated && activeTab === 'create' && getOwnerCode() && (
-        <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-6 z-40 theme-gradient-border-wrap shadow-lg hover:shadow-xl transition-shadow">
+        <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-6 z-40 theme-gradient-border-wrap">
           <button
             type="button"
             onClick={() => setIsShareModalOpen(true)}
@@ -438,7 +438,7 @@ export default function WishlistPage() {
             style={{ background: 'var(--theme-page-bg)' }}
             aria-label={t('wishlistPage.shareYourWeesh')}
           >
-            <span className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full theme-gradient-bg text-white shadow-sm group-hover:scale-105 transition-transform flex-shrink-0">
+            <span className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full theme-gradient-bg text-white group-hover:scale-105 transition-transform flex-shrink-0">
               <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </span>
             <span className="font-geologica font-semibold text-sm sm:text-base text-[#222222]">
@@ -509,7 +509,7 @@ export default function WishlistPage() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="delete-confirm-title"
-            className="relative bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 animate-in zoom-in-95 duration-200"
+            className="relative bg-white rounded-2xl max-w-sm w-full p-6 animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <button

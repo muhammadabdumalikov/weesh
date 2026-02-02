@@ -23,7 +23,7 @@ export default function WishlistCard({
 }: WishlistCardProps) {
   return (
     <div
-      className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:shadow-pink-200/50 hover:scale-[0.98] sm:hover:scale-95 cursor-pointer group overflow-hidden"
+      className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white transition-all duration-300 hover:scale-[0.98] sm:hover:scale-95 cursor-pointer group overflow-hidden"
       onClick={onClick}
     >
       {/* Main card */}
@@ -49,7 +49,7 @@ export default function WishlistCard({
                   {previewItems.slice(0, 4).map((item, index) => (
                     <div
                       key={index}
-                      className="w-10 h-10 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl bg-white shadow-sm overflow-hidden flex items-center justify-center"
+                      className="w-10 h-10 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl bg-white overflow-hidden flex items-center justify-center"
                     >
                       {item.imageUrl ? (
                         <img
@@ -80,7 +80,7 @@ export default function WishlistCard({
               e.stopPropagation();
               onMenuClick?.();
             }}
-            className="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-600 hover:bg-white hover:text-gray-800 transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100 shadow-sm"
+            className="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-600 hover:bg-white hover:text-gray-800 transition-all opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
           >
             <MoreVertical className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>

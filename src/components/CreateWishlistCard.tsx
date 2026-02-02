@@ -11,7 +11,7 @@ const gradientId = 'create-card-wrapper-gradient';
 
 export default function CreateWishlistCard({ onClick, text }: CreateWishlistCardProps) {
   return (
-    <div className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl relative transition-all duration-300 hover:scale-[0.98] sm:hover:scale-95 theme-card-hover-shadow">
+    <div className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl relative transition-all duration-300 hover:scale-[0.98] sm:hover:scale-95">
       {/* SVG for dashed gradient border - theme via CSS variables */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none"

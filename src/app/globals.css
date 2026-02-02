@@ -261,14 +261,6 @@ body {
   transition: color 0.3s ease;
 }
 
-/* Theme-aware card hover shadow (replaces hardcoded pink shadow) */
-.theme-card-hover-shadow:hover {
-  box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 0.05),
-    0 4px 6px -4px color-mix(in srgb, var(--theme-gradient-start) 35%, transparent);
-  transition: box-shadow 0.3s ease;
-}
-
 /* Theme-aware input focus (border + ring) */
 .theme-input-focus:focus {
   border-color: var(--theme-gradient-start);

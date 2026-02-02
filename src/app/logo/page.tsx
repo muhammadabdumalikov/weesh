@@ -90,7 +90,7 @@ export default function LogoExportPage() {
       )}
 
       {/* Preview - SVG scales to any size without quality loss */}
-      <div className="bg-white p-6 rounded-2xl shadow-sm">
+      <div className="bg-white p-6 rounded-2xl">
         {svgUrl && (
           <img
             src={svgUrl}

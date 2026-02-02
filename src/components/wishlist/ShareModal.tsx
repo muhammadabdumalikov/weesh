@@ -49,7 +49,7 @@ export default function ShareModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="share-modal-title"
-        className="relative bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200"
+        className="relative bg-white rounded-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -95,7 +95,7 @@ export default function ShareModal({
             type="button"
             onClick={handleCopy}
             disabled={copied}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 border border-transparent theme-gradient-bg text-white rounded-xl font-semibold font-geologica hover:opacity-90 transition-all shadow-sm disabled:opacity-90"
+            className="w-full flex items-center justify-center gap-2 px-5 py-3.5 border border-transparent theme-gradient-bg text-white rounded-xl font-semibold font-geologica hover:opacity-90 transition-all disabled:opacity-90"
           >
             {copied ? (
               <>

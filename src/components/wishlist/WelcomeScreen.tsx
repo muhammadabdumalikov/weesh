@@ -47,7 +47,7 @@ export default function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
         {/* CTA Button */}
         <button
           onClick={onGetStarted}
-          className="inline-flex items-center gap-3 px-8 py-4 theme-gradient-bg text-white text-lg font-bold rounded-2xl shadow-2xl hover:shadow-3xl hover:opacity-90 transition-all transform hover:scale-105 active:scale-95 animate-in zoom-in duration-700 delay-300"
+          className="inline-flex items-center gap-3 px-8 py-4 theme-gradient-bg text-white text-lg font-bold rounded-2xl hover:opacity-90 transition-all transform hover:scale-105 active:scale-95 animate-in zoom-in duration-700 delay-300"
         >
           <Star className="w-6 h-6" />
           {t('welcome.getStarted')}
@@ -61,7 +61,7 @@ export default function WelcomeScreen({ onGetStarted }: WelcomeScreenProps) {
           return (
             <div
               key={index}
-              className="bg-white rounded-2xl p-6 md:p-8 border-2 border-gray-100 hover:border-indigo-200 hover:shadow-xl transition-all duration-300 animate-in slide-in-from-bottom"
+              className="bg-white rounded-2xl p-6 md:p-8 border-2 border-gray-100 hover:border-indigo-200 transition-all duration-300 animate-in slide-in-from-bottom"
               style={{ animationDelay: `${400 + index * 100}ms` }}
             >
               <div className="mb-4">

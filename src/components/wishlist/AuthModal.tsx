@@ -91,14 +91,14 @@ export default function AuthModal({
       />
       
       {/* Modal */}
-      <div className={`relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-md overflow-visible ${
+      <div className={`relative bg-white rounded-2xl sm:rounded-3xl w-full max-w-md overflow-visible ${
         isClosing ? 'animate-out zoom-out-95 fade-out duration-200' : 'animate-in zoom-in-95 duration-300'
       }`}>
         {/* Close button - inside on mobile, outside on desktop */}
         <button
           type="button"
           onClick={handleClose}
-          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-100 sm:bg-white sm:shadow-[0_8px_24px_rgba(15,23,42,0.18)] flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 sm:hover:opacity-90 z-10 sm:[.theme-gradient-bg]:hover:bg-none"
+          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-100 sm:bg-white flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 sm:hover:opacity-90 z-10 sm:[.theme-gradient-bg]:hover:bg-none"
           style={{ ['--tw-gradient-stretch' as string]: undefined }}
         >
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -126,7 +126,7 @@ export default function AuthModal({
             onClick={() => setMode('signin')}
             className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all font-geologica ${
               mode === 'signin'
-                ? 'bg-white text-gray-900 shadow-sm'
+                ? 'bg-white text-gray-900'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -137,7 +137,7 @@ export default function AuthModal({
             onClick={() => setMode('signup')}
             className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all font-geologica ${
               mode === 'signup'
-                ? 'bg-white text-gray-900 shadow-sm'
+                ? 'bg-white text-gray-900'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -207,7 +207,7 @@ export default function AuthModal({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 border border-transparent theme-gradient-bg text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:opacity-90 hover:border-[var(--theme-gradient-start)] transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
+            className="w-full py-3 border border-transparent theme-gradient-bg text-white font-semibold rounded-xl hover:opacity-90 hover:border-[var(--theme-gradient-start)] transition-all disabled:opacity-50 disabled:cursor-not-allowed font-geologica"
           >
             {isSubmitting
               ? mode === 'signin'

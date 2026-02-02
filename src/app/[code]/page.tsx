@@ -87,7 +87,7 @@ export default function PublicWishlistByCodePage() {
         {/* Error */}
         {!isLoading && error && (
           <div className="max-w-md mx-auto text-center py-8 sm:py-12 md:py-16 px-2">
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border-2 border-red-100 shadow-sm">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border-2 border-red-100">
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 theme-placeholder-bg-strong">
                 <Gift className="w-7 h-7 sm:w-8 sm:h-8 text-red-400" />
               </div>
@@ -107,7 +107,7 @@ export default function PublicWishlistByCodePage() {
         {/* Empty */}
         {!isLoading && !error && items.length === 0 && (
           <div className="max-w-md mx-auto text-center py-8 sm:py-12 md:py-16 px-2">
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border border-gray-200 shadow-sm">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border border-gray-200">
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 theme-placeholder-bg">
                 <Gift className="w-7 h-7 sm:w-8 sm:h-8 text-gray-400" />
               </div>
@@ -139,7 +139,7 @@ export default function PublicWishlistByCodePage() {
         {/* Footer note when there are items */}
         {!isLoading && !error && items.length > 0 && (
           <div className="mt-8 sm:mt-10 md:mt-12 text-center px-1">
-            <div className="bg-white/80 backdrop-blur rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 border border-gray-200/80 shadow-sm max-w-2xl mx-auto">
+            <div className="bg-white/80 backdrop-blur rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 border border-gray-200/80 max-w-2xl mx-auto">
               <p className="text-gray-600 text-xs sm:text-sm font-geologica">{t('publicWishlist.footerNote')}</p>
             </div>
           </div>
@@ -148,7 +148,7 @@ export default function PublicWishlistByCodePage() {
         {/* CTA: Create your own wishlist */}
         <div className="mt-8 sm:mt-12 md:mt-16 max-w-2xl mx-auto px-1">
           <div
-            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 overflow-hidden shadow-xl theme-gradient-bg"
+            className="relative rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 overflow-hidden theme-gradient-bg"
             style={{
               background: 'linear-gradient(135deg, var(--theme-gradient-start) 0%, var(--theme-gradient-end) 100%)',
             }}

@@ -17,7 +17,7 @@ export default function EmptyWishlist({ onCreateFirst }: EmptyWishlistProps) {
     <div className="flex items-center justify-center min-h-[60vh] px-4">
       <div className="max-w-2xl w-full">
         {/* Main Card */}
-        <div className="bg-white rounded-3xl shadow-xl border-2 border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-3xl border-2 border-gray-100 overflow-hidden">
           {/* Gradient Header */}
           <div className="theme-gradient-bg p-8 text-center" style={{ background: 'linear-gradient(135deg, var(--theme-gradient-start) 0%, var(--theme-gradient-end) 100%)' }}>
             <div className="inline-flex p-6 bg-white/20 backdrop-blur-sm rounded-3xl mb-4 animate-bounce">
@@ -42,9 +42,9 @@ export default function EmptyWishlist({ onCreateFirst }: EmptyWishlistProps) {
               {FEATURE_ICONS.map((Icon, index) => (
                 <div
                   key={index}
-                  className="flex flex-col items-center p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl border border-gray-200 hover:border-indigo-300 hover:shadow-md transition-all"
+                  className="flex flex-col items-center p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl border border-gray-200 hover:border-indigo-300 transition-all"
                 >
-                  <div className="p-3 bg-white rounded-xl shadow-sm mb-3">
+                  <div className="p-3 bg-white rounded-xl mb-3">
                     <Icon className="w-6 h-6 text-indigo-600" />
                   </div>
                   <p className="text-sm font-medium text-gray-700 text-center">
@@ -57,7 +57,7 @@ export default function EmptyWishlist({ onCreateFirst }: EmptyWishlistProps) {
             {/* CTA Button */}
             <button
               onClick={onCreateFirst}
-              className="w-full flex items-center justify-center gap-3 py-4 theme-gradient-bg text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl hover:opacity-90 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full flex items-center justify-center gap-3 py-4 theme-gradient-bg text-white font-semibold rounded-2xl hover:opacity-90 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
             >
               <Plus className="w-6 h-6" />
               {t('emptyWishlist.createFirst')}

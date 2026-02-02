@@ -96,12 +96,12 @@ export default function GiftModal({
       />
 
       {/* Modal content */}
-      <div className="relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] sm:max-h-[90vh] overflow-visible animate-in zoom-in-95 duration-300">
+      <div className="relative bg-white rounded-2xl sm:rounded-3xl w-full max-w-4xl max-h-[85vh] sm:max-h-[90vh] overflow-visible animate-in zoom-in-95 duration-300">
         {/* Close button - inside on mobile, outside on desktop */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gray-100 sm:bg-white sm:shadow-[0_8px_24px_rgba(15,23,42,0.18)] flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 theme-close-btn-hover z-10"
+          className="absolute top-3 right-3 sm:-top-0 sm:-right-14 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-gray-100 sm:bg-white flex items-center justify-center text-gray-600 transition-colors hover:bg-gray-200 theme-close-btn-hover z-10"
         >
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
@@ -258,7 +258,7 @@ export default function GiftModal({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full sm:w-auto px-8 py-3 border border-transparent theme-gradient-bg text-white rounded-xl font-geologica font-semibold shadow-lg hover:shadow-xl hover:opacity-90 hover:border-[var(--theme-gradient-start)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full sm:w-auto px-8 py-3 border border-transparent theme-gradient-bg text-white rounded-xl font-geologica font-semibold hover:opacity-90 hover:border-[var(--theme-gradient-start)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? t('giftModal.saving') : mode === 'create' ? t('giftModal.create') : t('giftModal.save')}
             </button>
