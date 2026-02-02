@@ -40,7 +40,7 @@ export default function CreateWishlistCard({ onClick, text }: CreateWishlistCard
         {/* Content */}
         <button
           onClick={onClick}
-          className="w-full h-full bg-white rounded-xl cursor-pointer flex flex-col items-center justify-center p-6 sm:p-8 focus:outline-none focus:ring-0"
+          className="w-full h-full bg-white rounded-xl cursor-default flex flex-col items-center justify-center p-6 sm:p-8 focus:outline-none focus:ring-0"
         >
           {/* Circular Icon with Gradient Border */}
           <div className="mb-3 sm:mb-4 rounded-full flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 p-0.5 theme-gradient-border-wrap">

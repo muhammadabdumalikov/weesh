@@ -23,7 +23,7 @@ export default function WishlistCard({
 }: WishlistCardProps) {
   return (
     <div
-      className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white transition-all duration-300 hover:scale-[0.98] sm:hover:scale-95 cursor-pointer group overflow-hidden"
+      className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white transition-all duration-300 hover:scale-[0.98] sm:hover:scale-95 cursor-default group overflow-hidden"
       onClick={onClick}
     >
       {/* Main card */}

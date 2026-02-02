@@ -272,7 +272,7 @@ export default function WishlistPage() {
               className={`font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 ${
                 activeTab === 'create'
                   ? 'text-black'
-                  : 'text-gray-400 cursor-pointer active:text-gray-500'
+                  : 'text-gray-400 cursor-default active:text-gray-500'
               }`}
             >
               {t('wishlistPage.tabCreate')}

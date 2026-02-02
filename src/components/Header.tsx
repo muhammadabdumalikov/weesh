@@ -73,7 +73,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
           <button
             type="button"
             onClick={() => setIsLangOpen((v) => !v)}
-            className="flex items-center gap-1.5 text-black hover:text-gray-600 transition-colors cursor-pointer font-geologica text-sm lg:text-base"
+            className="flex items-center gap-1.5 text-black hover:text-gray-600 transition-colors cursor-default font-geologica text-sm lg:text-base"
             aria-expanded={isLangOpen}
             aria-haspopup="listbox"
             aria-label={t('header.selectLanguage')}
@@ -97,7 +97,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                     setLocale(lang);
                     setIsLangOpen(false);
                   }}
-                  className={`w-full px-3 py-2 text-left text-xs font-medium font-geologica transition-colors cursor-pointer first:rounded-t-[11px] last:rounded-b-[11px] ${
+                  className={`w-full px-3 py-2 text-left text-xs font-medium font-geologica transition-colors cursor-default first:rounded-t-[11px] last:rounded-b-[11px] ${
                     locale === lang
                       ? 'bg-gray-100 text-gray-900'
                       : 'text-gray-700 hover:bg-gray-50'
@@ -111,7 +111,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
         </div>
         <Link 
           href="#about" 
-          className="text-black hover:text-gray-600 transition-colors text-sm lg:text-base font-geologica cursor-pointer"
+          className="text-black hover:text-gray-600 transition-colors text-sm lg:text-base font-geologica cursor-default"
         >
           {t('header.aboutService')}
         </Link>
@@ -119,7 +119,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
           <button
             type="button"
             onClick={openProfileModal}
-            className="flex items-center gap-4 focus:outline-none cursor-pointer px-2 py-1 hover:bg-gray-50 transition-colors rounded-full"
+            className="flex items-center gap-4 focus:outline-none cursor-default px-2 py-1 hover:bg-gray-50 transition-colors rounded-full"
             aria-label={t('header.account')}
           >
             <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-full theme-gradient-bg flex items-center justify-center text-white font-bold font-geologica text-sm lg:text-base">
@@ -130,7 +130,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
         ) : (
           <button 
             onClick={onSignInClick}
-            className="px-4 lg:px-5 py-2 border border-black rounded-full text-black text-sm lg:text-base font-geologica cursor-pointer"
+            className="px-4 lg:px-5 py-2 border border-black rounded-full text-black text-sm lg:text-base font-geologica cursor-default"
           >
             {t('header.signIn')}
           </button>
@@ -154,7 +154,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
               <button
                 type="button"
                 onClick={() => setIsLangOpen((v) => !v)}
-                className="flex items-center gap-2 text-black hover:text-gray-600 transition-colors cursor-pointer font-geologica text-base py-2 min-h-[44px] touch-manipulation"
+                className="flex items-center gap-2 text-black hover:text-gray-600 transition-colors cursor-default font-geologica text-base py-2 min-h-[44px] touch-manipulation"
                 aria-expanded={isLangOpen}
                 aria-haspopup="listbox"
                 aria-label={t('header.selectLanguage')}
@@ -178,7 +178,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                         setLocale(lang);
                         setIsLangOpen(false);
                       }}
-                      className={`w-full px-4 py-2.5 text-left text-sm font-medium font-geologica transition-colors cursor-pointer first:rounded-t-[11px] last:rounded-b-[11px] touch-manipulation ${
+                      className={`w-full px-4 py-2.5 text-left text-sm font-medium font-geologica transition-colors cursor-default first:rounded-t-[11px] last:rounded-b-[11px] touch-manipulation ${
                         locale === lang
                           ? 'bg-gray-100 text-gray-900'
                           : 'text-gray-700 hover:bg-gray-50'
@@ -193,7 +193,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
             <Link 
               href="#about" 
               onClick={() => setIsMobileMenuOpen(false)}
-              className="text-black hover:text-gray-600 transition-colors text-base font-geologica py-2 cursor-pointer"
+              className="text-black hover:text-gray-600 transition-colors text-base font-geologica py-2 cursor-default"
             >
               {t('header.aboutService')}
             </Link>
@@ -211,7 +211,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
             ) : (
               <button 
                 onClick={handleSignInClick}
-                className="w-full px-5 py-3 border border-black rounded-full text-black hover:bg-gray-50 transition-colors text-base font-geologica cursor-pointer"
+                className="w-full px-5 py-3 border border-black rounded-full text-black hover:bg-gray-50 transition-colors text-base font-geologica cursor-default"
               >
                 {t('header.signIn')}
               </button>

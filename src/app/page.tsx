@@ -9,6 +9,7 @@ import HeroSection from '@/components/home/HeroSection';
 import StyleSection from '@/components/home/StyleSection';
 import HowItWorksSection from '@/components/home/HowItWorksSection';
 import CreateAnyWishlistSection from '@/components/home/CreateAnyWishlistSection';
+import PricingSection from '@/components/home/PricingSection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
 import {
   signIn,
@@ -77,6 +78,7 @@ export default function Home() {
         <StyleSection />
         {/* <HowItWorksSection /> */}
         <CreateAnyWishlistSection />
+        <PricingSection onGetStartedClick={handleCreateWishlist} />
         <TestimonialsSection />
       </main>
 
