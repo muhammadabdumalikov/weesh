@@ -7,10 +7,10 @@ export default function HowItWorksSection() {
 
   return (
     <section className="mt-20 md:mt-28 lg:mt-36 text-center">
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#222222] font-geologica mb-2">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-geologica mb-2 theme-content-color">
         {t('home.howItWorksTitle')}
       </h2>
-      <p className="text-gray-500 text-sm sm:text-base font-geologica max-w-xl mx-auto mb-12 md:mb-16">
+      <p className="text-sm sm:text-base font-geologica max-w-xl mx-auto mb-12 md:mb-16 theme-content-muted">
         {t('home.howItWorksSubtitle')}
       </p>
 
@@ -20,10 +20,10 @@ export default function HowItWorksSection() {
           <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-[#222222] font-bold font-geologica text-xl mb-4 mx-auto">
             1
           </div>
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#222222] font-geologica mb-3">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold font-geologica mb-3 theme-content-color">
             {t('home.howItWorksStep1Title')}
           </h3>
-          <p className="text-gray-500 text-sm sm:text-base font-geologica leading-relaxed">
+          <p className="text-sm sm:text-base font-geologica leading-relaxed theme-content-muted">
             {t('home.howItWorksStep1Desc')}
           </p>
         </div>
@@ -45,10 +45,10 @@ export default function HowItWorksSection() {
           <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-[#222222] font-bold font-geologica text-xl mb-4 mx-auto">
             2
           </div>
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#222222] font-geologica mb-3">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold font-geologica mb-3 theme-content-color">
             {t('home.howItWorksStep2Title')}
           </h3>
-          <p className="text-gray-500 text-sm sm:text-base font-geologica leading-relaxed">
+          <p className="text-sm sm:text-base font-geologica leading-relaxed theme-content-muted">
             {t('home.howItWorksStep2Desc')}
           </p>
         </div>
@@ -60,10 +60,10 @@ export default function HowItWorksSection() {
           <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-[#222222] font-bold font-geologica text-xl mb-4 mx-auto">
             3
           </div>
-          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#222222] font-geologica mb-3">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold font-geologica mb-3 theme-content-color">
             {t('home.howItWorksStep3Title')}
           </h3>
-          <p className="text-gray-500 text-sm sm:text-base font-geologica leading-relaxed">
+          <p className="text-sm sm:text-base font-geologica leading-relaxed theme-content-muted">
             {t('home.howItWorksStep3Desc')}
           </p>
         </div>

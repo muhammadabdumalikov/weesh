@@ -28,10 +28,10 @@ export default function CreateAnyWishlistSection() {
 
   return (
     <section className="mt-20 md:mt-28 lg:mt-36 text-center">
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#222222] font-geologica mb-3 text-balance max-w-2xl mx-auto">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-geologica mb-3 text-balance max-w-2xl mx-auto theme-content-color">
         {t('home.createAnyWishlistTitle')}
       </h2>
-      <p className="text-gray-500 text-sm sm:text-base font-geologica mb-12 md:mb-16 text-balance max-w-xl mx-auto">
+      <p className="text-sm sm:text-base font-geologica mb-12 md:mb-16 text-balance max-w-xl mx-auto theme-content-muted">
         {t('home.createAnyWishlistSubtitle')}
       </p>
 

@@ -16,12 +16,12 @@ export default function HeroSection({ onCreateWishlistClick }: HeroSectionProps)
       {/* Left: Headline */}
       <div className="flex-1 space-y-4 lg:space-y-6 relative z-10 text-center lg:text-left w-full">
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.1] font-geologica">
-          <span className="block lg:ml-12 text-[#222222]">{t('home.heroLine1')}</span>
-          <span className="block text-[#222222]">{t('home.heroLine2')}</span>
+          <span className="block lg:ml-12 theme-content-color">{t('home.heroLine1')}</span>
+          <span className="block theme-content-color">{t('home.heroLine2')}</span>
           <span className="block lg:ml-24 theme-gradient-text">
             {t('home.heroLine3')}
           </span>
-          <span className="block lg:ml-32 text-[#222222]">{t('home.heroLine4')}</span>
+          <span className="block lg:ml-32 theme-content-color">{t('home.heroLine4')}</span>
         </h1>
 
         {/* CTA Button */}

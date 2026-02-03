@@ -58,7 +58,7 @@ export default function PublicWishlistByCodePage() {
       <main className="px-3 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12 pt-[4.5rem] sm:pt-20 md:pt-24 pb-12 sm:pb-16 md:pb-24 max-w-6xl mx-auto">
         {/* Hero: whose wishlist */}
         <div className="text-center mb-8 sm:mb-10 md:mb-14 px-1">
-          <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-[#222222] font-geologica mb-1.5 sm:mb-2 px-1 break-words leading-tight">
+          <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold font-geologica mb-1.5 sm:mb-2 px-1 break-words leading-tight theme-content-color">
             {t('publicWishlist.title')}
             {ownerLabel && (
               <>
@@ -69,7 +69,7 @@ export default function PublicWishlistByCodePage() {
               </>
             )}
           </h1>
-          <p className="text-gray-600 text-sm sm:text-base md:text-lg max-w-xl mx-auto font-geologica px-2">
+          <p className="text-sm sm:text-base md:text-lg max-w-xl mx-auto font-geologica px-2 theme-content-muted">
             {t('publicWishlist.description')}
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function PublicWishlistByCodePage() {
             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 theme-placeholder-bg-strong">
               <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-2 border-t-transparent" style={{ borderColor: 'var(--theme-gradient-start)' }} />
             </div>
-            <p className="text-gray-600 font-geologica text-sm sm:text-base">{t('publicWishlist.loading')}</p>
+            <p className="font-geologica text-sm sm:text-base theme-content-muted">{t('publicWishlist.loading')}</p>
           </div>
         )}
 
@@ -91,7 +91,7 @@ export default function PublicWishlistByCodePage() {
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 theme-placeholder-bg-strong">
                 <Gift className="w-7 h-7 sm:w-8 sm:h-8 text-red-400" />
               </div>
-              <h2 className="text-lg sm:text-xl font-bold text-[#222222] font-geologica mb-1.5 sm:mb-2">{t('publicWishlist.error')}</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 font-geologica mb-1.5 sm:mb-2">{t('publicWishlist.error')}</h2>
               <p className="text-gray-600 font-geologica text-sm sm:text-base mb-5 sm:mb-6">{t('publicWishlist.errorSubtitle')}</p>
               <Link
                 href="/"

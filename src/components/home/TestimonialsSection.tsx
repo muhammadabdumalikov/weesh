@@ -8,10 +8,10 @@ export default function TestimonialsSection() {
 
   return (
     <section className="mt-20 md:mt-28 lg:mt-36 text-center">
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#222222] font-geologica mb-2 text-balance max-w-2xl mx-auto">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-geologica mb-2 text-balance max-w-2xl mx-auto theme-content-color">
         {t('home.testimonialsTitle')}
       </h2>
-      <p className="text-gray-500 text-sm sm:text-base font-geologica max-w-xl mx-auto mb-12 md:mb-16">
+      <p className="text-sm sm:text-base font-geologica max-w-xl mx-auto mb-12 md:mb-16 theme-content-muted">
         {t('home.testimonialsSubtitle')}
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">

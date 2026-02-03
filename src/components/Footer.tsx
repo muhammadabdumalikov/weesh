@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import Logo from '@/components/Logo';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const socialConfig = [
   { href: 'https://x.com', key: 'socialX' as const },
@@ -58,16 +59,25 @@ const socialIcons = [
 
 export default function Footer() {
   const { t } = useTranslation();
+  const { style } = useTheme();
+  const isDark = style === 'dark';
 
   return (
-    <footer className="w-full bg-white border-t border-gray-200">
+    <footer
+      className={`w-full border-t border-gray-200 ${!isDark ? 'bg-white' : ''}`}
+      style={isDark ? { background: 'var(--theme-page-bg)' } : undefined}
+    >
       <div className="px-4 sm:px-8 md:px-16 lg:px-32 py-12 md:py-16 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_auto] gap-10 lg:gap-16">
           <div className="flex flex-col gap-4">
             <Link href="/" className="inline-flex">
               <Logo asSpan className="text-2xl md:text-3xl" />
             </Link>
-            <p className="text-gray-500 text-sm md:text-base font-geologica max-w-md leading-relaxed">
+            <p
+              className={`text-sm md:text-base font-geologica max-w-md leading-relaxed ${
+                isDark ? 'theme-content-muted' : 'text-gray-500'
+              }`}
+            >
               {t('footer.description')}
             </p>
             <div className="flex items-center gap-4 mt-2">
@@ -77,7 +87,7 @@ export default function Footer() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-black hover:text-gray-600 transition-colors"
+                  className={isDark ? 'theme-content-color hover:opacity-80 transition-colors' : 'text-black hover:text-gray-600 transition-colors'}
                   aria-label={t(`footer.${key}`)}
                 >
                   {socialIcons[i]}
@@ -89,7 +99,11 @@ export default function Footer() {
           <div className="grid grid-cols-3 gap-8 lg:gap-12">
             {navColumnsConfig.map((column) => (
               <div key={column.titleKey}>
-                <h3 className="text-sm font-bold text-black font-geologica mb-4">
+                <h3
+                  className={`text-sm font-bold font-geologica mb-4 ${
+                    isDark ? 'theme-content-color' : 'text-black'
+                  }`}
+                >
                   {t(`footer.${column.titleKey}`)}
                 </h3>
                 <ul className="flex flex-col gap-3">
@@ -97,7 +111,9 @@ export default function Footer() {
                     <li key={link.key}>
                       <Link
                         href={link.href}
-                        className="text-gray-500 text-sm font-geologica hover:text-gray-700 transition-colors"
+                        className={`text-sm font-geologica transition-colors ${
+                          isDark ? 'theme-content-muted hover:opacity-80' : 'text-gray-500 hover:text-gray-700'
+                        }`}
                       >
                         {t(`footer.${link.key}`)}
                       </Link>
@@ -111,14 +127,18 @@ export default function Footer() {
       </div>
 
       <div className="px-4 sm:px-8 md:px-16 lg:px-32 py-6 border-t border-gray-200">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500 font-geologica">
+        <div
+          className={`max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-sm font-geologica ${
+            isDark ? 'theme-content-muted' : 'text-gray-500'
+          }`}
+        >
           <span>{t('footer.copyright')}</span>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             {legalLinksConfig.map((link) => (
               <Link
                 key={link.key}
                 href={link.href}
-                className="text-gray-500 hover:text-gray-700 transition-colors underline underline-offset-2"
+                className={isDark ? 'theme-content-muted hover:opacity-80 transition-colors underline underline-offset-2' : 'text-gray-500 hover:text-gray-700 transition-colors underline underline-offset-2'}
               >
                 {t(`footer.${link.key}`)}
               </Link>

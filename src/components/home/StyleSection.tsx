@@ -13,21 +13,31 @@ const STYLE_OPTIONS: { id: StyleId; labelKey: string; swatch1: string; swatch2: 
   { id: 'vintage', labelKey: 'styleVintage', swatch1: '#f3e8ff', swatch2: '#7c3aed' },
   { id: 'bold', labelKey: 'styleBold', swatch1: '#fce7f3', swatch2: '#dc2626' },
   { id: 'citrus', labelKey: 'styleCitrus', swatch1: '#ffedd5', swatch2: '#ea580c' },
+  { id: 'dark', labelKey: 'styleDark', swatch1: '#1a1a1a', swatch2: '#a78bfa' },
 ];
 
 export default function StyleSection() {
   const { t } = useTranslation();
   const { style: selectedStyle, setStyle: setSelectedStyle } = useTheme();
+  const isDark = selectedStyle === 'dark';
 
   return (
     <section className="mt-16 md:mt-24 lg:mt-32 text-center">
-      <span className="inline-block px-3 py-1 rounded-full bg-red-500 text-white text-xs font-bold font-geologica uppercase tracking-wide mb-4">
+      <span className="inline-block px-3 py-1 rounded-full theme-gradient-bg text-white text-xs font-bold font-geologica uppercase tracking-wide mb-4">
         {t('home.styleNewTag')}
       </span>
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#222222] font-geologica mb-2">
+      <h2
+        className={`text-2xl sm:text-3xl md:text-4xl font-bold font-geologica mb-2 ${
+          isDark ? 'text-white' : 'text-[#222222]'
+        }`}
+      >
         {t('home.styleSectionTitle')}
       </h2>
-      <p className="text-gray-500 text-sm sm:text-base font-geologica max-w-md mx-auto mb-8 md:mb-10">
+      <p
+        className={`text-sm sm:text-base font-geologica max-w-md mx-auto mb-8 md:mb-10 ${
+          isDark ? 'text-gray-400' : 'text-gray-500'
+        }`}
+      >
         {t('home.styleSectionSubtitle')}
       </p>
       <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
@@ -39,18 +49,26 @@ export default function StyleSection() {
               type="button"
               onClick={() => setSelectedStyle(opt.id)}
               className={`inline-flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl font-semibold font-geologica text-sm sm:text-base transition-all ${
-                isSelected
-                  ? 'bg-[#222222] text-white'
-                  : 'bg-white text-[#222222] border border-gray-200 hover:border-gray-300'
+                isDark
+                  ? isSelected
+                    ? 'theme-gradient-bg text-white'
+                    : 'bg-gray-800 text-gray-200 border border-gray-600 hover:border-gray-500'
+                  : isSelected
+                    ? 'bg-[#222222] text-white'
+                    : 'bg-white text-[#222222] border border-gray-200 hover:border-gray-300'
               }`}
             >
               <span className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
                 <span
-                  className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-gray-200/80"
+                  className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full ${
+                    isDark ? 'border border-gray-600' : 'border border-gray-200/80'
+                  }`}
                   style={{ backgroundColor: opt.swatch1 }}
                 />
                 <span
-                  className="w-4 h-4 sm:w-5 sm:h-5 rounded-full border border-gray-200/80"
+                  className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full ${
+                    isDark ? 'border border-gray-600' : 'border border-gray-200/80'
+                  }`}
                   style={{ backgroundColor: opt.swatch2 }}
                 />
               </span>

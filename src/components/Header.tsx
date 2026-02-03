@@ -112,7 +112,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
             <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 pt-2 z-50">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-b-[6px] border-l-transparent border-r-transparent border-b-gray-800" aria-hidden />
               <div
-                className="min-w-[4.5rem] rounded-xl bg-gray-800 py-2 animate-in zoom-in-95 duration-150"
+                className="min-w-[4.5rem] rounded-xl bg-gray-800 animate-in zoom-in-95 duration-150"
                 role="listbox"
                 aria-label={t('header.languageOptions')}
               >
@@ -162,31 +162,29 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
         )}
       </nav>
 
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="md:hidden p-2 text-gray-700 hover:text-gray-900 transition-colors"
-        aria-label="Toggle menu"
-      >
-        {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
+      {/* Mobile: Upgrade button always visible in header + menu button */}
+      <div className="md:hidden flex items-center gap-2">
+        <Link
+          href="/#pricing"
+          onClick={handleUpgradeClick}
+          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white border border-gray-200 font-semibold font-geologica text-sm theme-gradient-text-135 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default"
+        >
+          <span>{t('header.upgradePlan')}</span>
+          <Zap className="w-4 h-4 theme-icon-color" strokeWidth={2.5} />
+        </Link>
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-2 text-gray-700 hover:text-gray-900 transition-colors"
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 md:hidden animate-in slide-in-from-top-2 duration-200">
           <nav className="flex flex-col p-4 gap-4 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            <Link
-              href="/#pricing"
-              onClick={(e) => {
-                setIsMobileMenuOpen(false);
-                handleUpgradeClick(e);
-              }}
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-white border border-gray-200 font-semibold font-geologica text-base theme-gradient-text-135 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default w-fit"
-            >
-              <span>{t('header.upgradePlan')}</span>
-              <Zap className="w-4 h-4 theme-icon-color" strokeWidth={2.5} />
-            </Link>
-
             {/* Mobile: flag language selector */}
             <div className="relative self-start" ref={langDropdownMobileRef}>
               <button
@@ -202,7 +200,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
               </button>
               {isLangOpen && (
                 <div
-                  className="absolute top-full left-0 mt-1.5 min-w-[5rem] py-1 rounded-xl bg-gray-800 z-50 animate-in zoom-in-95 duration-150"
+                  className="absolute top-full left-0 mt-1.5 min-w-[5rem] rounded-xl bg-gray-800 z-50 animate-in zoom-in-95 duration-150"
                   role="listbox"
                   aria-label={t('header.languageOptions')}
                 >

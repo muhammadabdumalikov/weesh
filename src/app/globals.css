@@ -18,6 +18,8 @@
   --theme-gradient-start: #E6007A;
   --theme-gradient-end: #FF6600;
   --theme-page-bg: #f7f7f7;
+  --theme-content-color: #222222;
+  --theme-content-muted: #6b7280;
 }
 
 .font-moresugar {
@@ -258,6 +260,17 @@ body {
 /* Theme icon/accents color */
 .theme-icon-color {
   color: var(--theme-gradient-start);
+  transition: color 0.3s ease;
+}
+
+/* Text on theme page background (dark-theme safe) */
+.theme-content-color {
+  color: var(--theme-content-color);
+  transition: color 0.3s ease;
+}
+
+.theme-content-muted {
+  color: var(--theme-content-muted);
   transition: color 0.3s ease;
 }
 

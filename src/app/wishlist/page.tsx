@@ -271,8 +271,8 @@ export default function WishlistPage() {
               onClick={() => setActiveTab('create')}
               className={`font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 ${
                 activeTab === 'create'
-                  ? 'text-black'
-                  : 'text-gray-400 cursor-default active:text-gray-500'
+                  ? 'theme-content-color'
+                  : 'theme-content-muted cursor-default active:opacity-80'
               }`}
             >
               {t('wishlistPage.tabCreate')}
@@ -281,7 +281,7 @@ export default function WishlistPage() {
               type="button"
               disabled
               aria-disabled="true"
-              className="relative font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 text-gray-300 cursor-not-allowed"
+              className="relative font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 theme-content-muted opacity-70 cursor-not-allowed"
             >
               {t('wishlistPage.tabMy')}
               <span className="absolute -top-0.5 right-0 sm:top-0 sm:-right-1 inline-flex items-center px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-semibold bg-gray-100 text-gray-400 font-geologica whitespace-nowrap">
@@ -292,7 +292,7 @@ export default function WishlistPage() {
               type="button"
               disabled
               aria-disabled="true"
-              className="relative font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 text-gray-300 cursor-not-allowed"
+              className="relative font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 theme-content-muted opacity-70 cursor-not-allowed"
             >
               {t('wishlistPage.tabShared')}
               <span className="absolute -top-0.5 right-0 sm:top-0 sm:-right-1 inline-flex items-center px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-semibold bg-gray-100 text-gray-400 font-geologica whitespace-nowrap">
@@ -303,7 +303,7 @@ export default function WishlistPage() {
               type="button"
               disabled
               aria-disabled="true"
-              className="relative font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 text-gray-300 cursor-not-allowed"
+              className="relative font-geologica font-bold text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl transition-colors whitespace-nowrap flex-shrink-0 py-2 sm:py-1 theme-content-muted opacity-70 cursor-not-allowed"
             >
               {t('wishlistPage.tabIdeas')}
               <span className="absolute -top-0.5 right-0 sm:top-0 sm:-right-1 inline-flex items-center px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-semibold bg-gray-100 text-gray-400 font-geologica whitespace-nowrap">
@@ -322,20 +322,20 @@ export default function WishlistPage() {
             </div>
 
             {/* Мои подарки - from API */}
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 font-geologica mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold font-geologica mb-4 sm:mb-6 theme-content-color">
               {t('wishlistPage.myGifts')}
             </h2>
             {isLoading ? (
               <div className="text-center py-8">
                 <div className="inline-block animate-spin rounded-full h-10 w-10 border-4 border-t-transparent" style={{ borderColor: 'var(--theme-gradient-start)' }}></div>
-                <p className="mt-3 text-gray-500 text-sm font-geologica">{t('wishlistPage.loading')}</p>
+                <p className="mt-3 text-sm font-geologica theme-content-muted">{t('wishlistPage.loading')}</p>
               </div>
             ) : !isUserAuthenticated ? (
-              <p className="text-gray-500 font-geologica py-4">
+              <p className="font-geologica py-4 theme-content-muted">
                 {t('wishlistPage.signInToSeeGifts')}
               </p>
             ) : apiItems.length === 0 ? (
-              <p className="text-gray-500 font-geologica py-4">
+              <p className="font-geologica py-4 theme-content-muted">
                 {t('wishlistPage.noGiftsYet')}
               </p>
             ) : (
@@ -391,10 +391,10 @@ export default function WishlistPage() {
               >
                 <Gift className="w-12 h-12 text-pink-400" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 font-geologica mb-2">
+              <h3 className="text-xl font-bold font-geologica mb-2 theme-content-color">
                 {t('wishlistPage.sharedEmptyTitle')}
               </h3>
-              <p className="text-gray-500 font-geologica text-center max-w-md">
+              <p className="font-geologica text-center max-w-md theme-content-muted">
                 {t('wishlistPage.sharedEmptySubtitle')}
               </p>
             </div>
@@ -441,7 +441,7 @@ export default function WishlistPage() {
             <span className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full theme-gradient-bg text-white group-hover:scale-105 transition-transform flex-shrink-0">
               <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </span>
-            <span className="font-geologica font-semibold text-sm sm:text-base text-[#222222]">
+            <span className="font-geologica font-semibold text-sm sm:text-base theme-content-color">
               {t('wishlistPage.shareYourWeesh')}
             </span>
           </button>
