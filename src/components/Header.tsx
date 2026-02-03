@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, LogOut, Moon, Zap } from 'react-feather';
+import { Menu, X, LogOut, Zap } from 'react-feather';
 import Logo from '@/components/Logo';
 import { useLocale } from '@/contexts/LocaleContext';
 import type { Locale } from '@/i18n';
@@ -46,7 +46,6 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const profileModalRef = useRef<HTMLDivElement>(null);
   const langDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const langDropdownMobileRef = useRef<HTMLDivElement>(null);
@@ -279,29 +278,6 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                   </p>
                 </div>
               </div>
-            </div>
-
-            {/* Dark theme toggle */}
-            <div className="py-2">
-              <button
-                type="button"
-                onClick={() => setIsDarkMode((v) => !v)}
-                className="w-full flex items-center justify-between gap-3 px-4 py-2.5 text-left font-geologica text-[#222222] hover:bg-gray-50 transition-colors"
-              >
-                <span className="flex items-center gap-3">
-                  <Moon className="w-[18px] h-[18px] text-gray-500 flex-shrink-0" />
-                  <span className="text-sm font-medium">{t('header.darkTheme')}</span>
-                </span>
-                <span
-                  className={`w-9 h-5 rounded-full flex flex-shrink-0 items-center transition-colors ${
-                    isDarkMode ? 'justify-end theme-gradient-bg' : 'justify-start bg-gray-300'
-                  }`}
-                  role="switch"
-                  aria-checked={isDarkMode}
-                >
-                  <span className="block w-4 h-4 rounded-full bg-white mx-0.5" />
-                </span>
-              </button>
             </div>
 
             {/* Divider before logout */}
