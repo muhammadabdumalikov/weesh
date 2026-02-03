@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, LogOut, Moon, Globe, Zap } from 'react-feather';
+import { Menu, X, LogOut, Moon, Zap } from 'react-feather';
 import Logo from '@/components/Logo';
 import { useLocale } from '@/contexts/LocaleContext';
 import type { Locale } from '@/i18n';
@@ -13,6 +13,12 @@ const LANG_LABELS: Record<Locale, string> = {
   en: 'En',
   ru: 'Ru',
   uz: 'Uz',
+};
+
+const LANG_FLAGS: Record<Locale, string> = {
+  en: '🇺🇸',
+  ru: '🇷🇺',
+  uz: '🇺🇿',
 };
 
 interface HeaderProps {
@@ -80,23 +86,33 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
         <Logo />
 
         {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center gap-4 sm:gap-6 lg:gap-8">
-        {!isAuthenticated && (
-          <div className="relative" ref={langDropdownDesktopRef}>
-            <button
-              type="button"
-              onClick={() => setIsLangOpen((v) => !v)}
-              className="flex items-center gap-1.5 text-black hover:text-gray-600 transition-colors cursor-default font-geologica text-sm lg:text-base"
-              aria-expanded={isLangOpen}
-              aria-haspopup="listbox"
-              aria-label={t('header.selectLanguage')}
-            >
-              <span>{LANG_LABELS[locale]}</span>
-              <Globe className="w-4 h-4 text-current" strokeWidth={2} />
-            </button>
-            {isLangOpen && (
+      <nav className="hidden md:flex items-center gap-2 sm:gap-3">
+        <Link
+          href="/#pricing"
+          onClick={handleUpgradeClick}
+          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white border border-gray-200 font-semibold font-geologica text-sm theme-gradient-text-135 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default"
+        >
+          <span>{t('header.upgradePlan')}</span>
+          <Zap className="w-4 h-4 theme-icon-color" strokeWidth={2.5} />
+        </Link>
+
+        {/* Flag language selector — between upgrade and profile */}
+        <div className="relative" ref={langDropdownDesktopRef}>
+          <button
+            type="button"
+            onClick={() => setIsLangOpen((v) => !v)}
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default text-2xl leading-none"
+            aria-expanded={isLangOpen}
+            aria-haspopup="listbox"
+            aria-label={t('header.selectLanguage')}
+          >
+            {LANG_FLAGS[locale]}
+          </button>
+          {isLangOpen && (
+            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 pt-2 z-50">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-b-[6px] border-l-transparent border-r-transparent border-b-gray-800" aria-hidden />
               <div
-                className="absolute top-full left-0 mt-1.5 min-w-[4.5rem] rounded-xl border border-gray-200 bg-white z-50 animate-in zoom-in-95 duration-150"
+                className="min-w-[4.5rem] rounded-xl bg-gray-800 py-2 animate-in zoom-in-95 duration-150"
                 role="listbox"
                 aria-label={t('header.languageOptions')}
               >
@@ -110,38 +126,31 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                       setLocale(lang);
                       setIsLangOpen(false);
                     }}
-                    className={`w-full px-3 py-2 text-left text-xs font-medium font-geologica transition-colors cursor-default first:rounded-t-[11px] last:rounded-b-[11px] ${
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 text-left font-geologica transition-colors cursor-default first:rounded-t-xl last:rounded-b-xl ${
                       locale === lang
-                        ? 'bg-gray-100 text-gray-900'
-                        : 'text-gray-700 hover:bg-gray-50'
+                        ? 'bg-gray-700 text-white'
+                        : 'text-gray-200 hover:bg-gray-700'
                     }`}
                   >
-                    {LANG_LABELS[lang]}
+                    <span className="text-xl leading-none">{LANG_FLAGS[lang]}</span>
+                    <span className="text-sm font-medium">{LANG_LABELS[lang]}</span>
                   </button>
                 ))}
               </div>
-            )}
-          </div>
-        )}
-        <Link
-          href="/#pricing"
-          onClick={handleUpgradeClick}
-          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white border border-gray-200 font-semibold font-geologica text-sm theme-gradient-text-135 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default"
-        >
-          <span>{t('header.upgradePlan')}</span>
-          <Zap className="w-4 h-4 theme-icon-color" strokeWidth={2.5} />
-        </Link>
+            </div>
+          )}
+        </div>
+
         {isAuthenticated ? (
           <button
             type="button"
             onClick={openProfileModal}
-            className="flex items-center gap-4 focus:outline-none cursor-default px-2 py-1 hover:bg-gray-50 transition-colors rounded-full"
+            className="flex items-center justify-center focus:outline-none cursor-default p-0 hover:opacity-90 transition-opacity rounded-full"
             aria-label={t('header.account')}
           >
             <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-full theme-gradient-bg flex items-center justify-center text-white font-bold font-geologica text-sm lg:text-base">
               {username?.charAt(0).toUpperCase() || 'U'}
             </div>
-            <span className="text-sm text-gray-600 font-geologica hidden lg:block">{username}</span>
           </button>
         ) : (
           <button 
@@ -166,48 +175,6 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 md:hidden animate-in slide-in-from-top-2 duration-200">
           <nav className="flex flex-col p-4 gap-4 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-            {!isAuthenticated && (
-              <div className="relative self-start" ref={langDropdownMobileRef}>
-                <button
-                  type="button"
-                  onClick={() => setIsLangOpen((v) => !v)}
-                  className="flex items-center gap-2 text-black hover:text-gray-600 transition-colors cursor-default font-geologica text-base py-2 min-h-[44px] touch-manipulation"
-                  aria-expanded={isLangOpen}
-                  aria-haspopup="listbox"
-                  aria-label={t('header.selectLanguage')}
-                >
-                  <span>{LANG_LABELS[locale]}</span>
-                  <Globe className="w-4 h-4 text-current" strokeWidth={1.5} />
-                </button>
-                {isLangOpen && (
-                  <div
-                    className="absolute top-full left-0 mt-1.5 min-w-[5rem] py-1 rounded-xl border border-gray-200 bg-white z-50 animate-in zoom-in-95 duration-150"
-                    role="listbox"
-                    aria-label={t('header.languageOptions')}
-                  >
-                    {langOptions.map((lang) => (
-                      <button
-                        key={lang}
-                        type="button"
-                        role="option"
-                        aria-selected={locale === lang}
-                        onClick={() => {
-                          setLocale(lang);
-                          setIsLangOpen(false);
-                        }}
-                        className={`w-full px-4 py-2.5 text-left text-sm font-medium font-geologica transition-colors cursor-default first:rounded-t-[11px] last:rounded-b-[11px] touch-manipulation ${
-                          locale === lang
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700 hover:bg-gray-50'
-                        }`}
-                      >
-                        {LANG_LABELS[lang]}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
             <Link
               href="/#pricing"
               onClick={(e) => {
@@ -219,6 +186,50 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
               <span>{t('header.upgradePlan')}</span>
               <Zap className="w-4 h-4 theme-icon-color" strokeWidth={2.5} />
             </Link>
+
+            {/* Mobile: flag language selector */}
+            <div className="relative self-start" ref={langDropdownMobileRef}>
+              <button
+                type="button"
+                onClick={() => setIsLangOpen((v) => !v)}
+                className="flex items-center gap-2 font-semibold font-geologica text-base py-3 px-4 min-h-[44px] touch-manipulation rounded-full bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default w-fit"
+                aria-expanded={isLangOpen}
+                aria-haspopup="listbox"
+                aria-label={t('header.selectLanguage')}
+              >
+                <span className="text-2xl leading-none">{LANG_FLAGS[locale]}</span>
+                <span className="text-[#222222]">{LANG_LABELS[locale]}</span>
+              </button>
+              {isLangOpen && (
+                <div
+                  className="absolute top-full left-0 mt-1.5 min-w-[5rem] py-1 rounded-xl bg-gray-800 z-50 animate-in zoom-in-95 duration-150"
+                  role="listbox"
+                  aria-label={t('header.languageOptions')}
+                >
+                  {langOptions.map((lang) => (
+                    <button
+                      key={lang}
+                      type="button"
+                      role="option"
+                      aria-selected={locale === lang}
+                      onClick={() => {
+                        setLocale(lang);
+                        setIsLangOpen(false);
+                      }}
+                      className={`w-full flex items-center gap-2 px-4 py-2.5 text-left font-geologica transition-colors cursor-default first:rounded-t-xl last:rounded-b-xl touch-manipulation ${
+                        locale === lang
+                          ? 'bg-gray-700 text-white'
+                          : 'text-gray-200 hover:bg-gray-700'
+                      }`}
+                    >
+                      <span className="text-xl leading-none">{LANG_FLAGS[lang]}</span>
+                      <span className="text-sm font-medium">{LANG_LABELS[lang]}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {isAuthenticated ? (
               <button
                 type="button"
@@ -270,30 +281,6 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                   </p>
                 </div>
               </div>
-            </div>
-
-            {/* Language selector */}
-            <div className="py-2 border-t border-gray-200">
-              <div className="flex items-center gap-3 px-4 py-2 mb-1">
-                <Globe className="w-[18px] h-[18px] text-gray-500 flex-shrink-0" />
-                <span className="text-sm font-medium text-gray-600 font-geologica">{t('header.selectLanguage')}</span>
-              </div>
-              {langOptions.map((lang) => (
-                <button
-                  key={lang}
-                  type="button"
-                  role="option"
-                  aria-selected={locale === lang}
-                  onClick={() => setLocale(lang)}
-                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-left font-geologica transition-colors ${
-                    locale === lang
-                      ? 'bg-gray-100 text-gray-900'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <span className="text-sm font-medium">{LANG_LABELS[lang]}</span>
-                </button>
-              ))}
             </div>
 
             {/* Dark theme toggle */}
