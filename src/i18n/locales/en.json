@@ -10,6 +10,7 @@
     "bookmarks": "Bookmarks",
     "darkTheme": "Dark theme",
     "upgradePlan": "Upgrade plan",
+    "settings": "Settings",
     "logout": "Logout",
     "selectLanguage": "Select language",
     "languageOptions": "Language options"
@@ -237,5 +238,24 @@
     "makeShort": "Make Short URL",
     "shortening": "Shortening...",
     "useOriginal": "Use Original URL"
+  },
+  "profile": {
+    "edit": "Edit",
+    "shareTitle": "Share Your Profile",
+    "shareComingSoon": "Coming soon",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "pageTheme": "Page Theme",
+    "pageThemeNew": "NEW",
+    "pageThemeHint": "Choose a theme for your profile.",
+    "signInRequired": "Sign in to view your profile settings.",
+    "visibility": "Profile Visibility",
+    "visibilityPublic": "Public (default)",
+    "profileInfo": "Profile Info",
+    "fullName": "Full Name",
+    "username": "Username",
+    "bio": "Bio",
+    "bioPlaceholder": "Tell us about yourself...",
+    "saveProfileChanges": "Save Profile Changes"
   }
 }

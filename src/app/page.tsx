@@ -11,6 +11,7 @@ import HowItWorksSection from '@/components/home/HowItWorksSection';
 import CreateAnyWishlistSection from '@/components/home/CreateAnyWishlistSection';
 import PricingSection from '@/components/home/PricingSection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
+import { PALETTES, type StyleId } from '@/contexts/ThemeContext';
 import {
   signIn,
   signUp,
@@ -25,6 +26,9 @@ export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [username, setUsernameState] = useState('');
+  // Home-only demo style: temporary, not saved; resets on refresh. Does not change global theme.
+  const [previewStyle, setPreviewStyle] = useState<StyleId>('classic');
+  const previewPalette = PALETTES[previewStyle];
 
   useEffect(() => {
     setIsUserAuthenticated(isAuthenticated());
@@ -85,14 +89,26 @@ export default function Home() {
         onSignUp={handleSignUp}
       />
 
-      <main className="relative z-10 px-4 sm:px-6 md:px-8 py-8 md:py-12 pt-20 md:pt-24 pb-12 md:pb-24 max-w-7xl mx-auto">
-        <HeroSection onCreateWishlistClick={handleCreateWishlist} />
-        <StyleSection />
-        {/* <HowItWorksSection /> */}
-        <CreateAnyWishlistSection />
-        <PricingSection onGetStartedClick={handleCreateWishlist} />
-        <TestimonialsSection />
-      </main>
+      <div
+        className="relative z-10"
+        style={{
+          background: previewPalette.pageBg,
+          ['--theme-page-bg' as string]: previewPalette.pageBg,
+          ['--theme-gradient-start' as string]: previewPalette.gradientStart,
+          ['--theme-gradient-end' as string]: previewPalette.gradientEnd,
+          ['--theme-content-color' as string]: previewPalette.contentColor,
+          ['--theme-content-muted' as string]: previewPalette.contentMuted,
+        }}
+      >
+        <main className="px-4 sm:px-6 md:px-8 py-8 md:py-12 pt-20 md:pt-24 pb-12 md:pb-24 max-w-7xl mx-auto">
+          <HeroSection onCreateWishlistClick={handleCreateWishlist} />
+          <StyleSection selectedStyle={previewStyle} onStyleChange={setPreviewStyle} />
+          {/* <HowItWorksSection /> */}
+          <CreateAnyWishlistSection />
+          <PricingSection onGetStartedClick={handleCreateWishlist} />
+          <TestimonialsSection />
+        </main>
+      </div>
 
       <Footer />
     </div>

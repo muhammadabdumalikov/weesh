@@ -10,6 +10,7 @@
     "bookmarks": "Закладки",
     "darkTheme": "Тёмная тема",
     "upgradePlan": "Улучшить план",
+    "settings": "Настройки",
     "logout": "Выйти",
     "selectLanguage": "Выбрать язык",
     "languageOptions": "Язык"
@@ -237,5 +238,24 @@
     "makeShort": "Сократить URL",
     "shortening": "Сокращение...",
     "useOriginal": "Использовать полный URL"
+  },
+  "profile": {
+    "edit": "Изменить",
+    "shareTitle": "Поделиться профилем",
+    "shareComingSoon": "Скоро",
+    "copy": "Копировать",
+    "copied": "Скопировано!",
+    "pageTheme": "Тема страницы",
+    "pageThemeNew": "НОВОЕ",
+    "pageThemeHint": "Выберите тему для вашего профиля.",
+    "signInRequired": "Войдите, чтобы открыть настройки профиля.",
+    "visibility": "Видимость профиля",
+    "visibilityPublic": "Публичный (по умолчанию)",
+    "profileInfo": "Профиль",
+    "fullName": "Имя",
+    "username": "Имя пользователя",
+    "bio": "О себе",
+    "bioPlaceholder": "Расскажите о себе...",
+    "saveProfileChanges": "Сохранить изменения"
   }
 }

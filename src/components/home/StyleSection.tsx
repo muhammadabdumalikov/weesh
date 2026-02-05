@@ -16,9 +16,18 @@ const STYLE_OPTIONS: { id: StyleId; labelKey: string; swatch1: string; swatch2: 
   { id: 'dark', labelKey: 'styleDark', swatch1: '#1a1a1a', swatch2: '#a78bfa' },
 ];
 
-export default function StyleSection() {
+interface StyleSectionProps {
+  /** When provided, use local preview state (e.g. home page demo) — does not change global theme */
+  selectedStyle?: StyleId;
+  onStyleChange?: (id: StyleId) => void;
+}
+
+export default function StyleSection({ selectedStyle: controlledStyle, onStyleChange }: StyleSectionProps = {}) {
   const { t } = useTranslation();
-  const { style: selectedStyle, setStyle: setSelectedStyle } = useTheme();
+  const theme = useTheme();
+  const isControlled = controlledStyle !== undefined && onStyleChange !== undefined;
+  const selectedStyle = isControlled ? controlledStyle : theme.style;
+  const setSelectedStyle = isControlled ? onStyleChange : theme.setStyle;
   const isDark = selectedStyle === 'dark';
 
   return (

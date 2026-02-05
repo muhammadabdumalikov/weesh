@@ -10,6 +10,7 @@
     "bookmarks": "Xatcho'plar",
     "darkTheme": "Qorong'u mavzu",
     "upgradePlan": "Rejani yangilash",
+    "settings": "Sozlamalar",
     "logout": "Chiqish",
     "selectLanguage": "Tilni tanlash",
     "languageOptions": "Til"
@@ -237,5 +238,24 @@
     "makeShort": "Qisqa URL yaratish",
     "shortening": "Qisqartirilmoqda...",
     "useOriginal": "To'liq URL ishlatish"
+  },
+  "profile": {
+    "edit": "Tahrirlash",
+    "shareTitle": "Profilingizni ulashing",
+    "shareComingSoon": "Tez orada",
+    "copy": "Nusxalash",
+    "copied": "Nusxalandi!",
+    "pageTheme": "Sahifa mavzusi",
+    "pageThemeNew": "YANGI",
+    "pageThemeHint": "Profilingiz uchun mavzu tanlang.",
+    "signInRequired": "Profil sozlamalarini ko'rish uchun kiring.",
+    "visibility": "Profil ko'rinishi",
+    "visibilityPublic": "Ommaviy (standart)",
+    "profileInfo": "Profil ma'lumotlari",
+    "fullName": "To'liq ism",
+    "username": "Foydalanuvchi nomi",
+    "bio": "Bio",
+    "bioPlaceholder": "O'zingiz haqingizda yozing...",
+    "saveProfileChanges": "O'zgarishlarni saqlash"
   }
 }

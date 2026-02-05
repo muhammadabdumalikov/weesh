@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, LogOut, Zap } from 'react-feather';
+import { Menu, X, LogOut, Zap, Settings } from 'react-feather';
 import Logo from '@/components/Logo';
 import { useLocale } from '@/contexts/LocaleContext';
 import type { Locale } from '@/i18n';
@@ -278,6 +278,17 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                   </p>
                 </div>
               </div>
+            </div>
+
+            <div className="py-2">
+              <Link
+                href="/profile"
+                onClick={() => setIsProfileModalOpen(false)}
+                className="w-full flex items-center gap-3 px-4 py-2.5 text-left font-geologica text-[#222222] hover:bg-gray-50 transition-colors"
+              >
+                <Settings className="w-[18px] h-[18px] text-gray-500 flex-shrink-0" />
+                <span className="text-sm font-medium">{t('header.settings')}</span>
+              </Link>
             </div>
 
             {/* Divider before logout */}
