@@ -11,10 +11,11 @@ import HowItWorksSection from '@/components/home/HowItWorksSection';
 import CreateAnyWishlistSection from '@/components/home/CreateAnyWishlistSection';
 import PricingSection from '@/components/home/PricingSection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
-import { PALETTES, type StyleId } from '@/contexts/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import {
   signIn,
   signUp,
+  signInWithGoogle,
   signOut,
   isAuthenticated,
   getUsername,
@@ -23,12 +24,10 @@ import {
 
 export default function Home() {
   const router = useRouter();
+  const { setStyle } = useTheme();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [username, setUsernameState] = useState('');
-  // Home-only demo style: temporary, not saved; resets on refresh. Does not change global theme.
-  const [previewStyle, setPreviewStyle] = useState<StyleId>('classic');
-  const previewPalette = PALETTES[previewStyle];
 
   useEffect(() => {
     setIsUserAuthenticated(isAuthenticated());
@@ -76,8 +75,10 @@ export default function Home() {
         onSignInClick={() => setIsAuthModalOpen(true)}
         onLogout={() => {
           signOut();
+          setStyle('classic');
           setIsUserAuthenticated(false);
           setUsernameState('');
+          router.push('/');
         }}
         isAuthenticated={isUserAuthenticated}
         username={username}
@@ -87,22 +88,20 @@ export default function Home() {
         onClose={() => setIsAuthModalOpen(false)}
         onSignIn={handleSignIn}
         onSignUp={handleSignUp}
+        googleClientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+        onGoogleSignIn={async (idToken) => {
+          await signInWithGoogle(idToken);
+          setIsUserAuthenticated(true);
+          setUsernameState(getUsername() ?? '');
+          setIsAuthModalOpen(false);
+          router.push('/wishlist');
+        }}
       />
 
-      <div
-        className="relative z-10"
-        style={{
-          background: previewPalette.pageBg,
-          ['--theme-page-bg' as string]: previewPalette.pageBg,
-          ['--theme-gradient-start' as string]: previewPalette.gradientStart,
-          ['--theme-gradient-end' as string]: previewPalette.gradientEnd,
-          ['--theme-content-color' as string]: previewPalette.contentColor,
-          ['--theme-content-muted' as string]: previewPalette.contentMuted,
-        }}
-      >
+      <div className="relative z-10">
         <main className="px-4 sm:px-6 md:px-8 py-8 md:py-12 pt-20 md:pt-24 pb-12 md:pb-24 max-w-7xl mx-auto">
           <HeroSection onCreateWishlistClick={handleCreateWishlist} />
-          <StyleSection selectedStyle={previewStyle} onStyleChange={setPreviewStyle} />
+          <StyleSection />
           {/* <HowItWorksSection /> */}
           <CreateAnyWishlistSection />
           <PricingSection onGetStartedClick={handleCreateWishlist} />

@@ -3,6 +3,8 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 const STORAGE_KEY = 'weesh-style';
+/** When user is not logged in, we always use default theme (logout + reload without login = classic). */
+const OWNER_ID_KEY = 'w-o-id';
 
 export type StyleId = 'classic' | 'pink' | 'warm' | 'ocean' | 'sage' | 'vintage' | 'bold' | 'citrus' | 'dark';
 
@@ -30,6 +32,7 @@ const PALETTES: Record<StyleId, ThemePalette> = {
 
 function getStoredStyle(): StyleId {
   if (typeof window === 'undefined') return 'classic';
+  if (!localStorage.getItem(OWNER_ID_KEY)) return 'classic';
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored && stored in PALETTES) return stored as StyleId;
   return 'classic';

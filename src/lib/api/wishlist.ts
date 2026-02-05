@@ -147,6 +147,35 @@ export async function signIn(
   }
 }
 
+/** Sign in with a Google ID token (JWT). Backend must support POST /wishlist-auth/google with body { id_token }. */
+export async function signInWithGoogle(idToken: string): Promise<AuthResponse | null> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/wishlist-auth/google`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id_token: idToken }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(
+        errorData?.message || `Google sign in failed: ${response.statusText}`
+      );
+    }
+
+    const data: AuthResponse = await response.json();
+    setOwnerId(data.id);
+    setUsername(data.login);
+    setOwnerCode(data.code);
+    return data;
+  } catch (error) {
+    console.error("Error during Google sign in:", error);
+    throw error;
+  }
+}
+
 export function signOut(): void {
   clearOwnerId();
   clearUsername();

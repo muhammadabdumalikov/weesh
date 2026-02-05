@@ -122,7 +122,9 @@
     "switchToSignIn": "Уже есть аккаунт?",
     "signingIn": "Вход...",
     "creatingAccount": "Создание аккаунта...",
-    "errorGeneric": "Что-то пошло не так. Попробуйте снова."
+    "errorGeneric": "Что-то пошло не так. Попробуйте снова.",
+    "continueWithGoogle": "Войти через Google",
+    "or": "или"
   },
   "giftModal": {
     "createTitle": "Добавить подарок",

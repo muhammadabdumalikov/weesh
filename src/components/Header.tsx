@@ -79,6 +79,8 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
     onLogout?.();
   };
 
+  const navBtnBase = 'header-nav-btn rounded-full';
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-md bg-white/80 border-b border-gray-200">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-2 md:py-4 flex justify-between items-center">
@@ -89,10 +91,10 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
         <Link
           href="/#pricing"
           onClick={handleUpgradeClick}
-          className="inline-flex items-center gap-1.5 h-10 px-3 py-0 rounded-full bg-white border border-gray-200 font-semibold font-geologica text-sm theme-gradient-text-135 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default"
+          className={`inline-flex items-center gap-1.5 h-10 px-3 py-0 font-semibold font-geologica text-sm ${navBtnBase}`}
         >
-          <span>{t('header.upgradePlan')}</span>
-          <Zap className="w-4 h-4 theme-icon-color" strokeWidth={2.5} />
+          <span className="theme-gradient-text-135">{t('header.upgradePlan')}</span>
+          <Zap className="w-4 h-4 theme-icon-color shrink-0" strokeWidth={2.5} />
         </Link>
 
         {/* Flag language selector — between upgrade and profile */}
@@ -100,7 +102,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
           <button
             type="button"
             onClick={() => setIsLangOpen((v) => !v)}
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default text-2xl leading-none"
+            className={`flex items-center justify-center w-10 h-10 text-2xl leading-none shrink-0 ${navBtnBase}`}
             aria-expanded={isLangOpen}
             aria-haspopup="listbox"
             aria-label={t('header.selectLanguage')}
@@ -152,9 +154,9 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
             </div>
           </button>
         ) : (
-          <button 
+          <button
             onClick={onSignInClick}
-            className="px-4 lg:px-5 py-2 border border-black rounded-full text-black text-sm lg:text-base font-geologica cursor-default"
+            className={`inline-flex items-center h-10 px-4 lg:px-5 py-2 text-[#222222] text-sm lg:text-base font-semibold font-geologica ${navBtnBase}`}
           >
             {t('header.signIn')}
           </button>
@@ -166,10 +168,10 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
         <Link
           href="/#pricing"
           onClick={handleUpgradeClick}
-          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white border border-gray-200 font-semibold font-geologica text-sm theme-gradient-text-135 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default"
+          className={`inline-flex items-center gap-1.5 px-3 py-2 font-semibold font-geologica text-sm ${navBtnBase}`}
         >
-          <span>{t('header.upgradePlan')}</span>
-          <Zap className="w-4 h-4 theme-icon-color" strokeWidth={2.5} />
+          <span className="theme-gradient-text-135">{t('header.upgradePlan')}</span>
+          <Zap className="w-4 h-4 theme-icon-color shrink-0" strokeWidth={2.5} />
         </Link>
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -189,7 +191,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
               <button
                 type="button"
                 onClick={() => setIsLangOpen((v) => !v)}
-                className="flex items-center gap-2 font-semibold font-geologica text-base py-3 px-4 min-h-[44px] touch-manipulation rounded-full bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default w-fit"
+                className={`flex items-center gap-2 font-semibold font-geologica text-base py-3 px-4 min-h-[44px] touch-manipulation w-fit ${navBtnBase}`}
                 aria-expanded={isLangOpen}
                 aria-haspopup="listbox"
                 aria-label={t('header.selectLanguage')}
@@ -239,9 +241,9 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                 <span className="text-base text-gray-700 font-geologica">{username}</span>
               </button>
             ) : (
-              <button 
+              <button
                 onClick={handleSignInClick}
-                className="w-full px-5 py-3 border border-black rounded-full text-black hover:bg-gray-50 transition-colors text-base font-geologica cursor-default"
+                className={`w-full px-5 py-3 text-[#222222] text-base font-semibold font-geologica ${navBtnBase}`}
               >
                 {t('header.signIn')}
               </button>

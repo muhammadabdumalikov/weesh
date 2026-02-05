@@ -122,7 +122,9 @@
     "switchToSignIn": "Akkauntingiz bormi?",
     "signingIn": "Kirilmoqda...",
     "creatingAccount": "Akkaunt yaratilmoqda...",
-    "errorGeneric": "Xatolik yuz berdi. Qaytadan urinib ko'ring."
+    "errorGeneric": "Xatolik yuz berdi. Qaytadan urinib ko'ring.",
+    "continueWithGoogle": "Google orqali kirish",
+    "or": "yoki"
   },
   "giftModal": {
     "createTitle": "Sovg'a qo'shish",

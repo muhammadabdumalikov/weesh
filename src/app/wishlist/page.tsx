@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { Gift, Trash2, X, Share2 } from 'react-feather';
 import GiftModal from '@/components/wishlist/GiftModal';
@@ -16,6 +17,7 @@ import {
   isAuthenticated,
   signIn,
   signUp,
+  signInWithGoogle,
   signOut,
   getUsername,
   type WishlistItem,
@@ -24,6 +26,7 @@ import {
   type AuthCredentials,
   getOwnerCode,
 } from '@/lib/api/wishlist';
+import { useTheme } from '@/contexts/ThemeContext';
 import Header from '@/components/Header';
 import CreateWishlistCard from '@/components/CreateWishlistCard';
 import WishlistCard from '@/components/WishlistCard';
@@ -40,6 +43,8 @@ interface Wishlist {
 
 export default function WishlistPage() {
   const { t } = useTranslation();
+  const router = useRouter();
+  const { setStyle } = useTheme();
   const [apiItems, setApiItems] = useState<WishlistItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
@@ -127,6 +132,13 @@ export default function WishlistPage() {
     await signUp(credentials);
     setIsUserAuthenticated(true);
     setUsernameState(credentials.login);
+    loadApiItems();
+  };
+
+  const handleGoogleSignIn = async (idToken: string) => {
+    await signInWithGoogle(idToken);
+    setIsUserAuthenticated(true);
+    setUsernameState(getUsername() ?? '');
     loadApiItems();
   };
 
@@ -247,8 +259,10 @@ export default function WishlistPage() {
         onSignInClick={() => setIsAuthModalOpen(true)}
         onLogout={() => {
           signOut();
+          setStyle('classic');
           setIsUserAuthenticated(false);
           setUsernameState('');
+          router.push('/');
         }}
         isAuthenticated={isUserAuthenticated}
         username={username}
@@ -490,6 +504,8 @@ export default function WishlistPage() {
         onClose={() => setIsAuthModalOpen(false)}
         onSignIn={handleSignIn}
         onSignUp={handleSignUp}
+        googleClientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+        onGoogleSignIn={handleGoogleSignIn}
       />
 
       <ShareModal

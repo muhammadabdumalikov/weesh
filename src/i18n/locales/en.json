@@ -122,7 +122,9 @@
     "switchToSignIn": "Already have an account?",
     "signingIn": "Signing in...",
     "creatingAccount": "Creating account...",
-    "errorGeneric": "Something went wrong. Please try again."
+    "errorGeneric": "Something went wrong. Please try again.",
+    "continueWithGoogle": "Continue with Google",
+    "or": "or"
   },
   "giftModal": {
     "createTitle": "Add gift",

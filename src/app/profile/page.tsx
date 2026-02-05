@@ -101,6 +101,7 @@ export default function ProfilePage() {
         username={username ?? undefined}
         onLogout={() => {
           signOut();
+          setStyle('classic');
           router.push('/');
         }}
       />
@@ -265,6 +266,7 @@ export default function ProfilePage() {
               type="button"
               onClick={() => {
                 signOut();
+                setStyle('classic');
                 router.push('/');
               }}
               className="w-full flex items-center gap-3 px-4 py-2.5 text-left font-geologica text-red-600 hover:bg-red-50 transition-colors rounded-lg"
