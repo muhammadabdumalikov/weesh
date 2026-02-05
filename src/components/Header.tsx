@@ -89,7 +89,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
         <Link
           href="/#pricing"
           onClick={handleUpgradeClick}
-          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-white border border-gray-200 font-semibold font-geologica text-sm theme-gradient-text-135 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default"
+          className="inline-flex items-center gap-1.5 h-10 px-3 py-0 rounded-full bg-white border border-gray-200 font-semibold font-geologica text-sm theme-gradient-text-135 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-default"
         >
           <span>{t('header.upgradePlan')}</span>
           <Zap className="w-4 h-4 theme-icon-color" strokeWidth={2.5} />
@@ -144,10 +144,10 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
           <button
             type="button"
             onClick={openProfileModal}
-            className="flex items-center justify-center focus:outline-none cursor-default p-0 hover:opacity-90 transition-opacity rounded-full"
+            className="flex items-center justify-center focus:outline-none cursor-default p-0 hover:opacity-90 transition-opacity rounded-full shrink-0"
             aria-label={t('header.account')}
           >
-            <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-full theme-gradient-bg flex items-center justify-center text-white font-bold font-geologica text-sm lg:text-base">
+            <div className="w-10 h-10 rounded-full theme-gradient-bg flex items-center justify-center text-white font-bold font-geologica text-sm">
               {username?.charAt(0).toUpperCase() || 'U'}
             </div>
           </button>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import FontLoader from "@/components/FontLoader";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import I18nProvider from "@/components/I18nProvider";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 
@@ -51,6 +52,7 @@ export default function RootLayout({
         className={`${plusJakartaSans.variable} antialiased`}
         suppressHydrationWarning
       >
+        <GoogleAnalytics />
         <FontLoader />
         <ThemeProvider>
           <I18nProvider>{children}</I18nProvider>
