@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, User, Lock, Eye, EyeOff, Gift } from 'react-feather';
 import type { AuthCredentials } from '@/lib/api/wishlist';
+import { useLockBodyScroll } from '@/lib/useLockBodyScroll';
 import GoogleSignInButton from './GoogleSignInButton';
 
 interface AuthModalProps {
@@ -11,9 +12,11 @@ interface AuthModalProps {
   onClose: () => void;
   onSignIn: (credentials: AuthCredentials) => Promise<void>;
   onSignUp: (credentials: AuthCredentials) => Promise<void>;
-  /** When both clientId and onGoogleSignIn are set, the "Continue with Google" button is shown. */
+  /** When clientId is set, the "Continue with Google" button is shown. */
   googleClientId?: string;
   onGoogleSignIn?: (idToken: string) => Promise<void>;
+  /** When true, the Google button is visible but disabled. */
+  disableGoogleSignIn?: boolean;
 }
 
 function GoogleIcon({ className }: { className?: string }) {
@@ -46,9 +49,12 @@ export default function AuthModal({
   onSignUp,
   googleClientId,
   onGoogleSignIn,
+  disableGoogleSignIn = false,
 }: AuthModalProps) {
-  const showGoogle = Boolean(googleClientId && onGoogleSignIn);
+  const showGoogle = Boolean(googleClientId);
+  const googleEnabled = showGoogle && !disableGoogleSignIn && Boolean(onGoogleSignIn);
   const { t } = useTranslation();
+  useLockBodyScroll(isOpen);
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -177,12 +183,12 @@ export default function AuthModal({
             <>
               <GoogleSignInButton
                 clientId={googleClientId!}
-                onCredential={handleGoogleCredential}
-                disabled={isGoogleLoading}
+                onCredential={googleEnabled ? handleGoogleCredential : () => {}}
+                disabled={isGoogleLoading || disableGoogleSignIn}
               >
                 <button
                   type="button"
-                  disabled={isGoogleLoading}
+                  disabled={isGoogleLoading || disableGoogleSignIn}
                   className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border border-gray-300 bg-white text-[#222222] font-semibold font-geologica text-sm hover:bg-gray-50 hover:border-gray-400 transition-colors shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <GoogleIcon className="w-5 h-5 flex-shrink-0" />

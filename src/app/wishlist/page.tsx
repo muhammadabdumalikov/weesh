@@ -27,6 +27,7 @@ import {
   getOwnerCode,
 } from '@/lib/api/wishlist';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useLockBodyScroll } from '@/lib/useLockBodyScroll';
 import Header from '@/components/Header';
 import CreateWishlistCard from '@/components/CreateWishlistCard';
 import WishlistCard from '@/components/WishlistCard';
@@ -65,6 +66,7 @@ export default function WishlistPage() {
 
   // Delete confirmation (page-level modal)
   const [itemToDelete, setItemToDelete] = useState<WishlistItem | null>(null);
+  useLockBodyScroll(!!itemToDelete);
 
   // Share modal
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
@@ -506,6 +508,7 @@ export default function WishlistPage() {
         onSignUp={handleSignUp}
         googleClientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
         onGoogleSignIn={handleGoogleSignIn}
+        disableGoogleSignIn
       />
 
       <ShareModal

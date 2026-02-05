@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Menu, X, LogOut, Zap, Settings } from 'react-feather';
 import Logo from '@/components/Logo';
 import { useLocale } from '@/contexts/LocaleContext';
+import { useLockBodyScroll } from '@/lib/useLockBodyScroll';
 import type { Locale } from '@/i18n';
 
 const LANG_LABELS: Record<Locale, string> = {
@@ -46,6 +47,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  useLockBodyScroll(isProfileModalOpen);
   const profileModalRef = useRef<HTMLDivElement>(null);
   const langDropdownDesktopRef = useRef<HTMLDivElement>(null);
   const langDropdownMobileRef = useRef<HTMLDivElement>(null);

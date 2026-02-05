@@ -60,51 +60,73 @@ export default function GoogleSignInButton({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerReady, setContainerReady] = useState(false);
   const [scriptReady, setScriptReady] = useState(false);
+  const buttonRenderedRef = useRef(false);
   const callbackRef = useRef(onCredential);
 
   callbackRef.current = onCredential;
 
   useEffect(() => {
-    if (!clientId) return;
+    if (!clientId?.trim()) return;
     loadScript(GSI_SCRIPT_URL)
       .then(() => setScriptReady(true))
-      .catch(console.error);
+      .catch((err) => console.error('[Google Sign-In] Script load failed:', err));
   }, [clientId]);
 
   const setRef = useCallback((el: HTMLDivElement | null) => {
     containerRef.current = el;
     setContainerReady(!!el);
+    if (!el) buttonRenderedRef.current = false;
   }, []);
 
   useEffect(() => {
-    if (!clientId || !scriptReady || !containerReady || !containerRef.current || !window.google) return;
+    if (!clientId?.trim() || !scriptReady || !containerReady || !containerRef.current || !window.google) return;
+    if (buttonRenderedRef.current) return;
 
+    const container = containerRef.current;
     window.google.accounts.id.initialize({
-      client_id: clientId,
+      client_id: clientId.trim(),
       callback: (response) => {
         callbackRef.current(response.credential);
       },
     });
-    window.google.accounts.id.renderButton(containerRef.current, {
-      theme: 'outline',
-      size: 'large',
-      type: 'standard',
-    });
+    try {
+      window.google.accounts.id.renderButton(container, {
+        theme: 'outline',
+        size: 'large',
+        type: 'standard',
+      });
+      buttonRenderedRef.current = true;
+    } catch (err) {
+      console.error('[Google Sign-In] renderButton failed:', err);
+    }
   }, [clientId, scriptReady, containerReady]);
+
+  const tryClickGoogleButton = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return false;
+    const btn =
+      (container.querySelector('[role="button"]') as HTMLElement) ??
+      (container.firstElementChild as HTMLElement);
+    if (btn?.click) {
+      btn.click();
+      return true;
+    }
+    return false;
+  }, []);
 
   const handleClick = useCallback(() => {
     if (disabled) return;
-    const btn = containerRef.current?.firstElementChild;
-    if (btn && typeof (btn as HTMLElement).click === 'function') {
-      (btn as HTMLElement).click();
-    }
-  }, [disabled]);
+    if (tryClickGoogleButton()) return;
+    // Google injects the button async; retry once after a short delay
+    window.setTimeout(() => tryClickGoogleButton(), 500);
+  }, [disabled, tryClickGoogleButton]);
 
   return (
     <>
+      {/* Google needs a sized container to render into; keep it off-screen and invisible */}
       <div
         ref={setRef}
-        className="absolute left-0 top-0 h-0 w-0 overflow-hidden opacity-0 pointer-events-none"
+        className="absolute -left-[9999px] top-0 w-[240px] h-[44px] overflow-hidden opacity-0 pointer-events-none"
         aria-hidden
       />
       <div onClick={handleClick} className="contents">

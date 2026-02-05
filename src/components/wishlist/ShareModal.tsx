@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Share2, Copy, Check, Link2 } from 'react-feather';
+import { useLockBodyScroll } from '@/lib/useLockBodyScroll';
 
 interface ShareModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ export default function ShareModal({
   ownerCode,
 }: ShareModalProps) {
   const { t } = useTranslation();
+  useLockBodyScroll(isOpen);
   const [copied, setCopied] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
 

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Gift, Image, Link2, MoreVertical } from 'react-feather';
 import type { WishlistItem, CreateWishlistDto, UpdateWishlistDto } from '@/lib/api/wishlist';
+import { useLockBodyScroll } from '@/lib/useLockBodyScroll';
 
 interface GiftModalProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ export default function GiftModal({
   mode,
 }: GiftModalProps) {
   const { t } = useTranslation();
+  useLockBodyScroll(isOpen);
   const [title, setTitle] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [productUrl, setProductUrl] = useState('');

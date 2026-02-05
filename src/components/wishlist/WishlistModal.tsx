@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Image, MoreVertical } from 'react-feather';
+import { useLockBodyScroll } from '@/lib/useLockBodyScroll';
 
 interface WishlistModalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export default function WishlistModal({
   mode,
 }: WishlistModalProps) {
   const { t } = useTranslation();
+  useLockBodyScroll(isOpen);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const [name, setName] = useState('');
   const [coverImage, setCoverImage] = useState('');
