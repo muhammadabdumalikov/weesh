@@ -278,7 +278,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
                     {username || t('header.user')}
                   </h2>
                   <p className="text-[13px] text-gray-500 font-geologica truncate">
-                    {username ? `${username}@weesh` : t('header.account')}
+                    {username ? `${username}` : t('header.account')}
                   </p>
                 </div>
               </div>

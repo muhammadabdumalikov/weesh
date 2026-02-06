@@ -508,7 +508,6 @@ export default function WishlistPage() {
         onSignUp={handleSignUp}
         googleClientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
         onGoogleSignIn={handleGoogleSignIn}
-        disableGoogleSignIn
       />
 
       <ShareModal

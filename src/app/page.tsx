@@ -96,7 +96,6 @@ export default function Home() {
           setIsAuthModalOpen(false);
           router.push('/wishlist');
         }}
-        disableGoogleSignIn
       />
 
       <div className="relative z-10">

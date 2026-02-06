@@ -101,37 +101,16 @@ export default function GoogleSignInButton({
     }
   }, [clientId, scriptReady, containerReady]);
 
-  const tryClickGoogleButton = useCallback(() => {
-    const container = containerRef.current;
-    if (!container) return false;
-    const btn =
-      (container.querySelector('[role="button"]') as HTMLElement) ??
-      (container.firstElementChild as HTMLElement);
-    if (btn?.click) {
-      btn.click();
-      return true;
-    }
-    return false;
-  }, []);
-
-  const handleClick = useCallback(() => {
-    if (disabled) return;
-    if (tryClickGoogleButton()) return;
-    // Google injects the button async; retry once after a short delay
-    window.setTimeout(() => tryClickGoogleButton(), 500);
-  }, [disabled, tryClickGoogleButton]);
-
   return (
-    <>
-      {/* Google needs a sized container to render into; keep it off-screen and invisible */}
+    <div className="relative w-full min-h-[44px]">
+      {/* Visible custom button (what the user sees) */}
+      {children}
+      {/* Invisible overlay: Google button is rendered here so the user's real click triggers Google's OAuth (programmatic .click() is not a valid user gesture) */}
       <div
         ref={setRef}
-        className="absolute -left-[9999px] top-0 w-[240px] h-[44px] overflow-hidden opacity-0 pointer-events-none"
+        className={`absolute inset-0 min-h-[44px] opacity-0 cursor-pointer [&_iframe]:pointer-events-auto ${disabled ? 'pointer-events-none' : ''}`}
         aria-hidden
       />
-      <div onClick={handleClick} className="contents">
-        {children}
-      </div>
-    </>
+    </div>
   );
 }
