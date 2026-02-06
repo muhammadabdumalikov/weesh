@@ -334,7 +334,12 @@ export default function WishlistPage() {
           <>
             {/* Create Options */}
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
-              <CreateWishlistCard onClick={openCreateGiftModal} text={t('wishlistPage.createGift')} />
+              <CreateWishlistCard
+                onClick={openCreateGiftModal}
+                text={t('wishlistPage.createGift')}
+                disabled={apiItems.length >= 5}
+                limitReachedText={t('wishlistPage.giftLimitReached')}
+              />
             </div>
 
             {/* Мои подарки - from API */}

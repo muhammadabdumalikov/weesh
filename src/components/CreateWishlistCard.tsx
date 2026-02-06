@@ -5,13 +5,15 @@ import { Plus } from 'react-feather';
 interface CreateWishlistCardProps {
   onClick: () => void;
   text: string;
+  disabled?: boolean;
+  limitReachedText?: string;
 }
 
 const gradientId = 'create-card-wrapper-gradient';
 
-export default function CreateWishlistCard({ onClick, text }: CreateWishlistCardProps) {
+export default function CreateWishlistCard({ onClick, text, disabled, limitReachedText }: CreateWishlistCardProps) {
   return (
-    <div className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl relative transition-all duration-300 hover:scale-[0.98] sm:hover:scale-95">
+    <div className={`h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl relative transition-all duration-300 ${disabled ? 'opacity-60' : 'hover:scale-[0.98] sm:hover:scale-95'}`}>
       {/* SVG for dashed gradient border - theme via CSS variables */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none"
@@ -39,8 +41,12 @@ export default function CreateWishlistCard({ onClick, text }: CreateWishlistCard
       <div className="w-full h-full rounded-3xl sm:rounded-4xl bg-white overflow-hidden">
         {/* Content */}
         <button
-          onClick={onClick}
-          className="w-full h-full cursor-pointer bg-white rounded-xl cursor-default flex flex-col items-center justify-center p-6 sm:p-8 focus:outline-none focus:ring-0"
+          type="button"
+          onClick={disabled ? undefined : onClick}
+          disabled={disabled}
+          className={`w-full h-full rounded-xl flex flex-col items-center justify-center p-6 sm:p-8 focus:outline-none focus:ring-0 ${
+            disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+          }`}
         >
           {/* Circular Icon with Gradient Border */}
           <div className="mb-3 sm:mb-4 rounded-full flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 p-0.5 theme-gradient-border-wrap">
@@ -51,8 +57,8 @@ export default function CreateWishlistCard({ onClick, text }: CreateWishlistCard
           </div>
 
           {/* Text */}
-          <span className="text-black font-geologica text-base sm:text-lg font-medium text-center">
-           {text}
+          <span className={`font-geologica text-base sm:text-lg font-medium text-center ${disabled ? 'text-gray-500' : 'text-black'}`}>
+            {disabled && limitReachedText ? limitReachedText : text}
           </span>
         </button>
       </div>

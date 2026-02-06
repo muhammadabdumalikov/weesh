@@ -305,8 +305,10 @@ export async function createWishlistItem(
     });
 
     if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        `Failed to create wishlist item: ${response.statusText}`,
+        (errorData as { message?: string })?.message ||
+          `Failed to create wishlist item: ${response.statusText}`,
       );
     }
 
@@ -315,7 +317,7 @@ export async function createWishlistItem(
     return normalizeWishlistItem(itemData);
   } catch (error) {
     console.error("Error creating wishlist item:", error);
-    return null;
+    throw error;
   }
 }
 

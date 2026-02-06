@@ -190,7 +190,7 @@ export default function ProfilePage() {
               <button
                 type="button"
                 onClick={() => setIsShareModalOpen(true)}
-                className="group flex items-center gap-2.5 sm:gap-3 pl-1.5 pr-4 sm:pl-2 sm:pr-5 py-2.5 sm:py-3 rounded-full transition-colors min-h-0"
+                className="group cursor-pointer flex items-center gap-2.5 sm:gap-3 pl-1.5 pr-4 sm:pl-2 sm:pr-5 py-2.5 sm:py-3 rounded-full transition-colors min-h-0"
                 style={{ background: 'var(--theme-page-bg)' }}
                 aria-label={t('wishlistPage.shareYourWeesh')}
               >
