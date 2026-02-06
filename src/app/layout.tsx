@@ -12,16 +12,22 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://weesh.lol";
+const defaultTitle = "Weesh - Create and Share Your Dream Wishlist";
+// Matches i18n product description (en: home.description)
+const defaultDescription =
+  "Weesh helps you create wishlists and share them with loved ones — get only the gifts you want.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Weesh - Create and Share Your Dream Wishlist",
+    default: defaultTitle,
     template: "%s | Weesh",
   },
   icons: {
     icon: "/favicon.png",
   },
-  description:
-    "Create, manage, and share your personal wishlist with friends and family. Add unlimited items with images and links.",
+  description: defaultDescription,
   keywords: [
     "wishlist",
     "gift list",
@@ -29,10 +35,30 @@ export const metadata: Metadata = {
     "share wishlist",
     "gift registry",
   ],
-  applicationName: "Wishlist",
-  authors: [{ name: "Wishlist" }],
-  creator: "Wishlist",
-  publisher: "Wishlist",
+  applicationName: "Weesh",
+  authors: [{ name: "Weesh" }],
+  creator: "Weesh",
+  publisher: "Weesh",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: "Weesh",
+    title: defaultTitle,
+    description: defaultDescription,
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Weesh - Create and Share Your Dream Wishlist" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitle,
+    description: defaultDescription,
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
 };
 
 export default function RootLayout({
