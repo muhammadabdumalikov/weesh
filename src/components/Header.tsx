@@ -13,13 +13,11 @@ import type { Locale } from '@/i18n';
 const LANG_LABELS: Record<Locale, string> = {
   en: 'En',
   ru: 'Ru',
-  uz: 'Uz',
 };
 
 const LANG_FLAGS: Record<Locale, string> = {
   en: '🇺🇸',
   ru: '🇷🇺',
-  uz: '🇺🇿',
 };
 
 interface HeaderProps {
@@ -43,7 +41,7 @@ export default function Header({ onSignInClick, onLogout, isAuthenticated, usern
     }
   };
   const { locale, setLocale } = useLocale();
-  const langOptions: Locale[] = ['en', 'ru', 'uz'];
+  const langOptions: Locale[] = ['en', 'ru'];
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);

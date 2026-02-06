@@ -53,7 +53,7 @@ export default function GiftCard({
 
   return (
     <div
-      className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white transition-all duration-300 hover:scale-[0.98] cursor-pointer group overflow-hidden relative origin-center"
+      className="h-64 sm:h-72 md:h-80 w-full rounded-3xl sm:rounded-4xl bg-white border border-gray-200 transition-all duration-300 hover:scale-[0.98] cursor-pointer group overflow-hidden relative origin-center"
       onClick={onClick}
     >
       {/* Main card */}
