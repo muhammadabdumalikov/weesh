@@ -1,5 +1,5 @@
 // Wishlist API Service
-const API_BASE_URL = "https://api.wetrippo.com/api";
+const API_BASE_URL = "https://api.weesh.lol/api"; // TODO: Change to localhost:3003/api when developing
 
 const OWNER_ID_KEY = "w-o-id";
 const USERNAME_KEY = "w-username";
