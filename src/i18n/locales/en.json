@@ -234,6 +234,7 @@
   "shareModal": {
     "title": "Share Your Wishlist",
     "subtitle": "Share this link with friends and family so they can see your wishlist",
+    "giftCreated": "Gift added! Share your wishlist with your friends.",
     "copyLink": "Copy Link",
     "copied": "Copied!",
     "close": "Close",

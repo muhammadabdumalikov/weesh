@@ -9,12 +9,15 @@ interface ShareModalProps {
   isOpen: boolean;
   onClose: () => void;
   ownerCode: string;
+  /** When true, shows a "gift created" success status (e.g. after creating a gift) */
+  showGiftCreatedStatus?: boolean;
 }
 
 export default function ShareModal({
   isOpen,
   onClose,
   ownerCode,
+  showGiftCreatedStatus = false,
 }: ShareModalProps) {
   const { t } = useTranslation();
   useLockBodyScroll(isOpen);
@@ -40,12 +43,26 @@ export default function ShareModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 animate-in fade-in duration-200">
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden
       />
+
+      {/* Gift created status — above modal */}
+      {showGiftCreatedStatus && (
+        <div
+          className="relative flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 font-geologica theme-placeholder-bg mb-3 w-full max-w-md shadow-sm"
+          role="status"
+          aria-live="polite"
+        >
+          <span className="flex items-center justify-center w-9 h-9 rounded-xl theme-gradient-bg text-white flex-shrink-0">
+            <Check className="w-5 h-5" strokeWidth={2.5} />
+          </span>
+          <p className="text-sm font-semibold text-[#222222]">{t('shareModal.giftCreated')}</p>
+        </div>
+      )}
 
       <div
         role="dialog"

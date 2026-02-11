@@ -68,8 +68,9 @@ export default function WishlistPage() {
   const [itemToDelete, setItemToDelete] = useState<WishlistItem | null>(null);
   useLockBodyScroll(!!itemToDelete);
 
-  // Share modal
+  // Share modal (showGiftCreatedStatus when opened after creating a gift)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [shareModalShowGiftCreated, setShareModalShowGiftCreated] = useState(false);
   
   // Sample wishlists data
   const [wishlists, setWishlists] = useState<Wishlist[]>([
@@ -497,6 +498,9 @@ export default function WishlistPage() {
               await handleCreateItem(data as CreateWishlistDto);
               setIsGiftModalOpen(false);
               setSelectedItem(null);
+              // Show share wishlist modal with "gift created" status (frontend only)
+              setShareModalShowGiftCreated(true);
+              setIsShareModalOpen(true);
             }
           } catch (error) {
             // Error is already handled in handlers
@@ -517,8 +521,12 @@ export default function WishlistPage() {
 
       <ShareModal
         isOpen={isShareModalOpen}
-        onClose={() => setIsShareModalOpen(false)}
+        onClose={() => {
+          setIsShareModalOpen(false);
+          setShareModalShowGiftCreated(false);
+        }}
         ownerCode={getOwnerCode() ?? ''}
+        showGiftCreatedStatus={shareModalShowGiftCreated}
       />
 
       {/* Delete confirmation modal (page-level) */}

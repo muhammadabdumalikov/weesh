@@ -1,5 +1,5 @@
 // Wishlist API Service
-const API_BASE_URL = "http://localhost:3001/api";
+const API_BASE_URL = "http://api.weesh.lol/api";
 
 const OWNER_ID_KEY = "w-o-id";
 const USERNAME_KEY = "w-username";
